@@ -1,0 +1,1 @@
+json.array! @users, :id, :fname, :lname, :img_url
