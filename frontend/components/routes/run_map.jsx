@@ -3,10 +3,10 @@ import React from 'react';
 
 import MarkerManager from '../../utils/marker_manager';
 
-// const getCoordsObj = latLng => ({
-//   lat: latLng.lat(),
-//   lng: latLng.lng()
-// });
+const getCoordsObj = latLng => ({
+  lat: latLng.lat(),
+  lng: latLng.lng()
+});
 
 // TODO get user's location
 const mapOptions = {
@@ -14,25 +14,42 @@ const mapOptions = {
     lat: 37.773972,
     lng: -122.431297
   }, // San Francisco coords
-  zoom: 13
+  zoom: 13,
+  draggableCursor: 'crosshair'
+};
+
+const _directionsRendererOptions = {
+  draggable: false,
+  preserveViewport: true,
+  suppressMarkers: true,
+  polylineOptions: {
+    strokeWeight: 4,
+    strokeColor: "blue"
+  }
 };
 
 class RunMap extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {waypoints: {}};
+    this.state = {
+      waypoints: {},
+      title: '',
+      description: '',
+      distance: 0
+    };
+    this.markerIdx = 0;
     this.directionsService = new google.maps.DirectionsService;
-    this.directionsDisplay = new google.maps.DirectionsRenderer;
-    this.directionsDisplay.setMap(this.map);
+    this.directionsDisplay = new google.maps.DirectionsRenderer(_directionsRendererOptions);
   }
 
   componentDidMount() {
     const map = this.refs.map;
     this.map = new google.maps.Map(map, mapOptions);
+    this.directionsDisplay.setMap(this.map);
     this.MarkerManager = new MarkerManager(
       this.map, 
       this.handleMarkerClick.bind(this),
-      this.handleMarkerDrag.bind(this)
+      this.modifyWaypoint.bind(this)
     );
     this.registerListeners();
   }
@@ -44,28 +61,81 @@ class RunMap extends React.Component {
   }
   
   handleClick(latLng) {
+    const waypoint = { id: ++this.markerIdx, latLng };
     const len = this.waypointIds().length;
-    if (len < 23) {
-      const lastIdx = parseInt(this.waypointIds()[len - 1]) + 1 || 1;
-      const waypoint = { id: lastIdx, latLng };
+    if (len === 0) {
       this.MarkerManager.createMarker(waypoint);
-      
+      this.setState({waypoints: { [waypoint.id]: waypoint }});
+    } else if (len < 23) {
       const waypoints = this.state.waypoints;
-      waypoints[lastIdx] = waypoint;
-      this.setState({waypoints: waypoints});
+      waypoints[this.markerIdx] = waypoint;
+      this.calculateRoute(this.directionsService, this.directionsDisplay, true);
+    } else {
+      alert("Maximum of 23 waypoints allowed");
     }
+  }
+
+  calculateRoute(directionsService, directionsDisplay, addEndpoint = false) {
+    const waypoints = [];
+    let origin, destination, wypt;
+    Object.values(this.state.waypoints).forEach((waypoint, i) => {
+      wypt = { location: waypoint.latLng, stopover: true };
+
+      if (i === 0) 
+        origin = waypoint.latLng;
+      else if (i === Object.values(this.state.waypoints).length - 1)
+        destination = waypoint.latLng;
+      else
+        waypoints.push(wypt);
+    });
+      
+    directionsService.route({
+      origin,
+      destination,
+      waypoints,
+      optimizeWaypoints: false,
+      travelMode: 'WALKING'
+    }, (response, status) => {
+      if (status === 'OK') {
+        directionsDisplay.setDirections(response);
+        if (addEndpoint)
+          this.parseResponse(response);
+      } else {
+        console.log('failed to get route');
+      }
+    });
+  }
+
+  parseResponse(response) {
+    const route = response.routes[0];
+    const endLatLng = route.legs[route.legs.length - 1].end_location;
+    const waypoint = { id: this.markerIdx, latLng: endLatLng };
+    this.MarkerManager.createMarker(waypoint);
+    this.addWaypointToState(waypoint);
   }
   
   handleMarkerClick(waypoint) {
     const waypoints = this.state.waypoints;
     delete waypoints[waypoint.id];
+    if (this.waypointIds().length < 2)
+      this.directionsDisplay = 
+        new google.maps.DirectionsRenderer(_directionsRendererOptions);
+    else
+      this.calculateRoute(this.directionsService, this.directionsDisplay);
     this.setState({waypoints: waypoints});
   }
 
-  handleMarkerDrag(waypoint) {
+  addWaypointToState(waypoint) {
     const waypoints = this.state.waypoints;
     waypoints[waypoint.id] = waypoint;
-    this.setState({waypoints: waypoints});
+    this.setState({ waypoints });
+  }
+
+  modifyWaypoint(waypoint) {
+    const waypoints = this.state.waypoints;
+    waypoints[waypoint.id] = waypoint;
+    this.calculateRoute(this.directionsService, this.directionsDisplay);
+    this.setState({ waypoints });
   }
 
   waypointIds() {

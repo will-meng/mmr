@@ -13,7 +13,11 @@ class MarkerManager {
       position: waypoint.latLng,
       map: this.map,
       id: waypoint.id,
-      label: this.labels[this.labelIndex++ % 26],
+      // icon: {
+      //   path: google.maps.SymbolPath.CIRCLE,
+      //   scale: 3
+      // },
+      // label: this.labels[this.labelIndex++ % 26],
       draggable: true,
     });
 
