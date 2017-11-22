@@ -35,7 +35,7 @@ class SignupForm extends React.Component {
         <ul>
           { errors.map(error => <li key={error}>{error}</li>) }
         </ul>
-        <form onSubmit={this.handleSubmit}>
+        <form onSubmit={this.handleSubmit} className='form'>
           <input type='text'
             placeholder='First Name'
             onChange={this.update('fname')}

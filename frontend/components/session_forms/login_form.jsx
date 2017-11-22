@@ -24,12 +24,12 @@ class LoginForm extends React.Component {
   render() {
     const { errors } = this.props;
     return (
-      <div>
-        <Link className='login' to='/signup'>SIGN UP</Link>
+      <div className='login-form'>
+        <Link className='login' to='/signup'>Sign Up</Link>
         <ul>
           { errors.map(error => <li key={error}>{error}</li>) }
         </ul>
-        <form onSubmit={this.handleSubmit}>
+        <form onSubmit={this.handleSubmit} className='form'>
           <input type='text'
             placeholder='Email'
             onChange={this.update('email')}

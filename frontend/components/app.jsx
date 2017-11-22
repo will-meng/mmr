@@ -8,12 +8,13 @@ import Splash from './splash/splash';
 
 const App = () => (
   <div>
-    <h1>Welcome to MyMapRun</h1>
     <NavBarContainer/>
-
-    <AuthRoute path='/signup' component={SignupFormContainer}/>
-    <AuthRoute path='/login' component={LoginFormContainer}/>
-    <Route exact path='/' component={Splash}/>
+    
+    <section className='main'>
+      <AuthRoute path='/signup' component={SignupFormContainer}/>
+      <AuthRoute path='/login' component={LoginFormContainer}/>
+      <Route exact path='/' component={Splash}/>
+    </section>
   </div>
 );
 

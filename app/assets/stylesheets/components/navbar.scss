@@ -1,0 +1,64 @@
+.nav {
+  display: flex;
+  justify-content: space-between;
+}
+
+.nav {
+  display: flex;
+}
+
+.nav-left {
+  display: flex;
+}
+
+.nav-menu {
+  display: flex;
+}
+
+.nav a  {
+  font-family: 'Open Sans';
+  line-height: 66px;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 0 6px;
+  margin: 0 5px;
+  text-transform: uppercase;
+  border-top: 2px solid transparent;
+  border-bottom: 2px solid transparent;
+  color: #9297a3;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+}
+
+.nav-login-btn:hover {
+  color: #222628;
+  font-weight: 500;
+}
+
+.nav a.nav-signup-btn {
+  display: inline-block;
+  font-family: 'Open Sans', "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  letter-spacing: .9px;
+  text-transform: uppercase;
+  text-decoration: none;
+  margin: 5px;
+  padding: 0 12px;
+  line-height: 36px;
+  border-radius: 2px;
+  border-top: 0;
+  border-bottom: 0;
+  background-color: #97bf11;
+  color: #fff;
+}
+
+
+.logoImage {
+  width: 178px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
