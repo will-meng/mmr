@@ -19,10 +19,12 @@ const navRight = (currentUser, logout) => (
 const NavBar = ({currentUser, logout}) => (
   <nav className='nav'>
     <div className='nav-left'>
-      <img alt="MapMyRun" className='logoImage' src="https://mapmy.uastatic.com/951e3794f22d8fe360605b039ee14d4b.svg"/>
+      <Link to='/'>
+        <img alt="MapMyRun" className='logoImage' src="https://mapmy.uastatic.com/951e3794f22d8fe360605b039ee14d4b.svg"/>
+      </Link>
       <ul className='nav-menu'>
         <li><a href="#">Training</a></li>
-        <li><a href="#">Routes</a></li>
+        <li><Link to='/route/create'>Routes</Link></li>
         <li><a href="#">Challenges</a></li>
         <li><a href="#">Blog</a></li>
       </ul>
