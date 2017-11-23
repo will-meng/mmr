@@ -3,10 +3,10 @@ import React from 'react';
 
 import MarkerManager from '../../utils/marker_manager';
 
-const getCoordsObj = latLng => ({
-  lat: latLng.lat(),
-  lng: latLng.lng()
-});
+// const getCoordsObj = latLng => ({
+//   lat: latLng.lat(),
+//   lng: latLng.lng()
+// });
 
 // TODO get user's location
 const mapOptions = {
@@ -28,6 +28,8 @@ const _directionsRendererOptions = {
   }
 };
 
+const btnURL = 'https://d3o6qfi6hwcdhb.cloudfront.net/309c1e1337e4/img/sprite-primary.png';
+
 class RunMap extends React.Component {
   // waypoints shape: { 1: { id: 1, latLng: latLngObj } }
   constructor(props) {
@@ -38,10 +40,11 @@ class RunMap extends React.Component {
       description: '',
       distance: 0
     };
-    this.markerIdx = 0;
     this.maxWaypoints = 20;
+    this.markerIdx = 0;
     this.directionsService = new google.maps.DirectionsService;
     this.directionsDisplay = new google.maps.DirectionsRenderer(_directionsRendererOptions);
+    this.bounds  = new google.maps.LatLngBounds();
   }
 
   componentDidMount() {
@@ -50,7 +53,7 @@ class RunMap extends React.Component {
     this.directionsDisplay.setMap(this.map);
     this.MarkerManager = new MarkerManager(
       this.map, 
-      this.handleMarkerClick.bind(this),
+      this.removeWaypoint.bind(this),
       this.modifyWaypoint.bind(this)
     );
     this.registerListeners();
@@ -76,9 +79,10 @@ class RunMap extends React.Component {
   
   handleClick(latLng) {
     const waypoint = { id: ++this.markerIdx, latLng };
-    const len = this.waypointIds().length;
+    const len = this._waypointIds().length;
     if (len === 0) {
       this.MarkerManager.createMarker(waypoint);
+      this.bounds.extend(latLng); //for map re-centering
       this.setState({waypoints: { [waypoint.id]: waypoint }});
     } else if (len < this.maxWaypoints) {
       const waypoints = this.state.waypoints;
@@ -92,10 +96,10 @@ class RunMap extends React.Component {
   calculateAndRenderRoute(directionsService, directionsDisplay, addEndpoint = false) {
     const waypoints = [];
     let origin, destination, wypt;
-    Object.values(this.state.waypoints).forEach((waypoint, i) => {
+    this._waypointsArr().forEach((waypoint, i) => {
       if (i === 0) 
         origin = waypoint.latLng;
-      else if (i === Object.values(this.state.waypoints).length - 1)
+      else if (i === this._waypointsArr().length - 1)
         destination = waypoint.latLng;
       else
         waypoints.push({ location: waypoint.latLng, stopover: true });
@@ -121,6 +125,7 @@ class RunMap extends React.Component {
 
   addEndpoint(route) {
     const endLatLng = route.legs[route.legs.length - 1].end_location;
+    this.bounds.extend(endLatLng); //for map re-centering
     const waypoint = { id: this.markerIdx, latLng: endLatLng };
     this.MarkerManager.createMarker(waypoint);
     this.calculateAndSetDistance(route);
@@ -133,18 +138,18 @@ class RunMap extends React.Component {
     this.setState({distance: distanceMiles});
   }
   
-  handleMarkerClick(waypoint) {
+  removeWaypoint(waypoint) {
     const waypoints = this.state.waypoints;
     delete waypoints[waypoint.id];
-    if (this.waypointIds().length < 2)
-      this.directionsDisplay.setDirections({routes: []});
+    if (this._waypointIds().length < 2)
+      this.directionsDisplay.setDirections({routes: []}); //clear polylines
     else
       this.calculateAndRenderRoute(this.directionsService, this.directionsDisplay);
     this.setState({waypoints: waypoints});
   }
 
   modifyWaypoint(waypoint) {
-    this.addWaypointToState(waypoint, true)
+    this.addWaypointToState(waypoint, true);
   }
 
   addWaypointToState(waypoint, recalculate = false) {
@@ -155,35 +160,80 @@ class RunMap extends React.Component {
     this.setState({ waypoints });
   }
 
-  waypointIds() {
+  undoLastWaypoint() {
+    const waypoints = this._waypointsArr();
+    if (waypoints.length > 0) {
+      const lastWaypoint = waypoints[waypoints.length - 1];
+      this.MarkerManager.removeMarkerFromWaypoint(lastWaypoint);
+      this.removeWaypoint(lastWaypoint);
+    }
+  }
+
+  recenterMap() {
+    this.map.fitBounds(this.bounds);
+    // this.map.panToBounds(this.bounds); 
+  }
+
+  returnToOrigin() {
+    const waypoints = this._waypointsArr();
+    if (waypoints.length > 0) {
+      this.handleClick(waypoints[0].latLng);
+    }
+  }
+
+  _waypointsArr() {
+    return Object.values(this.state.waypoints);
+  }
+
+  _waypointIds() {
     return Object.keys(this.state.waypoints);
   }
   
   render() {
     const waypoints = this.state.waypoints;
     return (
-      <div>
-        <div className='map-container'>
-          <button onClick={() => this.resetMap()}>Clear</button>
-          <div className="map" ref="map">
+      <div className='map-container'>
+        <div className='map-overlay'>
+          <div className='distance'>
+            <label>Distance</label>
+            <h2>{this.state.distance} mi</h2>
+          </div>
+
+          <div className='map-buttons-panel'>
+            <button onClick={() => this.resetMap()}
+              className='map-btn'>
+              <span className='clear-btn'></span>  
+            </button>
+            <button onClick={() => this.undoLastWaypoint()}
+              className='map-btn'>
+              <span className='undo-btn'></span>  
+            </button>
+            <button onClick={() => this.recenterMap()}
+              className='map-btn'>
+              <span className='center-btn'></span>
+              </button>
+            <button onClick={() => this.returnToOrigin()}
+              className='map-btn'>
+              <span className='return-btn'></span>
+            </button>
           </div>
         </div>
 
-        {/* TESTING output lat/lng */}
-        <p>Distance: {this.state.distance} mi</p>
-        <ul>
-          {
-          this.waypointIds().map(id => 
-              <li key={id}>
-                {`Lat ${id}: ${waypoints[id].latLng.lat()} 
-                  Lng ${id}: ${waypoints[id].latLng.lng()}`}
-              </li>
-            )
-          }
-        </ul>
-        {/* TESTING end */}
-
+        <div className="map" ref="map"></div>
       </div>
+        // {/* TESTING output lat/lng */}
+        // <p>Distance: {this.state.distance} mi</p>
+        // <ul>
+        //   {
+        //   this._waypointIds().map(id => 
+        //       <li key={id}>
+        //         {`Lat ${id}: ${waypoints[id].latLng.lat()} 
+        //           Lng ${id}: ${waypoints[id].latLng.lng()}`}
+        //       </li>
+        //     )
+        //   }
+        // </ul>
+        // {/* TESTING end */}
     );
   }
 }

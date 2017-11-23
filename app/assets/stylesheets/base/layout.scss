@@ -4,17 +4,17 @@ html {
 }
 
 main {
-	width: 80%;
+	width: 90%;
 	margin: 0 auto;
-	// font-family: $serif;
-	// font-size: 12px;
+	font-family: $armour;
+  // font-size: 12px;
+  // background: grey;
 }
 
-.main {
-  display: flex;
-  justify-content: center;
-  width: 800px;
-}
+// .main {
+//   display: flex;
+//   justify-content: center;
+// }
 
 .form {
   display: flex;

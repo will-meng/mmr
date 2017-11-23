@@ -21,9 +21,9 @@ class RouteForm extends React.Component {
   render() {
 
     return (
-      <div>
-        <h4>Route Details</h4>
-        <form onSubmit={this.handleSubmit}>
+      <div className='route-main'>
+        <form onSubmit={this.handleSubmit} className='route-form'>
+          <h3>Route Details</h3>
           <input type="text"
             onChange={this.update('name')}
             placeholder='Name this map'

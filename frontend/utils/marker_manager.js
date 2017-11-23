@@ -40,6 +40,10 @@ class MarkerManager {
     Object.values(this.markers).forEach(marker => marker.setMap(null));
     this.markers = {};
   }
+
+  removeMarkerFromWaypoint(waypoint){
+    this.removeMarker(this.markers[waypoint.id]);
+  }
 }
 
 export default MarkerManager;
