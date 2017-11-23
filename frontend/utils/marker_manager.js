@@ -1,3 +1,23 @@
+const startImage = {
+  url: 'https://d3o6qfi6hwcdhb.cloudfront.net/309c1e1337e4/img/sprite-primary.png',
+  size: new google.maps.Size(26, 32),
+  origin: new google.maps.Point(0, 268),
+};
+
+const endImage = {
+  url: 'https://d3o6qfi6hwcdhb.cloudfront.net/309c1e1337e4/img/sprite-primary.png',
+  size: new google.maps.Size(26, 32),
+  origin: new google.maps.Point(0, 302),
+};
+
+const midImage = {
+  url: 'https://d3o6qfi6hwcdhb.cloudfront.net/309c1e1337e4/img/sprite-primary.png',
+  size: new google.maps.Size(16, 16),
+  origin: new google.maps.Point(0, 560),
+  anchor: new google.maps.Point(8, 8),
+};
+
+
 class MarkerManager {
   constructor(map, handleClick, handleDrag){
     this.map = map;
@@ -11,12 +31,17 @@ class MarkerManager {
       position: waypoint.latLng,
       map: this.map,
       id: waypoint.id,
-      // icon: {
-      //   path: google.maps.SymbolPath.CIRCLE,
-      //   scale: 3
-      // },
       draggable: true,
     });
+
+    if (this._markersArr().length === 0) {
+      marker.setIcon(startImage);
+    } else if (this._markersArr().length === 1) {
+      marker.setIcon(endImage);
+    } else {
+      this._lastMarker().setIcon(midImage);
+      marker.setIcon(endImage);
+    }
 
     marker.addListener('click', () => {
       this.removeMarker(marker);
@@ -34,15 +59,24 @@ class MarkerManager {
   removeMarker(marker) {
     this.markers[marker.id].setMap(null);
     delete this.markers[marker.id];
+    this._lastMarker().setIcon(endImage);
   }
 
   removeMarkers() {
-    Object.values(this.markers).forEach(marker => marker.setMap(null));
+    this._markersArr().forEach(marker => marker.setMap(null));
     this.markers = {};
   }
 
   removeMarkerFromWaypoint(waypoint){
     this.removeMarker(this.markers[waypoint.id]);
+  }
+
+  _lastMarker() {
+    return this._markersArr()[this._markersArr().length - 1];
+  }
+
+  _markersArr() {
+    return Object.values(this.markers);
   }
 }
 
