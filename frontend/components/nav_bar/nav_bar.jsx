@@ -2,21 +2,24 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 
-const navRight = (currentUser, logout) => (
-   currentUser ? (
-    <div className='nav-right'>
-      <p>{currentUser.fname}</p>
-      <button className='logout' onClick={logout}>Logout</button>
-    </div> 
-  ) : (
-    <div className='nav-right'>
-      <Link to='/login'>Log In</Link>
-      <Link to='/signup' className='nav-signup-btn'>Sign Up</Link>
-    </div> 
-  )
-);
+const navRight = (currentUser, logout, path) => {
+   if (path !== '/signup' && path !== '/login')
+    return currentUser ? (
+      <div className='nav-right'>
+        <p>{currentUser.fname}</p>
+        <button className='logout' onClick={logout}>Logout</button>
+      </div> 
+    ) : (
+      <div className='nav-right'>
+        <Link to='/login'>Log In</Link>
+        <Link to='/signup' className='nav-signup-btn green-btn'>Sign Up</Link>
+      </div> 
+    );
+  else
+    return <div className='nav-right'></div>;
+};
   
-const NavBar = ({currentUser, logout}) => (
+const NavBar = ({ currentUser, logout, path }) => (
   <nav className='nav'>
     <div className='nav-left'>
       <Link to='/'>
@@ -30,7 +33,7 @@ const NavBar = ({currentUser, logout}) => (
       </ul>
     </div>
 
-    {navRight(currentUser, logout)}
+    {navRight(currentUser, logout, path)}
   </nav>
 );
 

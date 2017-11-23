@@ -24,23 +24,34 @@ class LoginForm extends React.Component {
   render() {
     const { errors } = this.props;
     return (
-      <div className='login-form'>
-        <Link className='login' to='/signup'>Sign Up</Link>
+      <div className='auth-main'>
+      <div className='signup-container'>
+        <Link className='login-from-signup' to='/signup'>Sign Up</Link>
+
         <ul>
           { errors.map(error => <li key={error}>{error}</li>) }
         </ul>
-        <form onSubmit={this.handleSubmit} className='form'>
-          <input type='text'
-            placeholder='Email'
-            onChange={this.update('email')}
-          />
-          <input type='password'
-            placeholder='Password'
-            onChange={this.update('password')}
-          />
 
-        <input type='submit' className='submit-login' value='LOG IN'/>
+        <form onSubmit={this.handleSubmit} className='form'>
+          <div className='input-container'>
+            <input type='text'
+              placeholder='Email'
+              onChange={this.update('email')}
+            />
+            <span className='error-msg'></span>
+          </div>
+
+          <div className='input-container'>
+            <input type='password'
+              placeholder='Password'
+              onChange={this.update('password')}
+            />
+            <span className='error-msg'></span>
+          </div>
+
+        <input type='submit' className='green-btn' value='Log In'/>
         </form>
+      </div>
       </div>
     );
   }
