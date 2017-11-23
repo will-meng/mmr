@@ -4,8 +4,6 @@ class MarkerManager {
     this.handleClick = handleClick;
     this.handleDrag = handleDrag;
     this.markers = {};
-    this.labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    this.labelIndex = 0;
   }
 
   createMarker(waypoint) {
@@ -17,7 +15,6 @@ class MarkerManager {
       //   path: google.maps.SymbolPath.CIRCLE,
       //   scale: 3
       // },
-      // label: this.labels[this.labelIndex++ % 26],
       draggable: true,
     });
 
@@ -37,6 +34,11 @@ class MarkerManager {
   removeMarker(marker) {
     this.markers[marker.id].setMap(null);
     delete this.markers[marker.id];
+  }
+
+  removeMarkers() {
+    Object.values(this.markers).forEach(marker => marker.setMap(null));
+    this.markers = {};
   }
 }
 
