@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  description: MyString
+  creator_id: 1
+  distance: 1
+  waypoints: MyString
+  polyline: MyString
+
+two:
+  name: MyString
+  description: MyString
+  creator_id: 1
+  distance: 1
+  waypoints: MyString
+  polyline: MyString

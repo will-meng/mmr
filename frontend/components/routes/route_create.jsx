@@ -1,12 +1,7 @@
 import React from 'react';
-// import { withRouter } from 'react-router-dom';
-
 import MarkerManager from '../../utils/marker_manager';
-
-// const getCoordsObj = latLng => ({
-//   lat: latLng.lat(),
-//   lng: latLng.lng()
-// });
+import RouteForm from './route_form';
+import RouteOverlay from './route_overlay';
 
 // TODO get user's location
 const mapOptions = {
@@ -30,13 +25,13 @@ const _directionsRendererOptions = {
 
 const btnURL = 'https://d3o6qfi6hwcdhb.cloudfront.net/309c1e1337e4/img/sprite-primary.png';
 
-class RunMap extends React.Component {
+class RouteCreate extends React.Component {
   // waypoints shape: { 1: { id: 1, latLng: latLngObj } }
   constructor(props) {
     super(props);
     this.state = {
       waypoints: {},
-      title: '',
+      name: '',
       description: '',
       distance: 0
     };
@@ -65,7 +60,7 @@ class RunMap extends React.Component {
     this.markerIdx = 0;
     this.setState({
       waypoints: {},
-      title: '',
+      name: '',
       description: '',
       distance: 0
     });
@@ -181,6 +176,28 @@ class RunMap extends React.Component {
     }
   }
 
+  handleSubmit(e) {
+    e.preventDefault();
+    if (this._waypointsArr().length > 1) {
+      const directions = this.directionsDisplay.getDirections();
+      this.state.polyline = directions.routes[0].overview_polyline;
+      this.state.waypoints = this.createWaypointsArray();
+      this.props.createRoute(this.state);
+    } else {
+      alert('You must have at least two points on the map to save a route.');
+    }
+  }
+
+  update(field) {
+    return e => this.setState({[field]: e.currentTarget.value});
+  }
+
+  createWaypointsArray() {
+    const arr = [];
+    this._waypointsArr().map(wypt => arr.push(wypt.latLng.lat(), wypt.latLng.lng()));
+    return arr;
+  }
+
   _waypointsArr() {
     return Object.values(this.state.waypoints);
   }
@@ -192,50 +209,27 @@ class RunMap extends React.Component {
   render() {
     const waypoints = this.state.waypoints;
     return (
-      <div className='map-container'>
-        <div className='map-overlay'>
-          <div className='distance'>
-            <label>Distance</label>
-            <h2>{this.state.distance} mi</h2>
-          </div>
+      <div className='route-main'>
+        <RouteForm 
+          name={this.state.name}
+          description={this.state.description}
+          handleSubmit={this.handleSubmit.bind(this)}
+          update={this.update.bind(this)}
+        />
 
-          <div className='map-buttons-panel'>
-            <button onClick={() => this.resetMap()}
-              className='map-btn'>
-              <span className='clear-btn'></span>  
-            </button>
-            <button onClick={() => this.undoLastWaypoint()}
-              className='map-btn'>
-              <span className='undo-btn'></span>  
-            </button>
-            <button onClick={() => this.recenterMap()}
-              className='map-btn'>
-              <span className='center-btn'></span>
-              </button>
-            <button onClick={() => this.returnToOrigin()}
-              className='map-btn'>
-              <span className='return-btn'></span>
-            </button>
-          </div>
+        <div className='map-container'>
+            <RouteOverlay
+              resetMap={this.resetMap.bind(this)}
+              undoLastWaypoint={this.undoLastWaypoint.bind(this)}
+              recenterMap={this.recenterMap.bind(this)}
+              returnToOrigin={this.returnToOrigin.bind(this)}
+              distance={this.state.distance}
+            />
+          <div className="map" ref="map"></div>
         </div>
-
-        <div className="map" ref="map"></div>
       </div>
-        // {/* TESTING output lat/lng */}
-        // <p>Distance: {this.state.distance} mi</p>
-        // <ul>
-        //   {
-        //   this._waypointIds().map(id => 
-        //       <li key={id}>
-        //         {`Lat ${id}: ${waypoints[id].latLng.lat()} 
-        //           Lng ${id}: ${waypoints[id].latLng.lng()}`}
-        //       </li>
-        //     )
-        //   }
-        // </ul>
-        // {/* TESTING end */}
     );
   }
 }
 
-export default RunMap;
+export default RouteCreate;
