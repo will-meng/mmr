@@ -64,6 +64,10 @@
           font-weight: 500;
           text-decoration: none;
         }
+
+        a:hover, button:hover {
+          color: #222628;
+        }
       }
     }
   }
@@ -86,7 +90,7 @@
 }
 
 .nav-menu > li:hover > a:not(.green-btn) {
-  color: #222628;
+  color: #424242;
   font-weight: 500;
 }
 

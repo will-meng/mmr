@@ -27,8 +27,6 @@ class SignupForm extends React.Component {
 
   componentDidMount() {
     this.props.removeErrors();
-    if (this.props.loggedIn)
-      this.props.history.push('/');
   }
 
   update(field) {
@@ -39,17 +37,25 @@ class SignupForm extends React.Component {
     e.preventDefault();
     this.state.birthday = 
       this.state.year + '/' + this.state.month + '/' + this.state.day;
-    this.props.signup(this.state);
+    this.props.signup(this.state)
+      .then(() => this.props.history.push('/'), this.handleErrors.bind(this));
+  }
+
+  handleErrors() {
+    ['Fname', 'Lname', 'Email', 'Password', 'Birthday'].forEach(field => {
+      if (RegExp(field).test(this.props.errors)) {
+        $(`#${field}e`).removeClass('hidden');
+        $(`#${field}`).addClass('error-border');
+        if (field === 'Birthday') $(`.${field}`).addClass('error-border');
+      } else {
+        $(`#${field}e`).addClass('hidden');
+        $(`#${field}`).removeClass('error-border');
+      }
+    });
   }
 
   render() {
-    const { errors } = this.props;
-    const errorClass = 'error-msg', hiddenClass='hidden';
-    const fError = /Fname/.test(errors) ? errorClass : hiddenClass;
-    const lError = /Lname/.test(errors) ? errorClass : hiddenClass;
-    const eError = /Email/.test(errors) ? errorClass : hiddenClass;
-    const pError = /Password/.test(errors) ? errorClass : hiddenClass;
-    const bError = /Birthday/.test(errors) ? errorClass : hiddenClass;
+    
     return (
       <div className='auth-main'>
         <div className='signup-container'>
@@ -57,38 +63,44 @@ class SignupForm extends React.Component {
 
           <form onSubmit={this.handleSubmit} className='form'>
             <div className='input-container'>
-              <input type='text'
+              <input type='text' id='Fname'
                 placeholder='First Name'
                 onChange={this.update('fname')}
                 value={this.state.fname}
               />
-              <span className={fError}>First name is required.</span>
+              <span id='Fnamee' className='error-msg hidden'>
+                First name is required.
+              </span>
             </div>
 
             <div className='input-container'>
-              <input type='text'
+              <input type='text' id='Lname'
                 placeholder='Last Name'
                 onChange={this.update('lname')}
                 value={this.state.lname}
               />
-              <span className={lError}>Last name is required.</span>
+              <span id='Lnamee' className='error-msg hidden'>
+                Last name is required.
+              </span>
             </div>
 
             <div className='input-container'>
-              <input type='text'
+              <input type='text' id='Email'
                 placeholder='Email'
                 onChange={this.update('email')}
                 value={this.state.email}
               />
-              <span className={eError}>Email is required.</span>
+              <span id='Emaile' className='error-msg hidden'>
+                Email is required.
+              </span>
             </div>
 
             <div className='input-container'>
-              <input type='password'
+              <input type='password' id='Password'
                 placeholder='Password'
                 onChange={this.update('password')}
               />
-              <span className={pError}>
+              <span id='Passworde' className='error-msg hidden'>
                 Password must be at least 6 characters in length.
               </span>
             </div>
@@ -96,7 +108,7 @@ class SignupForm extends React.Component {
             <div className='birthday-container'>
               <div className='birthday'>
                 <select onChange={this.update('day')} 
-                  className='day' defaultValue='Day'>
+                  className='day Birthday' defaultValue='Day'>
                   <option value='Day' disabled>Day</option>
                   {
                     days.map(num => 
@@ -105,7 +117,7 @@ class SignupForm extends React.Component {
                 </select>
               
                 <select onChange={this.update('month')} 
-                  className='month' defaultValue='Month'>
+                  className='month Birthday' defaultValue='Month'>
                   <option value='Month' disabled>Month</option>
                   {
                     months.map((month, i) => 
@@ -114,7 +126,7 @@ class SignupForm extends React.Component {
                 </select>
               
                 <select onChange={this.update('year')} 
-                  className='year' defaultValue='Year'>
+                  className='year Birthday' defaultValue='Year'>
                   <option value='Year' disabled>Year</option>
                   {
                     years.map(year => 
@@ -122,7 +134,9 @@ class SignupForm extends React.Component {
                   }
                 </select>
               </div>
-              <span className={bError}>Birthday required</span>
+              <span id='Birthdaye' className='error-msg hidden'>
+                Birthday required
+              </span>
             </div>
 
           <input type='submit' className='green-btn' value='Sign Up'/>

@@ -41,12 +41,20 @@
         box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
       }
 
+      .demo-btn:hover {
+        background: linear-gradient(to bottom, #3f92c6 5%, #0074bc 100%);
+      }
+
       .signup-btn {
         margin-left: 10px;
         font-size: 16px;
         padding: 9px 18px;
         background: #ff8714;
         background: linear-gradient(to bottom, #ff9628 5%, #ff8714 100%);
+      }
+
+      .signup-btn:hover {
+        background: linear-gradient(to bottom, #f08a15 5%, #e56e06 100%);
       }
     }
 
@@ -65,6 +73,10 @@
         margin-left: 10px;
         background: #454545;
         background: linear-gradient(to bottom, #5b5b5b 5%, #454545 100%);
+      }
+
+      .login-btn:hover {
+        background: linear-gradient(to bottom, #4f4f4f 5%, #222222 100%);
       }
     }
 
@@ -109,6 +121,16 @@
     p {
       color: #999;
     font-weight: 300;
+    }
+
+    a {
+      color: #2f98d9;
+      text-decoration: none;
+      outline: 0;
+    }
+
+    a:hover {
+      color: #92BFDD;
     }
   }
 }

@@ -48,13 +48,6 @@ p {
   margin: 0 0 5px 0;
 }
 
-a {
-  color: #2f98d9;
-  text-decoration: none;
-  outline: 0;
-}
-
-
 a.button {
   border: 0;
   margin-right: 5px;
@@ -90,6 +83,10 @@ a.button {
   line-height: 1.667;
 }
 
+.error-border {
+  border: 1px solid #dc001c !important;
+}
+
 .hidden {
   display: none;
 }
@@ -109,6 +106,10 @@ a.button {
   border-bottom: 0;
   background-color: #97bf11;
   color: #fff;
+}
+
+.green-btn:hover {
+  background-color: #81a30f;
 }
 
 ::-webkit-input-placeholder {
