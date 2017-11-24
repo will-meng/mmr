@@ -60,6 +60,7 @@ class SignupForm extends React.Component {
               <input type='text'
                 placeholder='First Name'
                 onChange={this.update('fname')}
+                value={this.state.fname}
               />
               <span className={fError}>First name is required.</span>
             </div>
@@ -68,6 +69,7 @@ class SignupForm extends React.Component {
               <input type='text'
                 placeholder='Last Name'
                 onChange={this.update('lname')}
+                value={this.state.lname}
               />
               <span className={lError}>Last name is required.</span>
             </div>
@@ -76,6 +78,7 @@ class SignupForm extends React.Component {
               <input type='text'
                 placeholder='Email'
                 onChange={this.update('email')}
+                value={this.state.email}
               />
               <span className={eError}>Email is required.</span>
             </div>

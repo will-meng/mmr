@@ -5,9 +5,10 @@ html {
 }
 
 body {
-  background: #fff url(/prod/public/images/min/layout/global_bg.2bf688fefce2.png) repeat 0 0;
+  background: #fff;
   font-family: "Open Sans", sans-serif;
   font-size: 12px;
+  min-width: 960px;
   height: 100%;
   min-height: 100%;
   color: #666;
@@ -46,6 +47,13 @@ h1 {
 p {
   margin: 0 0 5px 0;
 }
+
+a {
+  color: #2f98d9;
+  text-decoration: none;
+  outline: 0;
+}
+
 
 a.button {
   border: 0;

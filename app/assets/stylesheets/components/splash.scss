@@ -85,3 +85,30 @@
     }
   }
 }
+
+.features {
+  display: flex;
+  width: 100%;
+  background: transparent url(http://dxcqr918aoy1x.cloudfront.net/prod/public/images/min/home/features_sprite.a461d254af6c.png) no-repeat 62px 40px;
+  width: 960px;
+  height: 300px;
+  margin: 0 auto;
+
+  .feature {
+    width: 200px;
+    text-align: center;
+    margin: 163px 25px 0 14px;
+
+    h2 {
+      font-size: 18px;
+      color: #999;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    p {
+      color: #999;
+    font-weight: 300;
+    }
+  }
+}
