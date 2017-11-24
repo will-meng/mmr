@@ -25,6 +25,12 @@ class SignupForm extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  componentDidMount() {
+    this.props.removeErrors();
+    if (this.props.loggedIn)
+      this.props.history.push('/');
+  }
+
   update(field) {
     return e => this.setState({ [field]: e.target.value });
   }
@@ -33,20 +39,21 @@ class SignupForm extends React.Component {
     e.preventDefault();
     this.state.birthday = 
       this.state.year + '/' + this.state.month + '/' + this.state.day;
-    this.props.signup(this.state)
-      .then(this.props.history.push('/'));
+    this.props.signup(this.state);
   }
 
   render() {
     const { errors } = this.props;
+    const errorClass = 'error-msg', hiddenClass='hidden';
+    const fError = /Fname/.test(errors) ? errorClass : hiddenClass;
+    const lError = /Lname/.test(errors) ? errorClass : hiddenClass;
+    const eError = /Email/.test(errors) ? errorClass : hiddenClass;
+    const pError = /Password/.test(errors) ? errorClass : hiddenClass;
+    const bError = /Birthday/.test(errors) ? errorClass : hiddenClass;
     return (
       <div className='auth-main'>
         <div className='signup-container'>
           <Link className='login-from-signup' to='/login'>LOG IN</Link>
-
-          <ul>
-            { errors.map(error => <li key={error}>{error}</li>) }
-          </ul>
 
           <form onSubmit={this.handleSubmit} className='form'>
             <div className='input-container'>
@@ -54,7 +61,7 @@ class SignupForm extends React.Component {
                 placeholder='First Name'
                 onChange={this.update('fname')}
               />
-              <span className='error-msg'></span>
+              <span className={fError}>First name is required.</span>
             </div>
 
             <div className='input-container'>
@@ -62,7 +69,7 @@ class SignupForm extends React.Component {
                 placeholder='Last Name'
                 onChange={this.update('lname')}
               />
-              <span className='error-msg'></span>
+              <span className={lError}>Last name is required.</span>
             </div>
 
             <div className='input-container'>
@@ -70,7 +77,7 @@ class SignupForm extends React.Component {
                 placeholder='Email'
                 onChange={this.update('email')}
               />
-              <span className='error-msg'></span>
+              <span className={eError}>Email is required.</span>
             </div>
 
             <div className='input-container'>
@@ -78,36 +85,41 @@ class SignupForm extends React.Component {
                 placeholder='Password'
                 onChange={this.update('password')}
               />
-              <span className='error-msg'></span>
+              <span className={pError}>
+                Password must be at least 6 characters in length.
+              </span>
             </div>
 
-            <div className='birthday'>
-              <select onChange={this.update('day')} 
-                className='day' defaultValue='Day'>
-                <option value='Day' disabled>Day</option>
-                {
-                  days.map(num => 
-                    <option key={num} value={`${num}`}>{num}</option>)
-                }
-              </select>
-            
-              <select onChange={this.update('month')} 
-                className='month' defaultValue='Month'>
-                <option value='Month' disabled>Month</option>
-                {
-                  months.map((month, i) => 
-                    <option key={month} value={`${i + 1}`}>{month}</option>)
-                }
-              </select>
-            
-              <select onChange={this.update('year')} 
-                className='year' defaultValue='Year'>
-                <option value='Year' disabled>Year</option>
-                {
-                  years.map(year => 
-                    <option key={year} value={`${year}`}>{year}</option>)
-                }
-              </select>
+            <div className='birthday-container'>
+              <div className='birthday'>
+                <select onChange={this.update('day')} 
+                  className='day' defaultValue='Day'>
+                  <option value='Day' disabled>Day</option>
+                  {
+                    days.map(num => 
+                      <option key={num} value={`${num}`}>{num}</option>)
+                  }
+                </select>
+              
+                <select onChange={this.update('month')} 
+                  className='month' defaultValue='Month'>
+                  <option value='Month' disabled>Month</option>
+                  {
+                    months.map((month, i) => 
+                      <option key={month} value={`${i + 1}`}>{month}</option>)
+                  }
+                </select>
+              
+                <select onChange={this.update('year')} 
+                  className='year' defaultValue='Year'>
+                  <option value='Year' disabled>Year</option>
+                  {
+                    years.map(year => 
+                      <option key={year} value={`${year}`}>{year}</option>)
+                  }
+                </select>
+              </div>
+              <span className={bError}>Birthday required</span>
             </div>
 
           <input type='submit' className='green-btn' value='Sign Up'/>

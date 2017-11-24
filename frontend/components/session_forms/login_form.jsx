@@ -11,14 +11,19 @@ class LoginForm extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  componentDidMount() {
+    this.props.removeErrors();
+    if (this.props.loggedIn)
+      this.props.history.push('/');
+  }
+
   update(field) {
     return e => this.setState({ [field]: e.target.value });
   }
 
   handleSubmit(e) {
     e.preventDefault();
-    this.props.login(this.state)
-      .then(this.props.history.push('/'));
+    this.props.login(this.state);
   }
 
   render() {
@@ -29,7 +34,10 @@ class LoginForm extends React.Component {
         <Link className='login-from-signup' to='/signup'>Sign Up</Link>
 
         <ul>
-          { errors.map(error => <li key={error}>{error}</li>) }
+          {
+            errors.map(error => 
+              <li className='error-msg' key={error}>{error}</li>) 
+          }
         </ul>
 
         <form onSubmit={this.handleSubmit} className='form'>

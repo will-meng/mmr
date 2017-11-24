@@ -44,23 +44,27 @@
         background: transparent;
 
       }
-      
-      .birthday {
-        display: flex;
-        width: 100%;
-        justify-content: space-between;
+
+      .birthday-container {
         margin-bottom: 15px;
-
-        .day {
-          width: 79px;
-        }
+        width: 100%;
         
-        .month {
-          width: 126px;
-        }
+        .birthday {
+          display: flex;
+          width: 100%;
+          justify-content: space-between;
 
-        .year {
-          width: 89px;
+          .day {
+            width: 79px;
+          }
+          
+          .month {
+            width: 126px;
+          }
+
+          .year {
+            width: 89px;
+          }
         }
       }
 

@@ -1,18 +1,23 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-
 const navRight = (currentUser, logout, path) => {
    if (path !== '/signup' && path !== '/login')
     return currentUser ? (
       <div className='nav-right'>
-        <p>{currentUser.fname}</p>
-        <button className='logout' onClick={logout}>Logout</button>
+        <img src={`${currentUser.img_url}`} alt="Profile Image"/>
+        <ul className='nav-submenu'>
+          <li><Link to='/' className='friends-btn'>Friends</Link></li>
+          <li><Link to='/' className='settings-btn'>Settings</Link></li>
+          <li><button className='logout-btn' onClick={logout}>Logout</button></li>
+        </ul>
       </div> 
     ) : (
       <div className='nav-right'>
-        <Link to='/login'>Log In</Link>
-        <Link to='/signup' className='nav-signup-btn green-btn'>Sign Up</Link>
+        <ul className='nav-menu'>
+          <li><Link to='/login' className='nav-login-btn'>Log In</Link></li>
+          <li><Link to='/signup' className='nav-signup-btn green-btn'>Sign Up</Link></li>
+        </ul>
       </div> 
     );
   else
@@ -36,7 +41,5 @@ const NavBar = ({ currentUser, logout, path }) => (
     {navRight(currentUser, logout, path)}
   </nav>
 );
-
-
 
 export default NavBar;

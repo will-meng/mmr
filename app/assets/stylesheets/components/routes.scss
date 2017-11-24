@@ -1,5 +1,5 @@
 .map {
-  width: calc((100vw - 300px));
+  width: calc((100vw - 317px));
   min-width: 400px;
   height: calc(100vh - 100px);
   min-height: 400px;
@@ -46,6 +46,10 @@
       box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
       -webkit-transition: border linear .2s, -webkit-box-shadow linear .2s;
       transition: border linear .2s, box-shadow linear .2s;
+    }
+
+    span {
+      margin-left: 7px;
     }
 
     .submit-route {

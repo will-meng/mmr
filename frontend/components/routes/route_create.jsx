@@ -2,6 +2,8 @@ import React from 'react';
 import MarkerManager from '../../utils/marker_manager';
 import RouteForm from './route_form';
 import RouteOverlay from './route_overlay';
+import { withRouter } from 'react-router-dom';
+import merge from 'lodash/merge';
 
 // TODO get user's location
 const mapOptions = {
@@ -30,7 +32,7 @@ class RouteCreate extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      waypoints: {},
+      waypointsObj: {},
       name: '',
       description: '',
       distance: 0
@@ -40,6 +42,10 @@ class RouteCreate extends React.Component {
     this.directionsService = new google.maps.DirectionsService;
     this.directionsDisplay = new google.maps.DirectionsRenderer(_directionsRendererOptions);
     this.bounds  = new google.maps.LatLngBounds();
+  }
+
+  componentWillMount() {
+    this.props.removeErrors();
   }
 
   componentDidMount() {
@@ -59,7 +65,7 @@ class RouteCreate extends React.Component {
     this.directionsDisplay.setDirections({routes: []});
     this.markerIdx = 0;
     this.setState({
-      waypoints: {},
+      waypointsObj: {},
       name: '',
       description: '',
       distance: 0
@@ -78,9 +84,9 @@ class RouteCreate extends React.Component {
     if (len === 0) {
       this.MarkerManager.createMarker(waypoint);
       this.bounds.extend(latLng); //for map re-centering
-      this.setState({waypoints: { [waypoint.id]: waypoint }});
+      this.setState({waypointsObj: { [waypoint.id]: waypoint }});
     } else if (len < this.maxWaypoints) {
-      const waypoints = this.state.waypoints;
+      const waypoints = this.state.waypointsObj;
       waypoints[this.markerIdx] = waypoint;
       this.calculateAndRenderRoute(this.directionsService, this.directionsDisplay, true);
     } else {
@@ -134,13 +140,13 @@ class RouteCreate extends React.Component {
   }
   
   removeWaypoint(waypoint) {
-    const waypoints = this.state.waypoints;
+    const waypoints = this.state.waypointsObj;
     delete waypoints[waypoint.id];
     if (this._waypointIds().length < 2)
       this.directionsDisplay.setDirections({routes: []}); //clear polylines
     else
       this.calculateAndRenderRoute(this.directionsService, this.directionsDisplay);
-    this.setState({waypoints: waypoints});
+    this.setState({waypointsObj: waypoints});
   }
 
   modifyWaypoint(waypoint) {
@@ -148,7 +154,7 @@ class RouteCreate extends React.Component {
   }
 
   addWaypointToState(waypoint, recalculate = false) {
-    const waypoints = this.state.waypoints;
+    const waypoints = this.state.waypointsObj;
     waypoints[waypoint.id] = waypoint;
     if (recalculate)
       this.calculateAndRenderRoute(this.directionsService, this.directionsDisplay);
@@ -181,8 +187,10 @@ class RouteCreate extends React.Component {
     if (this._waypointsArr().length > 1) {
       const directions = this.directionsDisplay.getDirections();
       this.state.polyline = directions.routes[0].overview_polyline;
-      this.state.waypoints = this.createWaypointsArray();
-      this.props.createRoute(this.state);
+      const waypointParams = merge({}, this.state);
+      waypointParams.waypoints = this.createWaypointsArray();
+      delete waypointParams.waypointsObj;
+      this.props.createRoute(waypointParams);
     } else {
       alert('You must have at least two points on the map to save a route.');
     }
@@ -199,15 +207,17 @@ class RouteCreate extends React.Component {
   }
 
   _waypointsArr() {
-    return Object.values(this.state.waypoints);
+    return Object.values(this.state.waypointsObj);
   }
 
   _waypointIds() {
-    return Object.keys(this.state.waypoints);
+    return Object.keys(this.state.waypointsObj);
   }
   
   render() {
-    const waypoints = this.state.waypoints;
+    const { errors, removeErrors } = this.props;
+    const { name, description } = this.state;
+    const waypoints = this.state.waypointsObj;
     return (
       <div className='route-main'>
         <RouteForm 
@@ -215,6 +225,7 @@ class RouteCreate extends React.Component {
           description={this.state.description}
           handleSubmit={this.handleSubmit.bind(this)}
           update={this.update.bind(this)}
+          errors={this.props.errors}
         />
 
         <div className='map-container'>
@@ -232,4 +243,4 @@ class RouteCreate extends React.Component {
   }
 }
 
-export default RouteCreate;
+export default withRouter(RouteCreate);

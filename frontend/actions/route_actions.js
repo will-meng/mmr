@@ -35,11 +35,11 @@ export const requestRoute = routeId => dispatch => (
     .then(route => dispatch(receiveRoute(route)))
 );
 
-export const createRoute = routeForm => dispatch => {
+export const createRoute = routeForm => dispatch => (
   RouteAPIUtils.createRoute(routeForm)
     .then(route => dispatch(receiveRoute(route)),
-      errors => dispatch(receiveRouteErrors(errors.responseJSON)));
-};
+      errors => dispatch(receiveRouteErrors(errors.responseJSON)))
+);
 
 export const updateRoute = routeForm => dispatch => (
   RouteAPIUtils.updateRoute(routeForm)
