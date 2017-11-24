@@ -50,5 +50,5 @@ export const updateRoute = routeForm => dispatch => (
 
 export const deleteRoute = routeId => dispatch => (
   RouteAPIUtils.deleteRoute(routeId)
-    .then(route => dispatch(removeRoute(route)))
+    .then(route => dispatch(removeRoute(route.id)))
 );

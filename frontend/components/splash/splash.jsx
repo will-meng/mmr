@@ -12,9 +12,13 @@ export default () => (
           <br/>learn from every route with MapMyRun.
         </p>
         <div className='signup-buttons'>
-          <Link to='/login?demo' className='demo-btn button'>Demo Login (cool!)</Link>
+          <Link to='/login?demo' className='demo-btn button'>
+            Demo Login (cool!)
+          </Link>
           or
-          <Link to='/signup' className='signup-btn button'>Sign Up (lame!)</Link>
+          <Link to='/signup' className='signup-btn orange-btn button'>
+            Sign Up (lame!)
+          </Link>
         </div>
         <div className='empty'></div>
         <div className="login-prompt">

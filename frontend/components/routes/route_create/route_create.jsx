@@ -3,7 +3,6 @@ import MarkerManager from '../../../utils/marker_manager';
 import RouteForm from './route_form';
 import RouteOverlay from './route_overlay';
 import { withRouter } from 'react-router-dom';
-import merge from 'lodash/merge';
 
 // TODO get user's location
 const mapOptions = {
@@ -28,7 +27,7 @@ const _directionsRendererOptions = {
 const btnURL = 'https://d3o6qfi6hwcdhb.cloudfront.net/309c1e1337e4/img/sprite-primary.png';
 
 class RouteCreate extends React.Component {
-  // waypoints shape: { 1: { id: 1, latLng: latLngObj } }
+  // waypointsObj shape: { 1: { id: 1, latLng: latLngObj } }
   constructor(props) {
     super(props);
     this.state = {
@@ -84,7 +83,6 @@ class RouteCreate extends React.Component {
     if (len === 0) {
       this.MarkerManager.createMarker(waypoint);
       this.bounds.extend(latLng); //for map re-centering
-      console.log(this.bounds);
       this.setState({waypointsObj: { [waypoint.id]: waypoint }});
     } else if (len < this.maxWaypoints) {
       const waypoints = this.state.waypointsObj;
@@ -128,6 +126,7 @@ class RouteCreate extends React.Component {
   addEndpoint(route) {
     const endLatLng = route.legs[route.legs.length - 1].end_location;
     this.bounds.extend(endLatLng); //for map re-centering
+    // console.log(JSON.stringify(this.bounds));
     const waypoint = { id: this.markerIdx, latLng: endLatLng };
     this.MarkerManager.createMarker(waypoint);
     this.calculateAndSetDistance(route);
@@ -186,32 +185,40 @@ class RouteCreate extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
     if (this._waypointsArr().length > 1) {
-      const directions = this.directionsDisplay.getDirections();
-      this.state.polyline = directions.routes[0].overview_polyline;
-      const waypointParams = merge({}, this.state);
-      waypointParams.waypoints = this.createWaypointsArray();
-      delete waypointParams.waypointsObj;
-      this.props.createRoute(waypointParams);
+      const routeParams = this.createRouteParams();
+      this.props.createRoute(routeParams)
+        .then(action => this.props.history.push(`/route/${action.route.id}`));
     } else {
       alert('You must have at least two points on the map to save a route.');
     }
+  }
+
+  createRouteParams() {
+    const { name, description, distance } = this.state;
+    const routeParams = { name, description, distance };
+    routeParams.polyline = this.encodePolyline();
+    routeParams.waypoints = this.encodePathFromWaypoints();
+    routeParams.bounds = JSON.stringify(this.bounds);
+    return routeParams;
   }
 
   update(field) {
     return e => this.setState({[field]: e.currentTarget.value});
   }
 
-  encodePathFromWaypoints() {
-    const path = this._waypointsArr().map(wypt => wypt.latLng);
-    const encodedString = google.maps.geometry.encoding.encodePath(path);
-    const newpath = google.maps.geometry.encoding.decodePath(encodedString);
+  encodePolyline() {
+    const directions = this.directionsDisplay.getDirections();
+    return directions.routes[0].overview_polyline;
   }
 
-  createWaypointsArray() {
-    // send waypoints to DB as [lat1, lng1, lat2, lng2, ...]
-    const arr = [];
-    this._waypointsArr().forEach(wypt => arr.push(wypt.latLng.lat(), wypt.latLng.lng()));
-    return arr;
+  encodePathFromWaypoints() {
+    const path = this._waypointsArr().map(wypt => wypt.latLng);
+    return google.maps.geometry.encoding.encodePath(path);
+  }
+
+  decodeWaypoints(encodedPath) {
+    // path is an array of LatLng objects
+    const path = google.maps.geometry.encoding.decodePath(encodedPath);
   }
 
   _waypointsArr() {
