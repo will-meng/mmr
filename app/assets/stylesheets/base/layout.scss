@@ -82,7 +82,7 @@ a.button:hover {
   background: linear-gradient(to bottom, #878585 5%, #5e5e5e 100%);
 }
 
-a.green-btn {
+a.green-btn, input.green-btn {
   display: inline-block;
   font-weight: 500;
   font-size: 14px;
@@ -99,7 +99,7 @@ a.green-btn {
   color: #fff;
 }
 
-a.green-btn:hover {
+a.green-btn:hover, input.green-btn:hover {
   background-color: #81a30f;
 }
 
