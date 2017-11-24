@@ -24,8 +24,8 @@ class LoginForm extends React.Component {
   }
 
   demoLogin() {
-    document.getElementById('email').disabled = true;
-    document.getElementById('password').disabled = true;
+    $('input').prop('disabled',true);
+    $('a').click(e => e.preventDefault());
     let i = 0;
     demoEmail.split('').forEach(ch => 
       setTimeout(this.demoType('email', ch) ,int * i++));
@@ -68,7 +68,7 @@ class LoginForm extends React.Component {
 
         <form onSubmit={this.handleSubmit} className='form'>
           <div className='input-container'>
-            <input type='text' id='email'
+            <input type='text'
               placeholder='Email'
               onChange={this.update('email')}
               value={this.state.email}
@@ -77,7 +77,7 @@ class LoginForm extends React.Component {
           </div>
 
           <div className='input-container'>
-            <input type='password' id='password'
+            <input type='password'
               placeholder='Password'
               onChange={this.update('password')}
               value={this.state.password}
