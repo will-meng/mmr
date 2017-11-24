@@ -1,0 +1,87 @@
+.homepage {
+  height: 392px;
+  width: 100%;
+  background: white url(http://dxcqr918aoy1x.cloudfront.net/prod/public/images/min/heros/run/homepage.04b1bceae447.png) no-repeat top center;
+  background-size: cover;
+  background-position: bottom;
+  padding: 50px 0 120px;
+
+  .content {
+    width: 588px;
+    padding: 0 0 0 28%;
+    margin: 0 auto;
+
+    h1 {
+      color: white;
+      margin: 0;
+      font-size: 44px;
+      line-height: 1.2;
+    }
+
+    p {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #fff;
+      text-shadow: 1px 1px 2px #444;
+    }
+
+    .signup-buttons {
+      padding-top: 20px;
+      margin-bottom: 20px;
+      color: #fff;
+
+      .demo-btn {
+        display: inline-block;
+        font-size: 16px;
+        padding: 9px 18px;
+        margin-right: 10px;
+        background: #177ed7;
+        background: linear-gradient(to bottom, #4499db 5%, #177ed7 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF4499DB',endColorstr='#FF177ED7');
+        box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+      }
+
+      .signup-btn {
+        margin-left: 10px;
+        font-size: 16px;
+        padding: 9px 18px;
+        background: #ff8714;
+        background: linear-gradient(to bottom, #ff9628 5%, #ff8714 100%);
+      }
+    }
+
+    .empty {
+      width: 400px;
+      height: 100px;
+    }
+
+    .login-prompt {
+      text-align: right;
+      color: #fff;
+      font-size: 15px;
+      font-weight: 600;
+
+      .login-btn {
+        margin-left: 10px;
+        background: #454545;
+        background: linear-gradient(to bottom, #5b5b5b 5%, #454545 100%);
+      }
+    }
+
+    .terms {
+      margin-top: 20px;
+      color: #fff;
+      font-size: 11px;
+      font-weight: normal;
+      float: right;
+      background: rgba(100,100,100,.5);
+      padding: 5px 10px;
+      border-radius: 5px;
+      text-shadow: 1px 1px 2px #444;
+
+      a {
+        text-decoration: underline;
+      }
+    }
+  }
+}
