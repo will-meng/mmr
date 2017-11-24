@@ -32,7 +32,8 @@ export const requestRoutes = () => dispatch => (
 
 export const requestRoute = routeId => dispatch => (
   RouteAPIUtils.fetchRoute(routeId)
-    .then(route => dispatch(receiveRoute(route)))
+    .then(route => dispatch(receiveRoute(route)), console.log)
+      
 );
 
 export const createRoute = routeForm => dispatch => (

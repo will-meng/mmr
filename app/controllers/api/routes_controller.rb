@@ -6,7 +6,7 @@ class Api::RoutesController < ApplicationController
   end
 
   def show
-    @route = Route.find(id: params[:id])
+    @route = Route.find_by(id: params[:id])
     if @route
       render :show
     else
@@ -25,7 +25,7 @@ class Api::RoutesController < ApplicationController
   end
 
   def edit
-    @route = current_user.routes.find(id: params[:id])
+    @route = current_user.routes.find_by(id: params[:id])
     if @route
       if @route.update(route_params)
         render :show
@@ -38,7 +38,7 @@ class Api::RoutesController < ApplicationController
   end
 
   def destroy
-    @route = current_user.routes.find(id: params[:id])
+    @route = current_user.routes.find_by(id: params[:id])
     if @route
       @route.destroy
       render :show

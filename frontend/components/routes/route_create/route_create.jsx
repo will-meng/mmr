@@ -1,5 +1,5 @@
 import React from 'react';
-import MarkerManager from '../../utils/marker_manager';
+import MarkerManager from '../../../utils/marker_manager';
 import RouteForm from './route_form';
 import RouteOverlay from './route_overlay';
 import { withRouter } from 'react-router-dom';
@@ -84,6 +84,7 @@ class RouteCreate extends React.Component {
     if (len === 0) {
       this.MarkerManager.createMarker(waypoint);
       this.bounds.extend(latLng); //for map re-centering
+      console.log(this.bounds);
       this.setState({waypointsObj: { [waypoint.id]: waypoint }});
     } else if (len < this.maxWaypoints) {
       const waypoints = this.state.waypointsObj;
@@ -200,9 +201,16 @@ class RouteCreate extends React.Component {
     return e => this.setState({[field]: e.currentTarget.value});
   }
 
+  encodePathFromWaypoints() {
+    const path = this._waypointsArr().map(wypt => wypt.latLng);
+    const encodedString = google.maps.geometry.encoding.encodePath(path);
+    const newpath = google.maps.geometry.encoding.decodePath(encodedString);
+  }
+
   createWaypointsArray() {
+    // send waypoints to DB as [lat1, lng1, lat2, lng2, ...]
     const arr = [];
-    this._waypointsArr().map(wypt => arr.push(wypt.latLng.lat(), wypt.latLng.lng()));
+    this._waypointsArr().forEach(wypt => arr.push(wypt.latLng.lat(), wypt.latLng.lng()));
     return arr;
   }
 
