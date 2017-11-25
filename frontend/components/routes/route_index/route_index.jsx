@@ -1,5 +1,6 @@
 import React from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import RouteIndexItem from './route_index_item';
 
 class RouteIndex extends React.Component {
   componentDidMount() {
@@ -46,33 +47,21 @@ class RouteIndex extends React.Component {
             <tbody>
               {
                 routes.reverse().map(route => (
-                <tr key={route.id}>
-                <td className='thumbnailCell'>
-                  <Link to={`/route/${route.id}`}><img src='/'/></Link>
-                </td>
-                <td><Link to={`/route/${route.id}`}>
-                  <span>{this.formatDate(route)}</span></Link>
-                </td>
-                <td><span>{route.distance} mi</span></td>
-                <td><Link to={`/route/${route.id}`}>{route.name}</Link></td>
-                <td nowrap='true'>{route.city}</td>
-                <td>
-                  <Link to={`/route/edit/${route.id}`}><span>Edit</span></Link>
-                  <a onClick={() => this.handleDelete(route.id)}>
-                    <span>Delete</span>
-                  </a>
-                </td>
-                </tr>
+                  <RouteIndexItem 
+                    key={route.id} 
+                    route={route}
+                    formatDate={this.formatDate.bind(this)}
+                    handleDelete={this.handleDelete.bind(this)}
+                  />
                 ))
               }
             </tbody>
             </table>
           </section>
-
         </div>
       );
     }
   }
 }
 
-export default withRouter(RouteIndex);
+export default RouteIndex;

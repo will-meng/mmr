@@ -19,8 +19,9 @@ const _directionsRendererOptions = {
   preserveViewport: true,
   suppressMarkers: true,
   polylineOptions: {
-    strokeWeight: 4,
-    strokeColor: "blue"
+    strokeWeight: 5,
+    strokeColor: "blue",
+    strokeOpacity: 0.5,
   }
 };
 

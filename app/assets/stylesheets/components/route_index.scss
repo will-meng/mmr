@@ -77,12 +77,12 @@
 
           img {
             width: 75px;
+            height: 75px;
           }
         }
 
         td:last-of-type {
-          display: flex;
-          flex-direction: column;
+          word-wrap: break-word;
         }
       }
     }
