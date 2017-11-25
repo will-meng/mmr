@@ -6,9 +6,9 @@ const navRight = (currentUser, logout, path) => {
     return currentUser ? (
       <div className='nav-right'>
         <img src={`${currentUser.img_url}`} alt="Profile Image"/>
-        <ul className='nav-submenu'>
-          <li><Link to='/' className='friends-btn'>Friends</Link></li>
-          <li><Link to='/' className='settings-btn'>Settings</Link></li>
+        <ul className='nav-submenu nav-dropdown'>
+          <li><Link to='/'>Friends</Link></li>
+          <li><Link to='/'>Settings</Link></li>
           <li><button className='logout-btn' onClick={logout}>Logout</button></li>
         </ul>
       </div> 
@@ -31,8 +31,21 @@ const NavBar = ({ currentUser, logout, path }) => (
         <img alt="MapMyRun" className='logoImage' src="https://mapmy.uastatic.com/951e3794f22d8fe360605b039ee14d4b.svg"/>
       </Link>
       <ul className='nav-menu'>
-        <li><a href="#">Training</a></li>
-        <li><Link to='/routes'>Routes</Link></li>
+        <li className='nav-training'>
+          <Link to='/workouts'>Training</Link>
+          <ul className='training-submenu nav-dropdown'>
+            <li><Link to='/workouts'>Workouts</Link></li>
+            <li><Link to='/workout/create'>Log Workout</Link></li>
+          </ul>
+        </li>
+        <li className='nav-routes'>
+          <Link to='/routes'>Routes</Link>
+          <ul className='routes-submenu nav-dropdown'>
+            <li><Link to='/routes'>All Routes</Link></li>
+            <li><Link to='/route/create'>Create Route</Link></li>
+            <li><Link to='/dashboard'>My Routes</Link></li>
+          </ul>
+        </li>
         <li><a href="#">Challenges</a></li>
         <li><a href="#">Blog</a></li>
       </ul>
