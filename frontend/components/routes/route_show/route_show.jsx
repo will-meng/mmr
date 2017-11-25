@@ -33,12 +33,10 @@ class RouteShow extends React.Component {
     });
   }
 
-  handleDelete() {
-    return e => {
-      e.preventDefault();
-      this.props.deleteRoute(this.props.routeId)
-        .then(this.props.history.push('/'));
-    };
+  handleDelete(e) {
+    e.preventDefault();
+    this.props.deleteRoute(this.props.routeId)
+      .then(this.props.history.push('/routes'));
   }
 
   render() {
@@ -84,7 +82,7 @@ class RouteShow extends React.Component {
               <div className='route-details'>
                 <dl>
                 <dt style={{marginBottom: '15px'}}>Begins in:</dt>
-                <dd style={{marginBottom: '15px'}}>Placeholder Start City</dd>
+                <dd style={{marginBottom: '15px'}}>{route.city}</dd>
                 <dt style={{marginBottom: '20px'}}>Created By:</dt>
                 <dd style={{marginBottom: '20px'}}>
                   <Link to={`user/${route.creator_id}/dashboard`}>
@@ -106,7 +104,7 @@ class RouteShow extends React.Component {
               <Link to={`/route/edit/${route.id}`} className='button'>
                 Edit
               </Link>
-              <a onClick={this.handleDelete()} className='button'>
+              <a onClick={e => this.handleDelete(e)} className='button'>
                 Delete
               </a>
             </article>

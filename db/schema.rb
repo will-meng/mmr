@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171124191637) do
+ActiveRecord::Schema.define(version: 20171125052218) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(version: 20171124191637) do
     t.datetime "updated_at", null: false
     t.string "waypoints", null: false
     t.string "bounds", null: false
+    t.string "city", default: "San Francisco, CA"
     t.index ["creator_id"], name: "index_routes_on_creator_id"
   end
 

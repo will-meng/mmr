@@ -2,7 +2,8 @@ class Api::RoutesController < ApplicationController
   before_action :require_logged_in
 
   def index
-    @routes = current_user.routes
+    # @routes = current_user.routes
+    @routes = Route.all
   end
 
   def show
@@ -51,6 +52,6 @@ class Api::RoutesController < ApplicationController
 
   def route_params
     params.require(:route)
-      .permit(:name, :description, :distance, :polyline, :waypoints, :bounds)
+      .permit(:name, :description, :distance, :polyline, :waypoints, :bounds, :city)
   end
 end

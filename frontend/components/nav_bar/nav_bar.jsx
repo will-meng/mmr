@@ -32,7 +32,7 @@ const NavBar = ({ currentUser, logout, path }) => (
       </Link>
       <ul className='nav-menu'>
         <li><a href="#">Training</a></li>
-        <li><Link to='/route/create'>Routes</Link></li>
+        <li><Link to='/routes'>Routes</Link></li>
         <li><a href="#">Challenges</a></li>
         <li><a href="#">Blog</a></li>
       </ul>

@@ -40,7 +40,6 @@ class RouteCreate extends React.Component {
     this.markerIdx = 0;
     this.directionsService = new google.maps.DirectionsService;
     this.directionsDisplay = new google.maps.DirectionsRenderer(_directionsRendererOptions);
-    this.bounds  = new google.maps.LatLngBounds();
   }
 
   componentWillMount() {
@@ -50,6 +49,7 @@ class RouteCreate extends React.Component {
   componentDidMount() {
     const map = this.refs.map;
     this.map = new google.maps.Map(map, mapOptions);
+    this.service = new google.maps.places.PlacesService(this.map);
     this.directionsDisplay.setMap(this.map);
     this.MarkerManager = new MarkerManager(
       this.map, 
@@ -63,6 +63,7 @@ class RouteCreate extends React.Component {
     this.MarkerManager.removeMarkers();
     this.directionsDisplay.setDirections({routes: []});
     this.markerIdx = 0;
+    this.city = null;
     this.setState({
       waypointsObj: {},
       name: '',
@@ -82,7 +83,6 @@ class RouteCreate extends React.Component {
     const len = this._waypointIds().length;
     if (len === 0) {
       this.MarkerManager.createMarker(waypoint);
-      this.bounds.extend(latLng); //for map re-centering
       this.setState({waypointsObj: { [waypoint.id]: waypoint }});
     } else if (len < this.maxWaypoints) {
       const waypoints = this.state.waypointsObj;
@@ -114,6 +114,8 @@ class RouteCreate extends React.Component {
     }, (response, status) => {
       if (status === 'OK') {
         directionsDisplay.setDirections(response);
+        if (!this.city)
+          this.getCity(response.geocoded_waypoints[0].place_id);
         const route = response.routes[0];
         if (addEndpoint)
           this.addEndpoint(route);
@@ -125,8 +127,6 @@ class RouteCreate extends React.Component {
 
   addEndpoint(route) {
     const endLatLng = route.legs[route.legs.length - 1].end_location;
-    this.bounds.extend(endLatLng); //for map re-centering
-    // console.log(JSON.stringify(this.bounds));
     const waypoint = { id: this.markerIdx, latLng: endLatLng };
     this.MarkerManager.createMarker(waypoint);
     this.calculateAndSetDistance(route);
@@ -138,14 +138,24 @@ class RouteCreate extends React.Component {
     const distanceMiles = Math.round(distance / 1609.34 * 100) / 100;
     this.setState({distance: distanceMiles});
   }
+
+  getCity(placeId) {
+    this.service.getDetails({placeId}, res => {
+      const city = res.address_components[3].long_name;
+      const state = res.address_components[5].short_name;
+      this.city = city + ', ' + state;
+    });
+  }
   
   removeWaypoint(waypoint) {
     const waypoints = this.state.waypointsObj;
     delete waypoints[waypoint.id];
-    if (this._waypointIds().length < 2)
+    if (this._waypointIds().length < 2) {
+      this.city = null;
       this.directionsDisplay.setDirections({routes: []}); //clear polylines
-    else
+    } else {
       this.calculateAndRenderRoute(this.directionsService, this.directionsDisplay);
+    }
     this.setState({waypointsObj: waypoints});
   }
 
@@ -171,8 +181,15 @@ class RouteCreate extends React.Component {
   }
 
   recenterMap() {
-    this.map.fitBounds(this.bounds);
-    // this.map.panToBounds(this.bounds); 
+    if (this._waypointIds().length > 0) {
+      this.calculateBounds();
+      this.map.fitBounds(this.bounds);
+    }
+  }
+
+  calculateBounds() {
+    this.bounds = new google.maps.LatLngBounds();
+    this._waypointsArr().forEach(wyptObj => this.bounds.extend(wyptObj.latLng));
   }
 
   returnToOrigin() {
@@ -198,7 +215,9 @@ class RouteCreate extends React.Component {
     const routeParams = { name, description, distance };
     routeParams.polyline = this.encodePolyline();
     routeParams.waypoints = this.encodePathFromWaypoints();
+    this.calculateBounds();
     routeParams.bounds = JSON.stringify(this.bounds);
+    routeParams.city = this.city;
     return routeParams;
   }
 

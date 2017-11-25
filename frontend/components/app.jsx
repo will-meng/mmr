@@ -8,6 +8,7 @@ import LoginFormContainer from './session_forms/login_form_container';
 import Splash from './splash/splash';
 import RouteCreateContainer from './routes/route_create/route_create_container';
 import RouteShowContainer from './routes/route_show/route_show_container';
+import RouteIndexContainer from './routes/route_index/route_index_container';
 
 const App = () => (
   <div>
@@ -17,9 +18,10 @@ const App = () => (
       <Switch>
         <AuthRoute path='/signup' component={SignupFormContainer}/>
         <AuthRoute path='/login' component={LoginFormContainer}/>
-        <Route exact path='/' component={Splash}/>
         <ProtectedRoute path='/route/create' component={RouteCreateContainer}/>
         <Route path='/route/:routeId' component={RouteShowContainer}/>
+        <Route path='/routes' component={RouteIndexContainer}/>
+        <Route path='/' component={Splash}/>
       </Switch>
     </section>
   </div>

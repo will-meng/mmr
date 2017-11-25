@@ -23,7 +23,6 @@ class LoginForm extends React.Component {
 
   demoLogin() {
     $('input').prop('disabled',true);
-    $('a').click(e => e.preventDefault());
     let i = 0;
     $('#email').addClass('focus');
     demoEmail.split('').forEach(ch => 
