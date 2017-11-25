@@ -27,7 +27,7 @@ const receiveRouteErrors = errors => ({
 
 export const requestRoutes = () => dispatch => (
   RouteAPIUtils.fetchRoutes()
-    .then(routes => dispatch(receiveRoutes(routes)))
+    .then(routes => dispatch(receiveRoutes(routes)), console.log)
 );
 
 export const requestRoute = routeId => dispatch => (
@@ -50,5 +50,5 @@ export const updateRoute = routeForm => dispatch => (
 
 export const deleteRoute = routeId => dispatch => (
   RouteAPIUtils.deleteRoute(routeId)
-    .then(route => dispatch(removeRoute(route.id)))
+    .then(route => dispatch(removeRoute(route.id)), console.log)
 );

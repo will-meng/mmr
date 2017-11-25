@@ -17,6 +17,10 @@ const midImage = {
   anchor: new google.maps.Point(8, 8),
 };
 
+const _nullMarker = new google.maps.Marker({
+  // no map specified means not visible
+  position: { lat: 37.773972,lng: -122.431297 } 
+});
 
 class MarkerManager {
   constructor(map, handleClick, handleDrag){
@@ -32,16 +36,10 @@ class MarkerManager {
       map: this.map,
       id: waypoint.id,
       draggable: true,
+      // label: 'Marker ' + waypoint.id
     });
-
-    if (this._markersArr().length === 0) {
-      marker.setIcon(startImage);
-    } else if (this._markersArr().length === 1) {
-      marker.setIcon(endImage);
-    } else {
-      this._lastMarker().setIcon(midImage);
-      marker.setIcon(endImage);
-    }
+    
+    this._lastMarker().setIcon(midImage);
 
     marker.addListener('click', () => {
       this.removeMarker(marker);
@@ -54,12 +52,17 @@ class MarkerManager {
     });
 
     this.markers[marker.id] = marker;
+    this.setMarkerEndpointIcons();
+  }
+
+  createAllMarkers(waypointsObj) {
+    Object.values(waypointsObj).forEach(waypoint => this.createMarker(waypoint));
   }
 
   removeMarker(marker) {
     this.markers[marker.id].setMap(null);
     delete this.markers[marker.id];
-    this._lastMarker().setIcon(endImage);
+    this.setMarkerEndpointIcons();
   }
 
   removeMarkers() {
@@ -71,10 +74,17 @@ class MarkerManager {
     this.removeMarker(this.markers[waypoint.id]);
   }
 
-  _lastMarker() {
-    return this._markersArr()[this._markersArr().length - 1];
+  setMarkerEndpointIcons() {
+    const markersArr = this._markersArr();
+    (markersArr[markersArr.length - 1] || _nullMarker).setIcon(endImage);
+    (markersArr[0] || _nullMarker).setIcon(startImage);
   }
 
+  _lastMarker() {
+    const markersArr = this._markersArr();
+    return markersArr[markersArr.length - 1] || _nullMarker;
+  }
+  
   _markersArr() {
     return Object.values(this.markers);
   }

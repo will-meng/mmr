@@ -51,7 +51,6 @@ class SignupForm extends React.Component {
   }
 
   handleErrors() {
-    console.log(this.props.errors);
     errorFields.forEach(([field, regex]) => {
       if (RegExp(regex).test(this.props.errors)) {
         $(`#${field}`).removeClass("hidden");

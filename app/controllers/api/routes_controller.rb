@@ -25,7 +25,7 @@ class Api::RoutesController < ApplicationController
     end
   end
 
-  def edit
+  def update
     @route = current_user.routes.find_by(id: params[:id])
     if @route
       if @route.update(route_params)

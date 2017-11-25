@@ -47,16 +47,31 @@ class RouteCreate extends React.Component {
   }
 
   componentDidMount() {
-    const map = this.refs.map;
-    this.map = new google.maps.Map(map, mapOptions);
+    this.map = new google.maps.Map(this.refs.map, mapOptions);
     this.service = new google.maps.places.PlacesService(this.map);
     this.directionsDisplay.setMap(this.map);
     this.MarkerManager = new MarkerManager(
       this.map, 
-      this.removeWaypoint.bind(this),
-      this.modifyWaypoint.bind(this)
+      this.removeWaypoint.bind(this), // click handler
+      this.modifyWaypoint.bind(this) // drag-end handler
     );
+    if (this.props.formType === 'edit') {
+      this.props.requestRoute(this.props.routeId)
+        .then(this.loadSavedMap.bind(this));
+    }
     this.registerListeners();
+  }
+
+  loadSavedMap() {
+    const { name, description, distance, city } = this.props.route;
+    const waypointsObj = this.decodeWaypoints(this.props.route.waypoints);
+    this.setState({ waypointsObj, name, description, distance });
+    this.city = city;
+    this.markerIdx = this._waypointIds().length;
+    this.MarkerManager.createAllMarkers(waypointsObj);
+    this.recenterMap();
+    this.calculateAndRenderRoute(this.directionsService, this.directionsDisplay);
+    // console.log(JSON.stringify(waypointsObj));
   }
 
   resetMap() {
@@ -91,6 +106,7 @@ class RouteCreate extends React.Component {
     } else {
       alert(`Maximum of ${this.maxWaypoints} waypoints allowed`);
     }
+    // console.log(JSON.stringify(this.state.waypointsObj));
   }
 
   calculateAndRenderRoute(directionsService, directionsDisplay, addEndpoint = false) {
@@ -116,11 +132,11 @@ class RouteCreate extends React.Component {
         directionsDisplay.setDirections(response);
         if (!this.city)
           this.getCity(response.geocoded_waypoints[0].place_id);
-        const route = response.routes[0];
+        const resRoute = response.routes[0];
         if (addEndpoint)
-          this.addEndpoint(route);
+          this.addEndpoint(resRoute);
         else
-          this.calculateAndSetDistance(route);
+          this.calculateAndSetDistance(resRoute);
       }
     });
   }
@@ -141,8 +157,13 @@ class RouteCreate extends React.Component {
 
   getCity(placeId) {
     this.service.getDetails({placeId}, res => {
-      const city = res.address_components[3].long_name;
-      const state = res.address_components[5].short_name;
+      let city, state;
+      res.address_components.forEach(component => {
+        if (component.types[0] === 'locality')
+          city = component.long_name;
+        if (component.types[0] === 'administrative_area_level_1')
+          state = component.short_name;
+      });
       this.city = city + ', ' + state;
     });
   }
@@ -203,7 +224,7 @@ class RouteCreate extends React.Component {
     e.preventDefault();
     if (this._waypointsArr().length > 1) {
       const routeParams = this.createRouteParams();
-      this.props.createRoute(routeParams)
+      this.props.submitAction(routeParams)
         .then(action => this.props.history.push(`/route/${action.route.id}`));
     } else {
       alert('You must have at least two points on the map to save a route.');
@@ -218,6 +239,8 @@ class RouteCreate extends React.Component {
     this.calculateBounds();
     routeParams.bounds = JSON.stringify(this.bounds);
     routeParams.city = this.city;
+    if (this.props.routeId)
+      routeParams.id = this.props.routeId;
     return routeParams;
   }
 
@@ -238,6 +261,12 @@ class RouteCreate extends React.Component {
   decodeWaypoints(encodedPath) {
     // path is an array of LatLng objects
     const path = google.maps.geometry.encoding.decodePath(encodedPath);
+    const waypointsObj = {};
+    let i = 0;
+    path.forEach(latLng => {
+      waypointsObj[++i] = { id: i, latLng };
+    });
+    return waypointsObj;
   }
 
   _waypointsArr() {

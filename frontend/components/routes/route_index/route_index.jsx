@@ -45,7 +45,7 @@ class RouteIndex extends React.Component {
             </tr></thead>
             <tbody>
               {
-                routes.map(route => (
+                routes.reverse().map(route => (
                 <tr key={route.id}>
                 <td className='thumbnailCell'>
                   <Link to={`/route/${route.id}`}><img src='/'/></Link>
@@ -57,7 +57,7 @@ class RouteIndex extends React.Component {
                 <td><Link to={`/route/${route.id}`}>{route.name}</Link></td>
                 <td nowrap='true'>{route.city}</td>
                 <td>
-                  <Link to={`/routes/edit/${route.id}`}><span>Edit</span></Link>
+                  <Link to={`/route/edit/${route.id}`}><span>Edit</span></Link>
                   <a onClick={() => this.handleDelete(route.id)}>
                     <span>Delete</span>
                   </a>

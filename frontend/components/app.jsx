@@ -18,6 +18,7 @@ const App = () => (
       <Switch>
         <AuthRoute path='/signup' component={SignupFormContainer}/>
         <AuthRoute path='/login' component={LoginFormContainer}/>
+        <ProtectedRoute path='/route/edit/:routeId' component={RouteCreateContainer}/>
         <ProtectedRoute path='/route/create' component={RouteCreateContainer}/>
         <Route path='/route/:routeId' component={RouteShowContainer}/>
         <Route path='/routes' component={RouteIndexContainer}/>
