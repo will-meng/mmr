@@ -1,22 +1,29 @@
 import React from 'react';
 
+const handleErrors = errors => {
+  if (/Name/.test(errors)) {
+    $('#route-name').addClass('error-border');
+    $('.error-msg').removeClass('hidden');
+  }
+};
+
 export default ({ name, description, handleSubmit, update, errors }) => {
-  const errorClass = 'error-msg', hiddenClass='hidden';
-  const nameError = /Name/.test(errors) ? errorClass : hiddenClass;
+  handleErrors(errors);
+
   return (
     <form onSubmit={handleSubmit} className='route-panel'>
       <h3>Route Details</h3>
 
       <div className='route-form'>
         <div>
-          <input type="text"
+          <input type="text" id='route-name'
             onChange={update('name')}
             placeholder='Name this map'
             value = {name}
           />
           <span className="required">*</span>
         </div>
-        <span className={nameError}>A route name is required.</span>
+        <span className='error-msg hidden'>A route name is required.</span>
         
         <input type="text"
           onChange={update('description')}
