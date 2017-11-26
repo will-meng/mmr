@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const RouteIndexItem = ({ route, formatDate, handleDelete }) => (
+const RouteIndexItem = ({ route, formatDate, handleDelete, currentUser }) => (
   <tr>
   <td className='thumbnailCell'>
     {/* TODO remove API key */}
@@ -14,13 +14,22 @@ const RouteIndexItem = ({ route, formatDate, handleDelete }) => (
   <td><span>{route.distance} mi</span></td>
   <td><Link to={`/route/${route.id}`}>{route.name}</Link></td>
   <td nowrap='true'>{route.city}</td>
-  <td>
-    <Link to={`/route/edit/${route.id}`}><span>Edit</span></Link><br/>
-    <a onClick={() => handleDelete(route.id)}>
-      <span>Delete</span>
-    </a>
-  </td>
+  {optionsButtons(route, currentUser, handleDelete)}
   </tr>
 );
+
+const optionsButtons = (route, currentUser, handleDelete) => {
+  if (currentUser && route.creator_id === currentUser.id)
+    return (
+      <td>
+      <Link to={`/route/edit/${route.id}`}><span>Edit</span></Link><br/>
+      <a onClick={() => handleDelete(route.id)}>
+        <span>Delete</span>
+      </a>
+      </td>
+    );
+  else
+    return (<td></td>);
+};
 
 export default RouteIndexItem;

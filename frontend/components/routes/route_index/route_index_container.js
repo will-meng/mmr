@@ -5,7 +5,8 @@ import RouteIndex from './route_index';
 
 const mapStateToProps = (state, ownProps) => {
   return { 
-    routes: Object.values(state.entities.routes)
+    routes: Object.values(state.entities.routes),
+    currentUser: state.session.currentUser
    };
 };
 

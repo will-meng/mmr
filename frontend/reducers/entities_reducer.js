@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux';
 import routesReducer from './routes_reducer';
+import usersReducer from './users_reducer';
 
 const entitiesReducer = combineReducers({
-  routes: routesReducer
+  routes: routesReducer,
+  users: usersReducer
 });
 
 export default entitiesReducer;

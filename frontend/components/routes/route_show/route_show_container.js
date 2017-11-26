@@ -6,13 +6,13 @@ import RouteShow from './route_show';
 const mapStateToProps = (state, ownProps) => {
   const routeId = parseInt(ownProps.match.params.routeId);
   const route = state.entities.routes[routeId];
-  const creator = state.session.currentUser;
-  // let creator = null;
-  // if (route) creator = state.entities.users[route.creator_id];
+  let creator = null;
+  if (route) creator = state.entities.users[route.creator_id];
   return { 
     routeId, 
     route,
-    creator
+    creator,
+    currentUser: state.session.currentUser
    };
 };
 

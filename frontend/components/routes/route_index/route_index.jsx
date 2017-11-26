@@ -20,7 +20,7 @@ class RouteIndex extends React.Component {
   }
 
   render() {
-    const { routes } = this.props;
+    const { routes, currentUser } = this.props;
  
     if (false) // TODO implement loading
       return (<h1>LOADING...</h1>);
@@ -28,7 +28,7 @@ class RouteIndex extends React.Component {
       return ( 
         <div className='route-index-container'>
           <div className='index-title'>
-            <h1>My Routes</h1>  
+            <h1>All Routes</h1>  
             <Link to='/route/create' className='orange-btn button-sq'>
               Create a Route
             </Link>
@@ -50,6 +50,7 @@ class RouteIndex extends React.Component {
                   <RouteIndexItem 
                     key={route.id} 
                     route={route}
+                    currentUser={currentUser}
                     formatDate={this.formatDate.bind(this)}
                     handleDelete={this.handleDelete.bind(this)}
                   />

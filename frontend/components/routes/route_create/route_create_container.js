@@ -8,7 +8,8 @@ const mapStateToProps = (state, ownProps) => {
   return {
     routeId,
     route: state.entities.routes[routeId],
-    errors: state.errors.route
+    errors: state.errors.route,
+    currentUser: state.session.currentUser
   };
 };
 

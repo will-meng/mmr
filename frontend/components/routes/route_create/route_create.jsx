@@ -58,9 +58,15 @@ class RouteCreate extends React.Component {
     );
     if (this.props.formType === 'edit') {
       this.props.requestRoute(this.props.routeId)
+        .then(this.checkUser.bind(this))
         .then(this.loadSavedMap.bind(this));
     }
     this.registerListeners();
+  }
+
+  checkUser() {
+    if (this.props.route.creator_id !== this.props.currentUser)
+      this.props.history.push('/dashboard');
   }
 
   loadSavedMap() {

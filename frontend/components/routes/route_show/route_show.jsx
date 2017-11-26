@@ -5,7 +5,7 @@ import { Link, withRouter } from 'react-router-dom';
 class RouteShow extends React.Component {
   componentDidMount() {
     this.props.requestRoute(this.props.routeId)
-      // .then(() => this.props.requestUser(this.props.route.creator_id))
+      .then(() => this.props.requestUser(this.props.route.creator_id))
       .then(() => this.renderPolyline());
   }
 
@@ -40,7 +40,7 @@ class RouteShow extends React.Component {
   }
 
   render() {
-    const { route, creator } = this.props;
+    const { route, creator, currentUser } = this.props;
     
 
     if (!route || !creator)
@@ -54,7 +54,7 @@ class RouteShow extends React.Component {
               <Link to='/dashboard'>Home <span></span></Link>
             </span>
             <span className='crumb'>
-              <Link to='/routes'>My Routes <span></span></Link>
+              <Link to='/routes'>Routes <span></span></Link>
             </span>
             <span className='crumb'>
               Route Details
@@ -101,12 +101,17 @@ class RouteShow extends React.Component {
               <Link to='/route/create' className='button orange-btn'>
                 Create a Route
               </Link>
-              <Link to={`/route/edit/${route.id}`} className='button'>
-                Edit
-              </Link>
-              <a onClick={e => this.handleDelete(e)} className='button'>
-                Delete
-              </a>
+              { currentUser && creator.id === currentUser.id ? (
+                  <div>
+                  <Link to={`/route/edit/${route.id}`} className='button'>
+                    Edit
+                  </Link>
+                  <a onClick={e => this.handleDelete(e)} className='button'>
+                    Delete
+                  </a>
+                </div>
+                ) : (null)
+              }
             </article>
           </section>
 
