@@ -63,7 +63,7 @@ class RouteCreate extends React.Component {
 
   checkUser() {
     if (this.props.route.creator_id !== this.props.currentUser.id)
-      this.props.history.push(`/user/${this.props.currentUser.id}/dashboard`);
+      this.props.history.push(`/`);
   }
 
   loadSavedMap() {
@@ -75,7 +75,6 @@ class RouteCreate extends React.Component {
     this.MarkerManager.createAllMarkers(waypointsObj);
     this.recenterMap();
     this.calculateAndRenderRoute(this.directionsService, this.directionsDisplay);
-    // console.log(JSON.stringify(waypointsObj));
   }
 
   resetMap() {
@@ -108,7 +107,6 @@ class RouteCreate extends React.Component {
     } else {
       alert(`Maximum of ${this.maxWaypoints} waypoints allowed`);
     }
-    // console.log(JSON.stringify(this.state.waypointsObj));
   }
 
   calculateAndRenderRoute(directionsService, directionsDisplay, addEndpoint = false) {

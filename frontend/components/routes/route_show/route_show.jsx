@@ -58,7 +58,7 @@ class RouteShow extends React.Component {
   handleDelete(e) {
     e.preventDefault();
     this.props.deleteRoute(this.props.routeId)
-      .then(this.props.history.push(`/user/${this.props.currentUser.id}/dashboard`));
+      .then(this.props.history.push(`/`));
   }
 
   render() {
@@ -70,17 +70,22 @@ class RouteShow extends React.Component {
     else {
       return ( 
         <div className='show-container'>
-          <section className='breadcrumbs'>
-            <span className='crumb'>
-              <Link to='/dashboard'>Home <span></span></Link>
-            </span>
-            <span className='crumb'>
-              <Link to='/routes'>Routes <span></span></Link>
-            </span>
-            <span className='crumb'>
-              Route Details
-            </span>
-          </section>
+          { currentUser ? (
+            <section className='breadcrumbs'>
+              <span className='crumb'>
+                <Link to={`/user/${this.props.currentUser.id}/dashboard`}>
+                  Home <span></span>
+                </Link>
+              </span>
+              <span className='crumb'>
+                <Link to='/routes'>Routes <span></span></Link>
+              </span>
+              <span className='crumb'>
+                Route Details
+              </span>
+            </section>
+          ) : (<br/>)
+          }
 
           <header>
               <h1>{route.name}</h1>

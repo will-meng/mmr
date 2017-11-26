@@ -24,8 +24,7 @@ const App = () => (
         <Route path='/route/:routeId' component={RouteShowContainer}/>
         <Route path='/routes' component={RouteIndexContainer}/>
         <Route path='/user/:userId/dashboard' component={RouteIndexContainer}/>
-        <Route path='/user' component={UserDashboard}/> {/* placeholder */}
-        <Route path='/' component={Splash}/>
+        <AuthRoute path='/' component={Splash}/>
       </Switch>
     </section>
   </div>

@@ -58,8 +58,7 @@ class LoginForm extends React.Component {
   login() {
     this.props.login(this.state)
       .then(action => 
-        this.props.history.push(`/user/${action.currentUser.id}/dashboard`
-      ), this.handleErrors.bind(this));
+        this.props.history.push(`/`), this.handleErrors.bind(this));
   }
 
   handleErrors() {

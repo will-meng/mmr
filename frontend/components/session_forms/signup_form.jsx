@@ -47,7 +47,7 @@ class SignupForm extends React.Component {
     this.state.birthday = 
       this.state.year + "/" + this.state.month + "/" + this.state.day;
     this.props.signup(this.state)
-      .then(action => this.props.history.push(`/user/${action.currentUser.id}/dashboard`), 
+      .then(action => this.props.history.push(`/`), 
         this.handleErrors.bind(this));
   }
 
