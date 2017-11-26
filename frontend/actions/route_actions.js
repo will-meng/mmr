@@ -5,9 +5,9 @@ export const RECEIVE_ROUTE = 'RECEIVE_ROUTE';
 export const REMOVE_ROUTE = 'REMOVE_ROUTE';
 export const RECEIVE_ROUTE_ERRORS = 'RECEIVE_ROUTE_ERRORS';
 
-const receiveRoutes = routes => ({
+const receiveRoutes = payload => ({
   type: RECEIVE_ROUTES,
-  routes
+  payload
 });
 
 const receiveRoute = route => ({
@@ -27,6 +27,11 @@ const receiveRouteErrors = errors => ({
 
 export const requestRoutes = () => dispatch => (
   RouteAPIUtils.fetchRoutes()
+    .then(payload => dispatch(receiveRoutes(payload)), console.log)
+);
+
+export const requestUserRoutes = userId => dispatch => (
+  RouteAPIUtils.fetchUserRoutes(userId)
     .then(routes => dispatch(receiveRoutes(routes)), console.log)
 );
 

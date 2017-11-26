@@ -43,7 +43,10 @@ const NavBar = ({ currentUser, logout, path }) => (
           <ul className='routes-submenu nav-dropdown'>
             <li><Link to='/routes'>All Routes</Link></li>
             <li><Link to='/route/create'>Create Route</Link></li>
-            <li><Link to='/dashboard'>My Routes</Link></li>
+            { currentUser ? (
+              <li><Link to={`/user/${currentUser.id}/dashboard`}>My Routes</Link></li>
+              ) : (null)
+            }
           </ul>
         </li>
         <li><a href="#">Challenges</a></li>

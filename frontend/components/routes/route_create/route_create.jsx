@@ -63,7 +63,7 @@ class RouteCreate extends React.Component {
 
   checkUser() {
     if (this.props.route.creator_id !== this.props.currentUser.id)
-      this.props.history.push('/dashboard');
+      this.props.history.push(`/user/${this.props.currentUser.id}/dashboard`);
   }
 
   loadSavedMap() {
@@ -85,8 +85,6 @@ class RouteCreate extends React.Component {
     this.city = null;
     this.setState({
       waypointsObj: {},
-      name: '',
-      description: '',
       distance: 0
     });
   }

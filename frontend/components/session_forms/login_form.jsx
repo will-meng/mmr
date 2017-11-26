@@ -13,6 +13,7 @@ class LoginForm extends React.Component {
       password: ''
     };
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.login = this.login.bind(this);
   }
 
   componentDidMount() {
@@ -34,7 +35,7 @@ class LoginForm extends React.Component {
     setTimeout(() => $('#password').removeClass('focus'), int * i++);
     setTimeout(() => $('input[type=submit]').addClass('fake-hover'), int * i++);
     setTimeout(() => $('input[type=submit]').removeClass('fake-hover'), int * i++);
-    setTimeout(() => this.props.login(this.state), int * ++i);
+    setTimeout(() => this.login(), int * ++i);
   }
 
   resetState() {
@@ -51,8 +52,14 @@ class LoginForm extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
+    this.login();
+  }
+
+  login() {
     this.props.login(this.state)
-      .then(() => this.props.history.push('/dashboard'), this.handleErrors.bind(this));
+      .then(action => 
+        this.props.history.push(`/user/${action.currentUser.id}/dashboard`
+      ), this.handleErrors.bind(this));
   }
 
   handleErrors() {
@@ -61,7 +68,6 @@ class LoginForm extends React.Component {
       $(`#password`).addClass('error-border');
     }
   }
-  
 
   render() {
     return (

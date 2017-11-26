@@ -16,7 +16,7 @@ const defaultDescription = (route, creator) => (
   <span>
     This is a {route.distance} mi route in {route.city}. 
     This route was created by 
-    <Link to={`/user/${route.creator_id}`}> {creatorName(creator)} </Link>
+    <Link to={`/user/${route.creator_id}/dashboard`}> {creatorName(creator)} </Link>
     on {formatDate(route)}.
   </span>
 );
@@ -58,7 +58,7 @@ class RouteShow extends React.Component {
   handleDelete(e) {
     e.preventDefault();
     this.props.deleteRoute(this.props.routeId)
-      .then(this.props.history.push('/routes'));
+      .then(this.props.history.push(`/user/${this.props.currentUser.id}/dashboard`));
   }
 
   render() {
@@ -106,7 +106,7 @@ class RouteShow extends React.Component {
                 <dd style={{marginBottom: '15px'}}>{route.city}</dd>
                 <dt style={{marginBottom: '20px'}}>Created By:</dt>
                 <dd style={{marginBottom: '20px'}}>
-                  <Link to={`/user/${route.creator_id}`}>
+                  <Link to={`/user/${route.creator_id}/dashboard`}>
                     {creatorName(creator)}
                   </Link>
                 </dd>

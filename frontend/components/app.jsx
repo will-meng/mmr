@@ -23,6 +23,7 @@ const App = () => (
         <ProtectedRoute path='/route/create' component={RouteCreateContainer}/>
         <Route path='/route/:routeId' component={RouteShowContainer}/>
         <Route path='/routes' component={RouteIndexContainer}/>
+        <Route path='/user/:userId/dashboard' component={RouteIndexContainer}/>
         <Route path='/user' component={UserDashboard}/> {/* placeholder */}
         <Route path='/' component={Splash}/>
       </Switch>

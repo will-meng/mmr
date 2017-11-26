@@ -8,8 +8,8 @@ const mapStateToProps = (state, ownProps) => ({
   path: ownProps.location.pathname
 });
 
-const mapDispatchToProps = dispatch => ({
-  logout: () => dispatch(logout())
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  logout: () => dispatch(logout()).then(() => ownProps.history.push('/login'))
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(NavBar));

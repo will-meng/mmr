@@ -2,8 +2,16 @@ class Api::RoutesController < ApplicationController
   before_action :require_logged_in, only: [:create, :update, :destroy]
 
   def index
-    # @routes = current_user.routes
-    @routes = Route.all
+    if params[:userId]
+      @user = User.find_by(id: params[:userId])
+      if @user
+        @routes = @user.routes
+      else
+        render json: ['Cannot find that user'], status: 404
+      end
+    else
+      @routes = Route.all
+    end
   end
 
   def show

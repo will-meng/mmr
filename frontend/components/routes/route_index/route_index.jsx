@@ -5,15 +5,45 @@ import formatDate from '../../../utils/route_api_util';
 
 class RouteIndex extends React.Component {
   componentDidMount() {
-    this.props.requestRoutes();
+    this.requestRoutesConditional(this.props.ownerId);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.ownerId !== nextProps.ownerId) {
+      this.requestRoutesConditional(nextProps.ownerId);
+    }
+  }
+
+  requestRoutesConditional(ownerId) {
+    if (ownerId) {
+      this.props.requestUser(ownerId);
+      this.props.requestUserRoutes(ownerId);
+    } else {
+      this.props.requestRoutes();
+    }
   }
 
   handleDelete(routeId) {
     this.props.deleteRoute(routeId);
   }
 
+  titleName(owner, currentUser) {
+    if (owner)
+      if (currentUser && owner.id === currentUser.id )
+        return 'My';
+      else
+        return `${owner.fname} ${owner.lname}'s`;
+    else
+      return 'All';
+  }
+
   render() {
-    const { routes, currentUser } = this.props;
+    const { routesObj, currentUser, owner } = this.props;
+    let filteredRoutes;
+    if (owner && owner.routeIds)
+      filteredRoutes = owner.routeIds.map(routeId => routesObj[routeId]);
+    else
+      filteredRoutes = Object.values(routesObj);
  
     if (false) // TODO implement loading
       return (<h1>LOADING...</h1>);
@@ -21,7 +51,7 @@ class RouteIndex extends React.Component {
       return ( 
         <div className='route-index-container'>
           <div className='index-title'>
-            <h1>All Routes</h1>  
+            <h1>{this.titleName(owner, currentUser)} Routes</h1>  
             <Link to='/route/create' className='orange-btn button-sq'>
               Create a Route
             </Link>
@@ -39,7 +69,7 @@ class RouteIndex extends React.Component {
             </tr></thead>
             <tbody>
               {
-                routes.reverse().map(route => (
+                filteredRoutes.reverse().map(route => (
                   <RouteIndexItem 
                     key={route.id} 
                     route={route}
