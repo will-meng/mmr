@@ -12,7 +12,8 @@ const mapStateToProps = (state, ownProps) => {
     routeId, 
     route,
     creator,
-    currentUser: state.session.currentUser
+    currentUser: state.session.currentUser,
+    loading: state.ui.loading
    };
 };
 

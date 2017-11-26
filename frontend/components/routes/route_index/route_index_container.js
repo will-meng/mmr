@@ -13,7 +13,8 @@ const mapStateToProps = (state, ownProps) => {
     routesObj: state.entities.routes,
     owner: ownerId && state.entities.users[ownerId],
     ownerId,
-    currentUser: state.session.currentUser
+    currentUser: state.session.currentUser,
+    loading: state.ui.loading
    };
 };
 

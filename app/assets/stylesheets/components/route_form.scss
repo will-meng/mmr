@@ -7,7 +7,7 @@
 }
 
 .route-main {
-  display: flex
+  display: flex;
 }
 
 .route-panel {
@@ -155,3 +155,43 @@
   background-position: 0 -389px;
 }
 
+#route-loading-modal {
+  position: absolute;
+  width: 100%;
+  height: calc(100% - 50px);
+  padding-top: 50px;
+  left: 0;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.95);
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.95) 100%);
+  text-align: center;
+  z-index: 100;
+
+  #route-loading-box {
+    background: #fff;
+    border: 8px solid #ddd;
+    display: inline-block;
+    margin: 0 auto;
+    min-height: 211px;
+    padding: 10px;
+    text-align: center;
+    vertical-align: top;
+    width: 400px;
+
+    .please-wait {
+      height: 46px;
+      border-top: 1px solid #CCC;
+      border-bottom: 1px dotted #CCC;
+      padding: 50px 0;
+      margin: 10px 0;
+
+      #route-loading {
+        background: transparent url(http://dxcqr918aoy1x.cloudfront.net/prod/public/images/loaders/preloader_36x36.b3f73fde1450.gif) center center no-repeat;
+        display: block;
+        height: 36px;
+        margin: 0 auto;
+        width: 36px;
+      }
+    }
+  }
+}

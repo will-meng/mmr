@@ -2,6 +2,7 @@ import { createRoute, updateRoute, requestRoute } from '../../../actions/route_a
 import { removeErrors } from '../../../actions/error_actions';
 import { connect } from 'react-redux';
 import RouteCreate from './route_create';
+import { startLoading, stopLoading } from '../../../actions/loading_actions';
 
 const mapStateToProps = (state, ownProps) => {
   const routeId = parseInt(ownProps.match.params.routeId);
@@ -9,7 +10,8 @@ const mapStateToProps = (state, ownProps) => {
     routeId,
     route: state.entities.routes[routeId],
     errors: state.errors.route,
-    currentUser: state.session.currentUser
+    currentUser: state.session.currentUser,
+    loading: state.ui.loading
   };
 };
 
@@ -20,7 +22,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     formType,
     requestRoute: routeId => dispatch(requestRoute(routeId)),
     removeErrors: () => dispatch(removeErrors()),
-    submitAction: route => dispatch(submitAction(route))
+    submitAction: route => dispatch(submitAction(route)),
+    startLoading: () => dispatch(startLoading()),
+    stopLoading: () => dispatch(stopLoading()),
   };
 };
 

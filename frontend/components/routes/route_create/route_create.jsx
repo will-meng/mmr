@@ -4,6 +4,7 @@ import RouteForm from './route_form';
 import RouteOverlay from './route_overlay';
 import { withRouter } from 'react-router-dom';
 import { decodeWaypoints, polylineOptions } from '../../../utils/route_api_util';
+import LoadingModal from '../../loading/loading_modal';
 
 // TODO get user's location
 const mapOptions = {
@@ -53,12 +54,23 @@ class RouteCreate extends React.Component {
       this.removeWaypoint.bind(this), // click handler
       this.modifyWaypoint.bind(this) // drag-end handler
     );
-    if (this.props.formType === 'edit') {
+    this.registerListeners();
+    if (this.props.formType === 'edit') 
       this.props.requestRoute(this.props.routeId)
         .then(this.checkUser.bind(this))
         .then(this.loadSavedMap.bind(this));
-    }
-    this.registerListeners();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.formType !== nextProps.formType)
+      if (nextProps.formType === 'new') {
+        this.setState({ name: '', description: '' });
+        this.resetMap();
+      } else {
+        nextProps.requestRoute(nextProps.routeId)
+          .then(this.checkUser.bind(this))
+          .then(this.loadSavedMap.bind(this));
+      }
   }
 
   checkUser() {
@@ -267,9 +279,10 @@ class RouteCreate extends React.Component {
   }
   
   render() {
-    const { errors, removeErrors } = this.props;
+    const { errors, removeErrors, loading } = this.props;
     const { name, description } = this.state;
     const waypoints = this.state.waypointsObj;
+
     return (
       <div className='route-main'>
         <RouteForm 
@@ -290,6 +303,8 @@ class RouteCreate extends React.Component {
             />
           <div className="map" ref="map"></div>
         </div>
+
+        {loading ? <LoadingModal/> : null }
       </div>
     );
   }

@@ -52,17 +52,21 @@ class SignupForm extends React.Component {
   }
 
   handleErrors() {
+    // First clear all errors
+    errorFields.forEach(([field, regex]) => {
+      $(`#${field}`).addClass("hidden");
+      $(`#${field.slice(0, -1)}`).removeClass("error-border");
+      if (field === "Birthdaye")
+        $(`.${field.slice(0, -1)}`).removeClass("error-border");
+    });
+
+    // Next add errors if they exist (to prevent removing recent error)
     errorFields.forEach(([field, regex]) => {
       if (RegExp(regex).test(this.props.errors)) {
         $(`#${field}`).removeClass("hidden");
         $(`#${field.slice(0, -1)}`).addClass("error-border");
         if (field === "Birthdaye")
           $(`.${field.slice(0, -1)}`).addClass("error-border");
-      } else {
-        $(`#${field}`).addClass("hidden");
-        $(`#${field.slice(0, -1)}`).removeClass("error-border");
-        if (field === "Birthdaye")
-        $(`.${field.slice(0, -1)}`).removeClass("error-border");
       }
     });
   }

@@ -1,4 +1,5 @@
 import * as RouteAPIUtils from '../utils/route_api_util';
+import { startLoading, stopLoading } from './loading_actions';
 
 export const RECEIVE_ROUTES = 'RECEIVE_ROUTES';
 export const RECEIVE_ROUTE = 'RECEIVE_ROUTE';
@@ -25,33 +26,37 @@ const receiveRouteErrors = errors => ({
   errors
 });
 
-export const requestRoutes = () => dispatch => (
-  RouteAPIUtils.fetchRoutes()
-    .then(payload => dispatch(receiveRoutes(payload)), console.log)
-);
+export const requestRoutes = () => dispatch => {
+  dispatch(startLoading());
+  return RouteAPIUtils.fetchRoutes()
+    .then(payload => dispatch(receiveRoutes(payload)), console.log);
+};
 
-export const requestUserRoutes = userId => dispatch => (
-  RouteAPIUtils.fetchUserRoutes(userId)
-    .then(routes => dispatch(receiveRoutes(routes)), console.log)
-);
+export const requestUserRoutes = userId => dispatch => {
+  dispatch(startLoading());
+  return RouteAPIUtils.fetchUserRoutes(userId)
+    .then(routes => dispatch(receiveRoutes(routes)), console.log);
+};
 
-export const requestRoute = routeId => dispatch => (
-  RouteAPIUtils.fetchRoute(routeId)
-    .then(route => dispatch(receiveRoute(route)), console.log)
-      
-);
+export const requestRoute = routeId => dispatch => {
+  dispatch(startLoading());
+  return RouteAPIUtils.fetchRoute(routeId)
+    .then(route => dispatch(receiveRoute(route)), console.log);
+};
 
-export const createRoute = routeForm => dispatch => (
-  RouteAPIUtils.createRoute(routeForm)
+export const createRoute = routeForm => dispatch => {
+  dispatch(startLoading());
+  return RouteAPIUtils.createRoute(routeForm)
     .then(route => dispatch(receiveRoute(route)),
-      errors => dispatch(receiveRouteErrors(errors.responseJSON)))
-);
+      errors => dispatch(receiveRouteErrors(errors.responseJSON)));
+};
 
-export const updateRoute = routeForm => dispatch => (
-  RouteAPIUtils.updateRoute(routeForm)
+export const updateRoute = routeForm => dispatch => {
+  dispatch(startLoading());
+  return RouteAPIUtils.updateRoute(routeForm)
     .then(route => dispatch(receiveRoute(route)),
-      errors => dispatch(receiveRouteErrors(errors.responseJSON)))
-);
+      errors => dispatch(receiveRouteErrors(errors.responseJSON)));
+};
 
 export const deleteRoute = routeId => dispatch => (
   RouteAPIUtils.deleteRoute(routeId)

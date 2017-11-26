@@ -14,7 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
   } else {
     store = configureStore();
   }
-  
 
   // Testing
   window.getState = store.getState;

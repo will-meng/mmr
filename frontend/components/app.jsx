@@ -1,6 +1,6 @@
 import React from 'react';
 import NavBarContainer from './nav_bar/nav_bar_container';
-import { Route, Switch, HashRouter } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import { AuthRoute, ProtectedRoute } from '../utils/route_util';
 
 import SignupFormContainer from './session_forms/signup_form_container';

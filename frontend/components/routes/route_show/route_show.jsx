@@ -7,6 +7,7 @@ import {
   polylineOptions,
   decodeWaypoints 
 } from '../../../utils/route_api_util';
+import LoadingModal from '../../loading/loading_modal';
 
 const creatorName = creator => (
   `${creator.fname} ${creator.lname}`
@@ -62,11 +63,10 @@ class RouteShow extends React.Component {
   }
 
   render() {
-    const { route, creator, currentUser } = this.props;
-    
+    const { route, creator, currentUser, loading } = this.props;
 
-    if (!route || !creator)
-      return (<h1>LOADING...</h1>);
+    if (loading || !route || !creator)
+      return <LoadingModal/>;
     else {
       return ( 
         <div className='show-container'>
