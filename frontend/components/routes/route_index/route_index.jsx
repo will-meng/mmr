@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import RouteIndexItem from './route_index_item';
+import formatDate from '../../../utils/route_api_util';
 
 class RouteIndex extends React.Component {
   componentDidMount() {
@@ -9,14 +10,6 @@ class RouteIndex extends React.Component {
 
   handleDelete(routeId) {
     this.props.deleteRoute(routeId);
-  }
-
-  formatDate(route) {
-    const date = new Date(route.created_at);
-    const year = date.getFullYear();
-    const month = date.getMonth() + 1;
-    const day = date.getDate();
-    return month + '/' + day + '/' + year;
   }
 
   render() {
@@ -51,7 +44,6 @@ class RouteIndex extends React.Component {
                     key={route.id} 
                     route={route}
                     currentUser={currentUser}
-                    formatDate={this.formatDate.bind(this)}
                     handleDelete={this.handleDelete.bind(this)}
                   />
                 ))

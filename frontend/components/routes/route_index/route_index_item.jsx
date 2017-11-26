@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { formatDate } from '../../../utils/route_api_util';
 
-const RouteIndexItem = ({ route, formatDate, handleDelete, currentUser }) => (
+const RouteIndexItem = ({ route, handleDelete, currentUser }) => (
   <tr>
   <td className='thumbnailCell'>
     {/* TODO remove API key */}

@@ -3,6 +3,7 @@ import MarkerManager from '../../../utils/marker_manager';
 import RouteForm from './route_form';
 import RouteOverlay from './route_overlay';
 import { withRouter } from 'react-router-dom';
+import { decodeWaypoints, polylineOptions } from '../../../utils/route_api_util';
 
 // TODO get user's location
 const mapOptions = {
@@ -18,11 +19,7 @@ const _directionsRendererOptions = {
   draggable: false,
   preserveViewport: true,
   suppressMarkers: true,
-  polylineOptions: {
-    strokeWeight: 5,
-    strokeColor: "blue",
-    strokeOpacity: 0.5,
-  }
+  polylineOptions
 };
 
 const btnURL = 'https://d3o6qfi6hwcdhb.cloudfront.net/309c1e1337e4/img/sprite-primary.png';
@@ -65,13 +62,13 @@ class RouteCreate extends React.Component {
   }
 
   checkUser() {
-    if (this.props.route.creator_id !== this.props.currentUser)
+    if (this.props.route.creator_id !== this.props.currentUser.id)
       this.props.history.push('/dashboard');
   }
 
   loadSavedMap() {
     const { name, description, distance, city } = this.props.route;
-    const waypointsObj = this.decodeWaypoints(this.props.route.waypoints);
+    const waypointsObj = decodeWaypoints(this.props.route.waypoints);
     this.setState({ waypointsObj, name, description, distance });
     this.city = city;
     this.markerIdx = this._waypointIds().length;
@@ -263,17 +260,6 @@ class RouteCreate extends React.Component {
   encodePathFromWaypoints() {
     const path = this._waypointsArr().map(wypt => wypt.latLng);
     return google.maps.geometry.encoding.encodePath(path);
-  }
-
-  decodeWaypoints(encodedPath) {
-    // path is an array of LatLng objects
-    const path = google.maps.geometry.encoding.decodePath(encodedPath);
-    const waypointsObj = {};
-    let i = 0;
-    path.forEach(latLng => {
-      waypointsObj[++i] = { id: i, latLng };
-    });
-    return waypointsObj;
   }
 
   _waypointsArr() {

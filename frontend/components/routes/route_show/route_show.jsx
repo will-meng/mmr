@@ -1,6 +1,25 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Link, withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import MarkerManager from '../../../utils/marker_manager';
+import { 
+  formatDate, 
+  polylineOptions,
+  decodeWaypoints 
+} from '../../../utils/route_api_util';
+
+const creatorName = creator => (
+  `${creator.fname} ${creator.lname}`
+);
+
+const defaultDescription = (route, creator) => (
+  <span>
+    This is a {route.distance} mi route in {route.city}. 
+    This route was created by 
+    <Link to={`/user/${route.creator_id}`}> {creatorName(creator)} </Link>
+    on {formatDate(route)}.
+  </span>
+);
 
 class RouteShow extends React.Component {
   componentDidMount() {
@@ -21,16 +40,19 @@ class RouteShow extends React.Component {
     this.map.fitBounds(bounds); // set correct zoom/bounds
     const savedPath = this.decodePolyline();
     savedPath.setMap(this.map);
+    this.createMarkers();
   }
 
   decodePolyline() {
     const polyline = this.props.route.polyline;
     const path = google.maps.geometry.encoding.decodePath(polyline);
-    return new google.maps.Polyline({
-      path,
-      strokeWeight: 4,
-      strokeColor: 'blue'
-    });
+    return new google.maps.Polyline(Object.assign({ path }, polylineOptions));
+  }
+
+  createMarkers() {
+    this.MarkerManager = new MarkerManager(this.map);
+    const waypointsObj = decodeWaypoints(this.props.route.waypoints);
+    this.MarkerManager.createAllMarkers(waypointsObj, true);
   }
 
   handleDelete(e) {
@@ -46,7 +68,6 @@ class RouteShow extends React.Component {
     if (!route || !creator)
       return (<h1>LOADING...</h1>);
     else {
-      const creatorName = `${creator.fname} ${creator.lname}`;
       return ( 
         <div className='show-container'>
           <section className='breadcrumbs'>
@@ -85,12 +106,12 @@ class RouteShow extends React.Component {
                 <dd style={{marginBottom: '15px'}}>{route.city}</dd>
                 <dt style={{marginBottom: '20px'}}>Created By:</dt>
                 <dd style={{marginBottom: '20px'}}>
-                  <Link to={`user/${route.creator_id}/dashboard`}>
-                    {creatorName}
+                  <Link to={`/user/${route.creator_id}`}>
+                    {creatorName(creator)}
                   </Link>
                 </dd>
                 <dt>Description:</dt>
-                <dd>{route.description}</dd>
+                <dd>{route.description || defaultDescription(route, creator)}</dd>
                 <dt>Type:</dt>
                 <dd>Run</dd>
                 </dl>                
@@ -124,4 +145,4 @@ class RouteShow extends React.Component {
   }
 }
 
-export default withRouter(RouteShow);
+export default RouteShow;

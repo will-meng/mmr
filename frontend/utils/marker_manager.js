@@ -55,8 +55,27 @@ class MarkerManager {
     this.setMarkerEndpointIcons();
   }
 
-  createAllMarkers(waypointsObj) {
-    Object.values(waypointsObj).forEach(waypoint => this.createMarker(waypoint));
+  createShowMarker(waypoint) {
+    const marker = new google.maps.Marker({
+      position: waypoint.latLng,
+      map: this.map,
+      id: waypoint.id,
+      draggable: false,
+      clickable: false,
+    });
+
+    this._lastMarker().setIcon(midImage);
+    this.markers[marker.id] = marker;
+    this.setMarkerEndpointIcons();
+  }
+
+  createAllMarkers(waypointsObj, showMode = false) {
+    Object.values(waypointsObj).forEach(waypoint => {
+      if (showMode)
+        this.createShowMarker(waypoint);
+      else
+        this.createMarker(waypoint);
+    });
   }
 
   removeMarker(marker) {

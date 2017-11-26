@@ -1,6 +1,6 @@
 import React from 'react';
 import NavBarContainer from './nav_bar/nav_bar_container';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, HashRouter } from 'react-router-dom';
 import { AuthRoute, ProtectedRoute } from '../utils/route_util';
 
 import SignupFormContainer from './session_forms/signup_form_container';
@@ -9,6 +9,7 @@ import Splash from './splash/splash';
 import RouteCreateContainer from './routes/route_create/route_create_container';
 import RouteShowContainer from './routes/route_show/route_show_container';
 import RouteIndexContainer from './routes/route_index/route_index_container';
+import UserDashboard from './users/user_dashboard';
 
 const App = () => (
   <div>
@@ -22,6 +23,7 @@ const App = () => (
         <ProtectedRoute path='/route/create' component={RouteCreateContainer}/>
         <Route path='/route/:routeId' component={RouteShowContainer}/>
         <Route path='/routes' component={RouteIndexContainer}/>
+        <Route path='/user' component={UserDashboard}/> {/* placeholder */}
         <Route path='/' component={Splash}/>
       </Switch>
     </section>
