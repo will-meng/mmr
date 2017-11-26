@@ -2,7 +2,7 @@ class Api::RoutesController < ApplicationController
   before_action :require_logged_in, only: [:create, :update, :destroy]
 
   def index
-    sleep 2
+    sleep 1
     if params[:userId]
       @user = User.find_by(id: params[:userId])
       if @user
@@ -16,7 +16,7 @@ class Api::RoutesController < ApplicationController
   end
 
   def show
-    sleep 2
+    sleep 1
     @route = Route.find_by(id: params[:id])
     if @route
       render :show
@@ -26,7 +26,7 @@ class Api::RoutesController < ApplicationController
   end
 
   def create
-    sleep 2
+    sleep 1
     @route = Route.new(route_params)
     @route.creator_id = current_user.id
     if @route.save
@@ -37,7 +37,7 @@ class Api::RoutesController < ApplicationController
   end
 
   def update
-    sleep 2
+    sleep 1
     @route = current_user.routes.find_by(id: params[:id])
     if @route
       if @route.update(route_params)
