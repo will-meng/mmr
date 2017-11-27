@@ -32,12 +32,15 @@ const NavBar = ({ currentUser, logout, path }) => (
       </Link>
       <ul className='nav-menu'>
         <li className='nav-training'>
-          <Link to={`/user/${currentUser.id}/workouts`}>Training</Link>
+          <Link to='/workout/create'>Training</Link>
           <ul className='training-submenu nav-dropdown'>
             <li><Link to='/workout/create'>Log Workout</Link></li>
+            { currentUser ? (
             <li>
               <Link to={`/user/${currentUser.id}/workouts`}>My Workouts</Link>
             </li>
+            ) : (null)
+            }
           </ul>
         </li>
         <li className='nav-routes'>

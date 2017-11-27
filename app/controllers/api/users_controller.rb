@@ -28,7 +28,7 @@ class Api::UsersController < ApplicationController
   end
 
   def index
-    @users = User.all
+    @users = User.where("lower(fname) LIKE ?", "%#{params[:query].downcase}%")
   end
 
   private

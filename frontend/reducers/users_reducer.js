@@ -1,4 +1,4 @@
-import { RECEIVE_USER } from '../actions/user_actions';
+import { RECEIVE_USER, RECEIVE_USERS } from '../actions/user_actions';
 import { RECEIVE_ROUTES } from '../actions/route_actions';
 import { RECEIVE_WORKOUTS } from '../actions/workout_actions';
 import merge from 'lodash/merge';
@@ -10,6 +10,8 @@ const usersReducer = (state = {}, action) => {
   switch (action.type) {
     case RECEIVE_USER:
       return merge({}, state, { [action.user.id]: action.user });
+    case RECEIVE_USERS:
+      return merge({}, state, action.payload.users);
     case RECEIVE_WORKOUTS:
       userId = Object.keys(action.payload.user)[0];
       const workoutIds = action.payload.user[userId].workoutIds;

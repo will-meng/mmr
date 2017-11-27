@@ -5,13 +5,13 @@ import { AuthRoute, ProtectedRoute } from '../utils/route_util';
 
 import SignupFormContainer from './session_forms/signup_form_container';
 import LoginFormContainer from './session_forms/login_form_container';
-import UserDashboard from './users/user_dashboard';
 import RouteCreateContainer from './routes/route_create/route_create_container';
 import RouteShowContainer from './routes/route_show/route_show_container';
 import RouteIndexContainer from './routes/route_index/route_index_container';
 import WorkoutFormContainer from './workouts/workout_form/workout_form_container';
 import WorkoutShowContainer from './workouts/workout_show/workout_show_container';
 import WorkoutIndexContainer from './workouts/workout_index/workout_index_container';
+import FriendSearchContainer from './users/friend_search_container';
 import Splash from './splash/splash';
 
 const App = () => (
@@ -31,6 +31,7 @@ const App = () => (
         <ProtectedRoute path='/workout/create' component={WorkoutFormContainer}/>
         <ProtectedRoute path='/workout/:workoutId' component={WorkoutShowContainer}/>
         <ProtectedRoute path='/user/:userId/workouts' component={WorkoutIndexContainer}/>
+        <ProtectedRoute path='/friends/search' component={FriendSearchContainer}/>
         <AuthRoute path='/' component={Splash}/>
       </Switch>
     </section>
