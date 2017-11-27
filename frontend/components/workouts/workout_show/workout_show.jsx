@@ -23,7 +23,9 @@ class WorkoutShow extends React.Component {
   handleDelete(e) {
     e.preventDefault();
     this.props.deleteWorkout(this.props.workoutId)
-      .then(this.props.history.push(`/workouts`));
+      .then(() => 
+        this.props.history.push(`/user/${this.props.currentUser.id}/workouts`)
+      );
   }
 
   _formatDuration(hours, mins, secs) {
@@ -68,7 +70,9 @@ class WorkoutShow extends React.Component {
               </Link>
             </span>
             <span className='crumb'>
-              <Link to='/workouts'>My Workouts <span></span></Link>
+              <Link to={`/user/${currentUser.id}/workouts`}
+                >My Workouts <span></span>
+              </Link>
             </span>
             <span className='crumb'>
               Workout Details

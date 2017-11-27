@@ -58,7 +58,8 @@ export const updateWorkout = workoutForm => dispatch => {
       errors => dispatch(receiveWorkoutErrors(errors.responseJSON)));
 };
 
-export const deleteWorkout = workoutId => dispatch => (
-  WorkoutAPIUtils.deleteWorkout(workoutId)
-    .then(workout => dispatch(removeWorkout(workout.id)), console.log)
-);
+export const deleteWorkout = workoutId => dispatch => {
+  // dispatch(startLoading());
+  return WorkoutAPIUtils.deleteWorkout(workoutId)
+    .then(workout => dispatch(removeWorkout(workout.id)), console.log);
+};

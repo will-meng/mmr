@@ -22,15 +22,15 @@ const App = () => (
       <Switch>
         <AuthRoute path='/signup' component={SignupFormContainer}/>
         <AuthRoute path='/login' component={LoginFormContainer}/>
-        <Route path='/user/:userId/dashboard' component={RouteIndexContainer}/>
+        <Route exact path='/user/:userId/dashboard' component={RouteIndexContainer}/>
         <ProtectedRoute path='/route/edit/:routeId' component={RouteCreateContainer}/>
         <ProtectedRoute path='/route/create' component={RouteCreateContainer}/>
-        <Route path='/route/:routeId' component={RouteShowContainer}/>
-        <Route path='/routes' component={RouteIndexContainer}/>
+        <Route exact path='/route/:routeId' component={RouteShowContainer}/>
+        <Route exact path='/routes' component={RouteIndexContainer}/>
         <ProtectedRoute path='/workout/edit/:workoutId' component={WorkoutFormContainer}/>
         <ProtectedRoute path='/workout/create' component={WorkoutFormContainer}/>
         <ProtectedRoute path='/workout/:workoutId' component={WorkoutShowContainer}/>
-        <Route path='/workouts' component={WorkoutIndexContainer}/>
+        <ProtectedRoute path='/user/:userId/workouts' component={WorkoutIndexContainer}/>
         <AuthRoute path='/' component={Splash}/>
       </Switch>
     </section>

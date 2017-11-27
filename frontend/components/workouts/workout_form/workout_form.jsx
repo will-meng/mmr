@@ -87,7 +87,7 @@ class WorkoutForm extends React.Component {
     if (!workoutParams.hours) workoutParams.hours = 0;
     if (!workoutParams.mins) workoutParams.mins = 0;
     if (!workoutParams.secs) workoutParams.secs = 0;
-    console.log(workoutParams);
+
     this.props.submitAction(workoutParams)
       .then(action => 
         this.props.history.push(`/workout/${action.workout.id}`),

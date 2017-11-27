@@ -2,7 +2,12 @@ class Api::WorkoutsController < ApplicationController
   before_action :require_logged_in, only: [:create, :update, :destroy]
 
   def index
-    @workouts = current_user.workouts
+    @user = User.find_by(id: params[:userId])
+    if @user
+      @workouts = @user.workouts
+    else
+      render json: ['Cannot find that user'], status: 404
+    end
   end
 
   def show

@@ -60,7 +60,7 @@ class RouteShow extends React.Component {
   handleDelete(e) {
     e.preventDefault();
     this.props.deleteRoute(this.props.routeId)
-      .then(this.props.history.push(`/`));
+      .then(() => this.props.history.push(`/`));
   }
 
   render() {
