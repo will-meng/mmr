@@ -10,27 +10,32 @@ export const _todaysDate = () => {
   return year + '-' + month + '-' + day;
 };
 
-const _nullState = props => {
-  const firstRouteId = Object.keys(props.routesObj)[0];
-  return {
+// [field name, regex matcher]
+const errorFields = [
+  ["WNamee", "Name can't be blank"], 
+  ["WRoutee", "Route can't be blank"],
+  ["WDuratione", "Duration can't be blank"]];
+
+const _nullState =  {
     name: '',
     description: '',
     hours: '',
     mins: '',
     secs: '',
     date: _todaysDate(),
-    route_id: firstRouteId
-  };
+    route_id: null
 };
 
 class WorkoutForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = _nullState(props);
+    this.state = _nullState;
+
+    this.requestUserRoutesAndSetRouteId.bind(this);
   }
 
   resetForm() {
-    this.setState(_nullState(this.props));
+    this.setState(_nullState);
   }
 
   componentWillMount() {
@@ -38,7 +43,7 @@ class WorkoutForm extends React.Component {
   }
 
   componentDidMount() {
-    this.props.requestUserRoutes(this.props.currentUser.id);
+    this.requestUserRoutesAndSetRouteId();
     if (this.props.formType === 'edit')
       this.props.requestWorkout(this.props.workoutId);
   }
@@ -47,10 +52,18 @@ class WorkoutForm extends React.Component {
     if (this.props.formType !== nextProps.formType)
       if (nextProps.formType === 'new') {
         this.resetForm();
+        this.requestUserRoutesAndSetRouteId();
       } else {
         nextProps.requestWorkout(nextProps.workoutId)
           .then(this.checkUser.bind(this));
       }
+  }
+
+  requestUserRoutesAndSetRouteId() {
+    this.props.requestUserRoutes(this.props.currentUser.id)
+      .then(() => {
+        this.setState({ route_id: Object.keys(this.props.routesObj)[0] });
+    });
   }
 
   checkUser() {
@@ -60,19 +73,41 @@ class WorkoutForm extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    console.log(this.state);
-    this.props.submitAction(this.state);
+    const workoutParams = Object.assign({}, this.state);
+    if (!workoutParams.hours) workoutParams.hours = 0;
+    if (!workoutParams.mins) workoutParams.mins = 0;
+    if (!workoutParams.secs) workoutParams.secs = 0;
+    console.log(workoutParams);
+    this.props.submitAction(workoutParams)
+      .then(console.log, this.handleErrors.bind(this));
       // .then(action => this.props.history.push(`/workout/${action.workout.id}`));
   }
 
   update(field) {
     return e => this.setState({[field]: e.currentTarget.value});
   }
+
+  handleErrors() {
+    errorFields.forEach(([field, regex]) => {
+      if (RegExp(regex).test(this.props.errors)) {
+        $(`#${field}`).removeClass("hidden");
+        $(`#${field.slice(0, -1)}`).addClass("error-border");
+        if (field === "WDuratione")
+          $(`.${field.slice(0, -1)}`).addClass("error-border");
+      } else {
+        $(`#${field}`).addClass("hidden");
+        $(`#${field.slice(0, -1)}`).removeClass("error-border");
+        if (field === "WDuratione")
+          $(`.${field.slice(0, -1)}`).removeClass("error-border");
+      }
+    });
+  }
   
   render() {
     const { errors, removeErrors, loading, currentUser, routesObj } = this.props;
     const selectedRoute = routesObj[this.state.route_id];
     const distance = selectedRoute && selectedRoute.distance;
+
     return (
       <div className='workout-main'>
         <header> 
@@ -84,16 +119,18 @@ class WorkoutForm extends React.Component {
             <div className='workout-row'>
               <div className='workout-name-group workout-col'>
                 <span>Workout name<span className="required"> *</span></span>
-                <input type="text" id='workout-name'
+                <input type="text" id='WName'
                   onChange={this.update('name')}
                   value = {this.state.name}
                 />
-                <span className='error-msg hidden'>A workout name is required.</span>
+                <span className='error-msg hidden' id='WNamee'>
+                  A workout name is required.
+                </span>
               </div>
 
               <div className='workout-date-group workout-col'>
                 <span>Date<span className="required"> *</span></span>
-                <input type="date" id='workout-date'
+                <input type="date"
                   onChange={this.update('date')}
                   value={this.state.date}
                 />
@@ -115,14 +152,16 @@ class WorkoutForm extends React.Component {
               <div className='workout-row'>
                 <div className='workout-col'>
                   <span>Route<span className="required"> *</span></span>
-                  <select onChange={this.update('route_id')}>
+                  <select onChange={this.update('route_id')} id='WRoute'>
                     {
                       Object.values(routesObj).map(route => 
                         <option key={route.id} value={route.id}>{route.name}</option>
                       )
                     }
                   </select>
-                  <span className='error-msg hidden'>A route is required.</span>
+                  <span className='error-msg hidden' id='WRoutee'>
+                    A route is required.
+                  </span>
                 </div>
               </div>
             </div>
@@ -131,7 +170,8 @@ class WorkoutForm extends React.Component {
               <span>Duration<span className="required"> *</span></span>
               <div className='workout-row'>
                 <div className='workout-col workout-duration'>
-                  <input type="number" className='workout-duration-input'
+                  <input type="number" 
+                    className='workout-duration-input WDuration'
                     onChange={this.update('hours')}
                     placeholder='hh'
                     value={this.state.hours}
@@ -140,7 +180,8 @@ class WorkoutForm extends React.Component {
                 </div>
                 <span> : </span>
                 <div className='workout-col workout-duration'>
-                  <input type="number" className='workout-duration-input'
+                  <input type="number"
+                    className='workout-duration-input WDuration'
                     onChange={this.update('mins')}
                     placeholder='mm'
                     value={this.state.mins}
@@ -149,7 +190,8 @@ class WorkoutForm extends React.Component {
                 </div>
                 <span> : </span>
                 <div className='workout-col workout-duration'>
-                  <input type="number" className='workout-duration-input'
+                  <input type="number"
+                    className='workout-duration-input WDuration'
                     onChange={this.update('secs')}
                     placeholder='ss'
                     value={this.state.secs}
@@ -157,7 +199,9 @@ class WorkoutForm extends React.Component {
                   />
                 </div>
               </div>
-              <p className='error-msg hidden'>A duration is required.</p>
+              <p className='error-msg hidden' id='WDuratione'>
+                A duration is required.
+              </p>
             </div>
 
             <div className='workout-bottom-row'>

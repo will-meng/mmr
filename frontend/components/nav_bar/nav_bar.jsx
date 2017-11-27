@@ -34,8 +34,8 @@ const NavBar = ({ currentUser, logout, path }) => (
         <li className='nav-training'>
           <Link to='/workouts'>Training</Link>
           <ul className='training-submenu nav-dropdown'>
-            <li><Link to='/workouts'>Workouts</Link></li>
             <li><Link to='/workout/create'>Log Workout</Link></li>
+            <li><Link to='/workouts'>My Workouts</Link></li>
           </ul>
         </li>
         <li className='nav-routes'>
