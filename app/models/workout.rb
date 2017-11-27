@@ -3,6 +3,7 @@ class Workout < ApplicationRecord
   validate :duration_is_valid
 
   belongs_to :user
+  belongs_to :route
 
   def duration_is_valid
     self.errors[:duration] << "can't be blank" if hours + mins + secs <= 0

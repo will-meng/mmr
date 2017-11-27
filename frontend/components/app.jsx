@@ -10,6 +10,8 @@ import RouteCreateContainer from './routes/route_create/route_create_container';
 import RouteShowContainer from './routes/route_show/route_show_container';
 import RouteIndexContainer from './routes/route_index/route_index_container';
 import WorkoutFormContainer from './workouts/workout_form/workout_form_container';
+import WorkoutShowContainer from './workouts/workout_show/workout_show_container';
+import WorkoutIndexContainer from './workouts/workout_index/workout_index_container';
 import Splash from './splash/splash';
 
 const App = () => (
@@ -27,8 +29,8 @@ const App = () => (
         <Route path='/routes' component={RouteIndexContainer}/>
         <ProtectedRoute path='/workout/edit/:workoutId' component={WorkoutFormContainer}/>
         <ProtectedRoute path='/workout/create' component={WorkoutFormContainer}/>
-        {/* <Route path='/workout/:workoutId' component={WorkoutShowContainer}/>
-        <Route path='/workouts' component={WorkoutIndexContainer}/> */}
+        <ProtectedRoute path='/workout/:workoutId' component={WorkoutShowContainer}/>
+        <Route path='/workouts' component={WorkoutIndexContainer}/>
         <AuthRoute path='/' component={Splash}/>
       </Switch>
     </section>

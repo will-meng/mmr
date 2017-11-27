@@ -1,0 +1,114 @@
+.workout-container {
+  width: 625px;
+  margin: 0 auto 20px;
+
+  .breadcrumbs {
+    padding: 16px 0 6px;
+
+    .crumb {
+      display: inline-block;
+      font-size: 12px;
+      color: #8c8c8c;
+      margin-right: 10px;
+
+      a {
+        color: #0083d5;
+        font-weight: normal;
+        
+        span {
+          width: 0;
+          height: 0;
+          border-top: 5px solid transparent;
+          border-bottom: 5px solid transparent;
+          border-left: 5px solid #e4e4e4;
+          display: inline-block;
+          position: relative;
+          top: 1px;
+          left: 3px;
+        }
+      }
+    }
+  }
+
+  .workout-overview {
+    display: flex;
+    flex-direction: column;
+    padding: 10px 15px 0;
+    border: 1px solid #c3c2c2;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+    text-transform: uppercase;
+    background: linear-gradient(to bottom, #f5f5f5 0%, #fcfcfc 100%);
+
+    > h2 {
+      height: 36px;
+      overflow: hidden;
+    }
+
+    > p {
+      padding-top: 5px;
+      text-transform: none;
+    }
+
+    > span {
+      padding-top: 5px;
+      text-transform: none;
+
+      a {
+        color: #2f98d9;
+        text-transform: uppercase;
+      }
+    }
+
+    .stats-summary {
+      display: flex;
+      height: 60px;
+      padding-top: 10px;
+
+      .stat-col {
+        text-align: left;
+        float: left;
+        width: 25%;
+        color: #323232;
+        padding: 0 2px;
+
+        > p {
+          margin-bottom: 6px;
+          color: #999999;
+        }
+
+        > span {
+          font-size: 22px;
+          color: #444;
+
+          > span {
+            font-size: 12px;
+            color: #999;
+            text-transform: none;
+          }
+        }
+      }
+    }
+  }
+
+  .workout-show-buttons {
+    display: flex;
+    padding: 10px 15px;
+    margin-bottom: 20px;
+    background: linear-gradient(to bottom, #f5f5f5 0%, #fcfcfc 100%);
+    border: 1px solid #c3c2c2;
+    border-top: 0;
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
+
+    a.button {
+      font-size: 14px;
+      font-weight: bold;
+      margin-right: 10px;
+    }
+  }
+
+  > a img {
+    border: 1px solid #c3c2c2;
+  }
+}

@@ -45,7 +45,9 @@ class WorkoutForm extends React.Component {
   componentDidMount() {
     this.requestUserRoutesAndSetRouteId();
     if (this.props.formType === 'edit')
-      this.props.requestWorkout(this.props.workoutId);
+      this.props.requestWorkout(this.props.workoutId)
+        .then(this.checkUser.bind(this))
+        .then(this.loadState.bind(this));
   }
 
   componentWillReceiveProps(nextProps) {
@@ -55,7 +57,8 @@ class WorkoutForm extends React.Component {
         this.requestUserRoutesAndSetRouteId();
       } else {
         nextProps.requestWorkout(nextProps.workoutId)
-          .then(this.checkUser.bind(this));
+          .then(this.checkUser.bind(this))
+          .then(this.loadState.bind(this));
       }
   }
 
@@ -71,6 +74,13 @@ class WorkoutForm extends React.Component {
       this.props.history.push(`/`);
   }
 
+  loadState() {
+    const newState = Object.assign({}, this.props.workout);
+    delete newState.polyline;
+    delete newState.distance;
+    this.setState(newState);
+  }
+
   handleSubmit(e) {
     e.preventDefault();
     const workoutParams = Object.assign({}, this.state);
@@ -79,8 +89,9 @@ class WorkoutForm extends React.Component {
     if (!workoutParams.secs) workoutParams.secs = 0;
     console.log(workoutParams);
     this.props.submitAction(workoutParams)
-      .then(console.log, this.handleErrors.bind(this));
-      // .then(action => this.props.history.push(`/workout/${action.workout.id}`));
+      .then(action => 
+        this.props.history.push(`/workout/${action.workout.id}`),
+        this.handleErrors.bind(this));
   }
 
   update(field) {

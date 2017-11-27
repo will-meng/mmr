@@ -32,6 +32,7 @@ class RouteShow extends React.Component {
   componentWillReceiveProps(nextProps) {
     if(this.props.routeId !== nextProps.routeId)
       this.props.requestRoute(nextProps.routeId)
+        .then(() => this.props.requestUser(nextProps.route.creator_id))
         .then(() => this.renderPolyline());
   }
 
