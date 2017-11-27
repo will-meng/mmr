@@ -4,5 +4,6 @@ Rails.application.routes.draw do
     resources :users, only: %i[index show create update]
     resource :session, only: %i[create destroy]
     resources :routes, only: %i[index show create update destroy]
+    resources :workouts, only: %i[index show create update destroy]
   end
 end

@@ -13,11 +13,14 @@ const mapStateToProps = (state, ownProps) => {
   const currentUser = state.session.currentUser;
   const user = state.entities.users[currentUser.id];
   const routeIds = (user && user.routeIds) || [];
-  const routes = routeIds.map(routeId => state.entities.routes[routeId]);
+  const routesObj = {};
+  routeIds.forEach(routeId => {
+    routesObj[routeId] = state.entities.routes[routeId];
+  });
   return {
     workoutId,
     workout: state.entities.workouts[workoutId],
-    routes,
+    routesObj,
     errors: state.errors.workout,
     currentUser,
     loading: state.ui.loading

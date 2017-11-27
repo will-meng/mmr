@@ -10,27 +10,27 @@ export const _todaysDate = () => {
   return year + '-' + month + '-' + day;
 };
 
-const _nullState = {
-  name: '',
-  description: '',
-  hours: '',
-  mins: '',
-  secs: '',
-  date: _todaysDate(),
-  distance: '',
-  routeId: null
+const _nullState = props => {
+  const firstRouteId = Object.keys(props.routesObj)[0];
+  return {
+    name: '',
+    description: '',
+    hours: '',
+    mins: '',
+    secs: '',
+    date: _todaysDate(),
+    route_id: firstRouteId
+  };
 };
 
 class WorkoutForm extends React.Component {
-
   constructor(props) {
     super(props);
-    this.state = _nullState;
-    console.log(this.state);
+    this.state = _nullState(props);
   }
 
   resetForm() {
-    this.setState(_nullState);
+    this.setState(_nullState(this.props));
   }
 
   componentWillMount() {
@@ -61,10 +61,8 @@ class WorkoutForm extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
     console.log(this.state);
-
-    // const routeParams = ;
-    // this.props.submitAction(routeParams)
-    //   .then(action => this.props.history.push(`/workout/${action.workout.id}`));
+    this.props.submitAction(this.state);
+      // .then(action => this.props.history.push(`/workout/${action.workout.id}`));
   }
 
   update(field) {
@@ -72,8 +70,9 @@ class WorkoutForm extends React.Component {
   }
   
   render() {
-    const { errors, removeErrors, loading, currentUser, routes } = this.props;
-
+    const { errors, removeErrors, loading, currentUser, routesObj } = this.props;
+    const selectedRoute = routesObj[this.state.route_id];
+    const distance = selectedRoute && selectedRoute.distance;
     return (
       <div className='workout-main'>
         <header> 
@@ -116,9 +115,9 @@ class WorkoutForm extends React.Component {
               <div className='workout-row'>
                 <div className='workout-col'>
                   <span>Route<span className="required"> *</span></span>
-                  <select onChange={this.update('routeId')}>
+                  <select onChange={this.update('route_id')}>
                     {
-                      routes.map(route => 
+                      Object.values(routesObj).map(route => 
                         <option key={route.id} value={route.id}>{route.name}</option>
                       )
                     }
@@ -162,15 +161,10 @@ class WorkoutForm extends React.Component {
             </div>
 
             <div className='workout-bottom-row'>
-              <span>Distance<span className="required"> *</span></span>
+              <span>Distance</span>
               <div className='workout-row'>
                 <div className='workout-col workout-distance'>
-                  <input type="number" className='workout-distance-input'
-                    onChange={this.update('distance')}
-                    value = {this.state.distance}
-                    min='0' maxLength='4'
-                  />
-                  <p className='error-msg hidden'>A distance is required.</p>
+                  <span className='workout-distance-input'>{distance}</span>
                 </div>
                 <span>mi</span>
               </div>

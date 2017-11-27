@@ -66,7 +66,7 @@
         margin-bottom: 10px;
       }
 
-      input, textarea, select {
+      input, textarea, select, .workout-distance-input {
         display: block;
         box-sizing: border-box;
         width: 100%;
@@ -84,11 +84,7 @@
       textarea {
         height: auto;
         resize: vertical;
-      }
-
-      
-
-      
+      } 
     }
 
     .workout-bottom {
@@ -116,13 +112,14 @@
         .workout-duration, .workout-distance {
           flex-basis: auto;
 
-          .workout-duration-input, .workout-distance-input {
+          .workout-duration-input {
             width: 85px;
           }
         }
 
-        .workout-distance {
-
+        .workout-distance-input {
+          width: 85px;
+          font-weight: normal;
         }
       }
     }
