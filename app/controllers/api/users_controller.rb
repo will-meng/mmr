@@ -1,4 +1,5 @@
 class Api::UsersController < ApplicationController
+
   def create
     @user = User.new(user_params)
     if @user.save
@@ -28,8 +29,11 @@ class Api::UsersController < ApplicationController
   end
 
   def index
-    @users = User.where("lower(fname) LIKE ?", "%#{params[:query].downcase}%")
-      .where.not(id: current_user.id)
+    # For user search functionality
+    matcher = "%#{params[:query].downcase}%"
+    @users = User.where.not(id: current_user.id)
+      .where("lower(fname) LIKE ? OR lower(lname) LIKE ? OR lower(email) LIKE ?", 
+              matcher, matcher, matcher) 
   end
 
   private
