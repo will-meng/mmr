@@ -29,6 +29,7 @@ class Api::UsersController < ApplicationController
 
   def index
     @users = User.where("lower(fname) LIKE ?", "%#{params[:query].downcase}%")
+      .where.not(id: current_user.id)
   end
 
   private

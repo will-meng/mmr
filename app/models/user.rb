@@ -7,6 +7,34 @@ class User < ApplicationRecord
 
   has_many :routes, foreign_key: :creator_id
   has_many :workouts
+  has_many :requested_friendships, 
+    foreign_key: :requestor_id, 
+    class_name: :Friendship
+  has_many :pending_friendships, 
+    foreign_key: :requestee_id, 
+    class_name: :Friendship
+  has_many :requested_friends,
+    through: :requested_friendships
+  has_many :pending_friends,
+    through: :pending_friendships
+
+  def confirmed_friends
+    requested_friends.where(friendships: { confirmed: true }) |
+    pending_friends.where(friendships: { confirmed: true })
+  end
+
+  def unconfirmed_pending_friendships
+    self.pending_friendships.where(friendships: { confirmed: false })
+  end
+
+  def unconfirmed_requested_friendships
+    self.requested_friendships.where(friendships: { confirmed: false })
+  end
+
+  def all_friends
+    # confirmed and unconfirmed
+    requested_friends | pending_friends
+  end
 
   def self.find_by_credentials(email, password)
     user = User.find_by(email: email)

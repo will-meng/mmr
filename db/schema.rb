@@ -10,11 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171127171215) do
+ActiveRecord::Schema.define(version: 20171127230436) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "hstore"
+
+  create_table "friendships", force: :cascade do |t|
+    t.integer "requestor_id", null: false
+    t.integer "requestee_id", null: false
+    t.boolean "confirmed", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["requestee_id"], name: "index_friendships_on_requestee_id"
+    t.index ["requestor_id", "requestee_id"], name: "index_friendships_on_requestor_id_and_requestee_id", unique: true
+  end
 
   create_table "routes", force: :cascade do |t|
     t.string "name", null: false

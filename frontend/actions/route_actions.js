@@ -1,5 +1,5 @@
 import * as RouteAPIUtils from '../utils/route_api_util';
-import { startLoading, stopLoading } from './loading_actions';
+import { startLoading } from './loading_actions';
 
 export const RECEIVE_ROUTES = 'RECEIVE_ROUTES';
 export const RECEIVE_ROUTE = 'RECEIVE_ROUTE';
@@ -58,7 +58,8 @@ export const updateRoute = routeForm => dispatch => {
       errors => dispatch(receiveRouteErrors(errors.responseJSON)));
 };
 
-export const deleteRoute = routeId => dispatch => (
-  RouteAPIUtils.deleteRoute(routeId)
-    .then(route => dispatch(removeRoute(route.id)), console.log)
-);
+export const deleteRoute = routeId => dispatch => {
+  dispatch(startLoading());
+  return RouteAPIUtils.deleteRoute(routeId)
+    .then(route => dispatch(removeRoute(route.id)), console.log);
+};

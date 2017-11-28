@@ -1,8 +1,4 @@
-import { 
-  requestUserWorkouts,
-  deleteWorkout 
-} from '../../../actions/workout_actions';
-import { requestUser } from '../../../actions/user_actions';
+import { requestUserWorkouts } from '../../../actions/workout_actions';
 import { connect } from 'react-redux';
 import WorkoutIndex from './workout_index';
 
@@ -25,9 +21,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    requestUserWorkouts: userId => dispatch(requestUserWorkouts(userId)),
-    deleteWorkout: workoutId => dispatch(deleteWorkout(workoutId)),
-    requestUser: userId => dispatch(requestUser(userId))
+    requestUserWorkouts: userId => dispatch(requestUserWorkouts(userId))
   };
 };
 

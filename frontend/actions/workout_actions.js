@@ -1,5 +1,5 @@
 import * as WorkoutAPIUtils from '../utils/workout_apil_util';
-import { startLoading, stopLoading } from './loading_actions';
+import { startLoading } from './loading_actions';
 
 export const RECEIVE_WORKOUTS = 'RECEIVE_WORKOUTS';
 export const RECEIVE_WORKOUT = 'RECEIVE_WORKOUT';
@@ -25,12 +25,6 @@ const receiveWorkoutErrors = errors => ({
   type: RECEIVE_WORKOUT_ERRORS,
   errors
 });
-
-export const requestWorkouts = () => dispatch => {
-  dispatch(startLoading());
-  return WorkoutAPIUtils.fetchWorkouts()
-    .then(payload => dispatch(receiveWorkouts(payload)), console.log);
-};
 
 export const requestUserWorkouts = userId => dispatch => {
   dispatch(startLoading());
@@ -59,7 +53,7 @@ export const updateWorkout = workoutForm => dispatch => {
 };
 
 export const deleteWorkout = workoutId => dispatch => {
-  // dispatch(startLoading());
+  dispatch(startLoading());
   return WorkoutAPIUtils.deleteWorkout(workoutId)
     .then(workout => dispatch(removeWorkout(workout.id)), console.log);
 };
