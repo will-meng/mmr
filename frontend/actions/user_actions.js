@@ -21,7 +21,7 @@ export const requestUser = userId => dispatch => (
 );
 
 export const searchUsers = query => dispatch => {
-  dispatch(startLoading());
+  // dispatch(startLoading());
   return UserAPIUtils.searchUsers(query)
     .then(payload => dispatch(receiveUsers(payload)), console.log);
 };

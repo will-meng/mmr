@@ -1,5 +1,6 @@
-import { requestFriends } from '../../actions/user_actions';
-import { 
+import { searchUsers, requestFriends } from '../../actions/user_actions';
+import {
+  requestFriendship,
   confirmFriendship,
   deleteFriendship 
 } from '../../actions/friendship_actions';
@@ -16,11 +17,18 @@ const mapStateToProps = (state, ownProps) => {
   inRequests.forEach(id => {friendlyUsers[id] = allUsers[id];});
   outRequests.forEach(id => {friendlyUsers[id] = allUsers[id];});
 
+  const searchResultIds = state.session.currentUser.searchResultIds || [];
+  const searchResults = searchResultIds.map(userId => 
+    state.entities.users[userId]
+  );
+
   return { 
     friendIds, 
     inRequests, 
     outRequests,
     friendlyUsers,
+    searchResults,
+    formType: ownProps.match.path === '/friends' ? 'my-friends' : 'find-friends',
     loading: state.ui.loading 
   };
 };
@@ -28,7 +36,9 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
 
   return {
+    searchUsers: query => dispatch(searchUsers(query)),
     requestFriends: () => dispatch(requestFriends()),
+    requestFriendship: requesteeId => dispatch(requestFriendship(requesteeId)),
     confirmFriendship: requestorId => dispatch(confirmFriendship(requestorId)),
     deleteFriendship: friendId => dispatch(deleteFriendship(friendId)),
   };
