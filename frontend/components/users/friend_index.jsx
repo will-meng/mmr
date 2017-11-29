@@ -8,7 +8,7 @@ class FriendIndex extends React.Component {
     super(props);
     this.state = { query: '' };
 
-    this.handleSubmit = this.handleSubmit.bind(this);
+    // this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
@@ -27,13 +27,17 @@ class FriendIndex extends React.Component {
     this.props.deleteFriendship(friendId);
   }
 
-  handleSubmit(e) {
-    e.preventDefault();
-    this.props.searchUsers(this.state.query);
-  }
+  // handleSubmit(e) {
+  //   e.preventDefault();
+  //   this.props.searchUsers(this.state.query);
+  // }
 
   update(field) {
-    return e => this.setState({[field]: e.currentTarget.value});
+    return e => {
+      this.setState({[field]: e.currentTarget.value},
+        () => this.props.searchUsers(this.state.query)
+      );
+    };
   }
 
   render() {
@@ -114,13 +118,9 @@ class FriendIndex extends React.Component {
             <h3>FIND MAPMYFITNESS FRIENDS BY FIRST NAME, LAST NAME, OR EMAIL:</h3>
             <div className='friend-search-container'>
               <input type="text" 
-                className=''
                 onChange={this.update('query')}
                 value={this.state.query}
               />
-              <a className='orange-btn button' onClick={this.handleSubmit}>
-                Search
-              </a>
             </div>
 
             <div className='friend-category'>
