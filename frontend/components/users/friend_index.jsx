@@ -36,22 +36,6 @@ class FriendIndex extends React.Component {
     return e => this.setState({[field]: e.currentTarget.value});
   }
 
-  friendButtons(userId) {
-    if (this.props.friendIds.includes(userId))
-      return <button onClick={() => this.handleDelete(userId)}>Unfriend</button>;
-    else if (this.props.outRequests.includes(userId))
-      return <button onClick={() => this.handleDelete(userId)}>Cancel</button>;
-    else if (this.props.inRequests.includes(userId))
-      return (
-        <div>
-          <button onClick={() => this.handleConfirm(userId)}>Accept</button>
-          <button onClick={() => this.handleDelete(userId)}>Deny</button>
-        </div>
-      );
-    else
-      return <button onClick={() => this.handleAdd(userId)}>Add</button>;
-  }
-
   render() {
     const { friendIds, inRequests, outRequests, friendlyUsers, loading, formType, searchResults } = this.props;
     const myFriends = formType === 'my-friends' ? 'current-tab' : '';
@@ -80,6 +64,7 @@ class FriendIndex extends React.Component {
                 {
                   inRequests.map(userId => 
                     <FriendIndexItem key={userId} addClass=''
+                      formType={formType}
                       deleteName='Deny'
                       user={friendlyUsers[userId]}
                       handleConfirm={this.handleConfirm.bind(this)}
@@ -96,6 +81,7 @@ class FriendIndex extends React.Component {
                   {
                     friendIds.map(userId => 
                       <FriendIndexItem key={userId} addClass='half-width'
+                        formType={formType}
                         deleteName='Unfriend'
                         user={friendlyUsers[userId]}
                         handleConfirm={this.handleConfirm.bind(this)}
@@ -112,6 +98,7 @@ class FriendIndex extends React.Component {
                 {
                   outRequests.map(userId => 
                     <FriendIndexItem key={userId} addClass='half-width'
+                      formType={formType}
                       deleteName='Cancel'
                       user={friendlyUsers[userId]}
                       handleConfirm={this.handleConfirm.bind(this)}
@@ -125,14 +112,18 @@ class FriendIndex extends React.Component {
             :
           (<div className='find-friends'>
             <h3>FIND MAPMYFITNESS FRIENDS BY FIRST NAME, LAST NAME, OR EMAIL:</h3>
-            <div className='friend-category'>
+            <div className='friend-search-container'>
               <input type="text" 
                 className=''
                 onChange={this.update('query')}
                 value={this.state.query}
               />
-              <button onClick={this.handleSubmit}>Search</button>
+              <a className='orange-btn button' onClick={this.handleSubmit}>
+                Search
+              </a>
+            </div>
 
+            <div className='friend-category'>
               <ul>
                 {
                   searchResults.map(user =>
@@ -143,6 +134,9 @@ class FriendIndex extends React.Component {
                       handleAdd={this.handleAdd.bind(this)}
                       handleConfirm={this.handleConfirm.bind(this)}
                       handleDelete={this.handleDelete.bind(this)}
+                      inRequests={inRequests}
+                      outRequests={outRequests}
+                      friendIds={friendIds}
                     />
                   )
                 }
