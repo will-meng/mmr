@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import LoadingModal from '../../loading/loading_modal';
+import CommentIndexContainer from '../../comments/comment_index_container';
 
 const creatorName = creator => (
   `${creator.fname} ${creator.lname}`
@@ -130,6 +131,8 @@ class WorkoutShow extends React.Component {
           <Link to={`/route/${workout.route_id}`}>
             <img src={`https://maps.googleapis.com/maps/api/staticmap?size=625x350&path=weight:5%7Ccolor:0xff000077%7Cenc:${workout.polyline}&key=AIzaSyAHw5c9iH76L8mG_YOoFdNb12Nbt6_l0Yo`}/>
           </Link>
+
+          <CommentIndexContainer workoutId={workout.id}/>
         </div>
       );
     }

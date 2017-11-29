@@ -7,7 +7,7 @@ json.routes do
 end
 
 if @user
-  json.user do
+  json.users do
     json.set! @user.id do
       json.routeIds @routes.pluck(:id)
     end

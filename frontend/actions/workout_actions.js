@@ -1,4 +1,4 @@
-import * as WorkoutAPIUtils from '../utils/workout_apil_util';
+import * as WorkoutAPIUtils from '../utils/workout_api_util';
 import { startLoading } from './loading_actions';
 
 export const RECEIVE_WORKOUTS = 'RECEIVE_WORKOUTS';
@@ -11,9 +11,9 @@ const receiveWorkouts = payload => ({
   payload
 });
 
-const receiveWorkout = workout => ({
+const receiveWorkout = payload => ({
   type: RECEIVE_WORKOUT,
-  workout
+  payload
 });
 
 const removeWorkout = workoutId => ({

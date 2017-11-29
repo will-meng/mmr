@@ -11,6 +11,11 @@ import {
   REMOVE_WORKOUT,
   RECEIVE_WORKOUT_ERRORS 
 } from '../actions/workout_actions';
+import { 
+  RECEIVE_COMMENT,
+  REMOVE_COMMENT,
+  RECEIVE_COMMENT_ERRORS 
+} from '../actions/comment_actions';
 import { RECEIVE_USERS } from '../actions/user_actions';
 
 const loadingReducer = (state = false, action) => {
@@ -27,6 +32,9 @@ const loadingReducer = (state = false, action) => {
     case REMOVE_WORKOUT:
     case RECEIVE_WORKOUT_ERRORS:
     case RECEIVE_USERS:
+    case RECEIVE_COMMENT:
+    case REMOVE_COMMENT:
+    case RECEIVE_COMMENT_ERRORS:
       return false;
     default:
       return state;

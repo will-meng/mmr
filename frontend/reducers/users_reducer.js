@@ -1,6 +1,6 @@
 import { RECEIVE_USER, RECEIVE_USERS } from '../actions/user_actions';
 import { RECEIVE_ROUTES } from '../actions/route_actions';
-import { RECEIVE_WORKOUTS } from '../actions/workout_actions';
+import { RECEIVE_WORKOUTS, RECEIVE_WORKOUT } from '../actions/workout_actions';
 import merge from 'lodash/merge';
 
 const usersReducer = (state = {}, action) => {
@@ -11,16 +11,12 @@ const usersReducer = (state = {}, action) => {
     case RECEIVE_USER:
       return merge({}, state, { [action.user.id]: action.user });
     case RECEIVE_USERS:
-      return merge({}, state, action.payload.users);
     case RECEIVE_WORKOUTS:
-      userId = Object.keys(action.payload.user)[0];
-      const workoutIds = action.payload.user[userId].workoutIds;
-      return merge({}, state, { [userId]: { workoutIds } });
+    case RECEIVE_WORKOUT:
+      return merge({}, state, action.payload.users);
     case RECEIVE_ROUTES:
       if (action.payload.user) {
-        userId = Object.keys(action.payload.user)[0];
-        const routeIds = action.payload.user[userId].routeIds;
-        return merge({}, state, { [userId]: { routeIds } });
+        return merge({}, state, action.payload.users);
       }
       return state;
     default:

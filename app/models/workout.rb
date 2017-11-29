@@ -4,6 +4,12 @@ class Workout < ApplicationRecord
 
   belongs_to :user
   belongs_to :route
+  has_many :comments
+  has_many :commenters, through: :comments
+
+  def comment_ids
+    self.comments.pluck(:id)
+  end
 
   def duration_is_valid
     self.errors[:duration] << "can't be blank" if hours + mins + secs <= 0

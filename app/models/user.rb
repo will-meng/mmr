@@ -7,6 +7,7 @@ class User < ApplicationRecord
 
   has_many :routes, foreign_key: :creator_id
   has_many :workouts
+  has_many :comments, foreign_key: :commenter_id
   has_many :requested_friendships, 
     foreign_key: :requestor_id, 
     class_name: :Friendship

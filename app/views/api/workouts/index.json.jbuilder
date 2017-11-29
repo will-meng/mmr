@@ -6,7 +6,7 @@ json.workouts do
   end
 end
 
-json.user do
+json.users do
   json.set! @user.id do
     json.extract! @user, :fname, :lname 
     json.workoutIds @workouts.pluck(:id)
