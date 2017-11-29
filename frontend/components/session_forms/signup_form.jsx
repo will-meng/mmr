@@ -76,7 +76,11 @@ class SignupForm extends React.Component {
     return (
       <div className="auth-main">
         <div className="signup-container">
-          <Link className="login-from-signup" to="/login">LOG IN</Link>
+
+          <span>
+            <p>Already have an account?</p>
+            <Link to="/login">Log In</Link>
+          </span>
 
           <form onSubmit={this.handleSubmit} className="form">
             <div className="input-container">

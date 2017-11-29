@@ -10,18 +10,22 @@
     margin: 80px auto 130px;
     color: #9297a3;
 
-    .login-from-signup {
-      display: block;
-      text-align: right;
+    > span {
+      display: flex;
+      justify-content: flex-end;
       margin-bottom: 20px;
       font-size: 14px;
       font-weight: 500;
-      text-transform: uppercase;
-      transition: color .2s ease-out;
-    }
 
-    .login-from-signup:hover {
-      color: #5e615c;
+      a {
+        text-transform: uppercase;
+        transition: color .2s ease-out;
+        margin-left: 10px;
+      }
+
+      a:hover {
+        color: #5e615c;
+      }
     }
 
     form {
