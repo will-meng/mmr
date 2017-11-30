@@ -7,8 +7,6 @@ class FriendIndex extends React.Component {
   constructor(props) {
     super(props);
     this.state = { query: '' };
-
-    // this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
@@ -27,15 +25,17 @@ class FriendIndex extends React.Component {
     this.props.deleteFriendship(friendId);
   }
 
-  // handleSubmit(e) {
-  //   e.preventDefault();
-  //   this.props.searchUsers(this.state.query);
-  // }
+  handleSearch() {
+    if (this.state.query)
+      this.props.searchUsers(this.state.query);
+    else
+      this.props.clearSearch();
+  }
 
   update(field) {
     return e => {
       this.setState({[field]: e.currentTarget.value},
-        () => this.props.searchUsers(this.state.query)
+        this.handleSearch.bind(this)
       );
     };
   }

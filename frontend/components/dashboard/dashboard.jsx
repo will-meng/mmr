@@ -17,7 +17,7 @@ class Dashboard extends React.Component {
   render() {
     const { user, loading, workouts, routes } = this.props;
     console.log(this.props);
-    if (loading || !user)
+    if (loading || !user || !user.recent_workout_ids)
       return <LoadingModal/>;
     else
       return (

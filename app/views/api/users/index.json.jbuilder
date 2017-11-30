@@ -6,6 +6,4 @@ json.users do
   end
 end
 
-json.currentUser do
-  json.searchResultIds @users.pluck(:id)
-end
+json.searchResults @users.pluck(:id)

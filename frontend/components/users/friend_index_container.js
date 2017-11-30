@@ -1,4 +1,8 @@
-import { searchUsers, requestFriends } from '../../actions/user_actions';
+import { 
+  searchUsers,
+  clearSearch,
+  requestFriends 
+} from '../../actions/user_actions';
 import {
   requestFriendship,
   confirmFriendship,
@@ -17,8 +21,7 @@ const mapStateToProps = (state, ownProps) => {
   inRequests.forEach(id => {friendlyUsers[id] = allUsers[id];});
   outRequests.forEach(id => {friendlyUsers[id] = allUsers[id];});
 
-  const searchResultIds = state.session.currentUser.searchResultIds || [];
-  const searchResults = searchResultIds.map(userId => 
+  const searchResults = state.searchResults.map(userId => 
     state.entities.users[userId]
   );
 
@@ -37,6 +40,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
   return {
     searchUsers: query => dispatch(searchUsers(query)),
+    clearSearch: () => dispatch(clearSearch()),
     requestFriends: () => dispatch(requestFriends()),
     requestFriendship: requesteeId => dispatch(requestFriendship(requesteeId)),
     confirmFriendship: requestorId => dispatch(confirmFriendship(requestorId)),

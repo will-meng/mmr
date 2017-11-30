@@ -24,7 +24,7 @@ const FriendIndexItem = props => {
       <img src={user.img_url} alt="User's photo"/>
       <Link to={`/user/${user.id}/dashboard`}>{user.fname} {user.lname}</Link>
     </div>
-    {console.log(formType) ? '' : ''}
+    
     { formType === 'my-friends' ? (
       <div>
         <a className='button' onClick={() => handleDelete(user.id)}>{deleteName}</a>

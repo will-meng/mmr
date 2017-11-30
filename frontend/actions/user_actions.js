@@ -4,6 +4,7 @@ import { startLoading } from './loading_actions';
 
 export const RECEIVE_USERS = 'RECEIVE_USERS';
 export const RECEIVE_USER = 'RECEIVE_USER';
+export const CLEAR_SEARCH = 'CLEAR_SEARCH';
 
 const receiveUser = payload => ({
   type: RECEIVE_USER,
@@ -13,6 +14,10 @@ const receiveUser = payload => ({
 const receiveUsers = payload => ({
   type: RECEIVE_USERS,
   payload
+});
+
+export const clearSearch = () => ({
+  type: CLEAR_SEARCH
 });
 
 export const requestUser = userId => dispatch => (
