@@ -9,13 +9,18 @@ const usersReducer = (state = {}, action) => {
 
   switch (action.type) {
     case RECEIVE_USER:
-      return merge({}, state, { [action.user.id]: action.user });
+      userId = Object.keys(action.payload.users)[0];
+      const user = action.payload.users[userId];
+      const newUsers = merge({}, state, action.payload.users);
+      newUsers[userId].recent_route_ids = user.recent_route_ids;
+      newUsers[userId].recent_workout_ids = user.recent_workout_ids;
+      return newUsers;
     case RECEIVE_USERS:
     case RECEIVE_WORKOUTS:
     case RECEIVE_WORKOUT:
       return merge({}, state, action.payload.users);
     case RECEIVE_ROUTES:
-      if (action.payload.user) {
+      if (action.payload.users) {
         return merge({}, state, action.payload.users);
       }
       return state;

@@ -37,12 +37,35 @@ class User < ApplicationRecord
     requested_friends | pending_friends
   end
 
+  attr_reader :password, :distance, :num_workouts, :num_routes, :hours, :mins
+  def calculate_lifetime_stats
+    @distance, hours, mins, secs = 0, 0, 0, 0
+    @num_workouts = self.workouts.length
+    @num_routes = self.routes.length
+    self.workouts.each do |workout|
+      @distance += workout.distance
+      hours += workout.hours
+      mins += workout.mins
+      secs += workout.secs
+    end
+    total_hours = hours + mins / 60.0 + secs / 3600.0
+    @hours = total_hours.floor
+    @mins = ((total_hours - @hours) * 60).round
+  end
+
+  def recent_workouts
+    self.workouts.order(created_at: :desc).limit(3)
+  end
+
+  def recent_routes
+    self.routes.order(created_at: :desc).limit(4)
+  end
+
   def self.find_by_credentials(email, password)
     user = User.find_by(email: email)
     user && user.is_password?(password) ? user : nil
   end
 
-  attr_reader :password
   def password=(password)
     @password = password
     self.password_digest = BCrypt::Password.create(password)

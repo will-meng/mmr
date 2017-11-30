@@ -4,6 +4,7 @@ import {
   REMOVE_WORKOUT 
 } from '../actions/workout_actions';
 import { RECEIVE_COMMENT, REMOVE_COMMENT } from '../actions/comment_actions';
+import { RECEIVE_USER } from '../actions/user_actions';
 import merge from 'lodash/merge';
 
 const workoutsReducer = (state = {}, action) => {
@@ -13,6 +14,7 @@ const workoutsReducer = (state = {}, action) => {
     case RECEIVE_WORKOUTS:
     case RECEIVE_WORKOUT:
     case RECEIVE_COMMENT:
+    case RECEIVE_USER:
       return merge({}, state, action.payload.workouts);
     case REMOVE_COMMENT:
       const workoutId = Object.keys(action.payload.workouts)[0];
