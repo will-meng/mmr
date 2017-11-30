@@ -8,7 +8,7 @@ const navRight = (currentUser, logout, path) => {
         <img src={`${currentUser.img_url}`} alt="Profile Image"/>
         <ul className='nav-submenu nav-dropdown'>
           <li><Link to='/friends'>Friends</Link></li>
-          <li><Link to='/'>Settings</Link></li>
+          <li><Link to='/profile'>My Profile</Link></li>
           <li><button className='logout-btn' onClick={logout}>Logout</button></li>
         </ul>
       </div> 

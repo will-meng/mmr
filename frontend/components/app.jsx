@@ -14,6 +14,7 @@ import WorkoutShowContainer from './workouts/workout_show/workout_show_container
 import WorkoutIndexContainer from './workouts/workout_index/workout_index_container';
 import FriendIndexContainer from './users/friend_index_container';
 import Splash from './splash/splash';
+import Profile from './dashboard/profile';
 
 const App = () => (
   <div>
@@ -24,17 +25,18 @@ const App = () => (
         <AuthRoute path='/signup' component={SignupFormContainer}/>
         <AuthRoute path='/login' component={LoginFormContainer}/>
         <Route exact path='/user/:userId/dashboard' component={DashboardContainer}/>
-        <Route exact path='/user/:userId/routes' component={RouteIndexContainer}/>
-        <ProtectedRoute path='/route/edit/:routeId' component={RouteCreateContainer}/>
-        <ProtectedRoute path='/route/create' component={RouteCreateContainer}/>
-        <Route exact path='/route/:routeId' component={RouteShowContainer}/>
+        <ProtectedRoute path='/profile' component={Profile}/>
         <Route exact path='/routes' component={RouteIndexContainer}/>
-        <ProtectedRoute path='/workout/edit/:workoutId' component={WorkoutFormContainer}/>
-        <ProtectedRoute path='/workout/create' component={WorkoutFormContainer}/>
-        <ProtectedRoute path='/workout/:workoutId' component={WorkoutShowContainer}/>
+        <Route exact path='/user/:userId/routes' component={RouteIndexContainer}/>
+        <Route exact path='/route/:routeId' component={RouteShowContainer}/>
+        <ProtectedRoute path='/route/create' component={RouteCreateContainer}/>
+        <ProtectedRoute path='/route/edit/:routeId' component={RouteCreateContainer}/>
         <ProtectedRoute path='/user/:userId/workouts' component={WorkoutIndexContainer}/>
-        <ProtectedRoute path='/friends/search' component={FriendIndexContainer}/>
+        <ProtectedRoute path='/workout/:workoutId' component={WorkoutShowContainer}/>
+        <ProtectedRoute path='/workout/create' component={WorkoutFormContainer}/>
+        <ProtectedRoute path='/workout/edit/:workoutId' component={WorkoutFormContainer}/>
         <ProtectedRoute path='/friends' component={FriendIndexContainer}/>
+        <ProtectedRoute path='/friends/search' component={FriendIndexContainer}/>
         <AuthRoute path='/' component={Splash}/>
       </Switch>
     </section>
