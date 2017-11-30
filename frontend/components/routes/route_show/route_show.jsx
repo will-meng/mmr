@@ -65,10 +65,12 @@ class RouteShow extends React.Component {
 
   render() {
     const { route, creator, currentUser, loading } = this.props;
-
+    
     if (loading || !route || !creator)
-      return <LoadingModal/>;
+    return <LoadingModal/>;
     else {
+      const routeTitle = creator.id === currentUser.id ? 
+      'My' : `${creator.fname} ${creator.lname}'s`;
       return ( 
         <div className='show-container'>
           { currentUser ? (
@@ -79,7 +81,9 @@ class RouteShow extends React.Component {
                 </Link>
               </span>
               <span className='crumb'>
-                <Link to='/routes'>Routes <span></span></Link>
+                <Link to={`/user/${creator.id}/routes`}>
+                  {routeTitle} Routes <span></span>
+                </Link>
               </span>
               <span className='crumb'>
                 Route Details

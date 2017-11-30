@@ -60,6 +60,8 @@ class WorkoutShow extends React.Component {
       const pace = this._formatPace(
         workout.distance, workout.hours, workout.mins, workout.secs
       );
+      const workoutTitle = creator.id === currentUser.id ? 
+        'My' : `${creator.fname} ${creator.lname}'s`;
       
       return (
         <div className='workout-container'>
@@ -71,8 +73,8 @@ class WorkoutShow extends React.Component {
               </Link>
             </span>
             <span className='crumb'>
-              <Link to={`/user/${currentUser.id}/workouts`}
-                >My Workouts <span></span>
+              <Link to={`/user/${creator.id}/workouts`}
+                >{workoutTitle} Workouts <span></span>
               </Link>
             </span>
             <span className='crumb'>
