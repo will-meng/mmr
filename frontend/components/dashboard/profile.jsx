@@ -151,7 +151,7 @@ class Profile extends React.Component {
               <span id="image-error" className="error-msg hidden">
                 Invalid image address. Try again.
               </span>
-              <input type="text" placeholder='Or enter the address of your photo'
+              <input type="text" placeholder='Or enter the url of your photo'
                 onChange={this.update('httpImageUrl')}
                 value={this.state.httpImageUrl}
               />

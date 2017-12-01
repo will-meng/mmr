@@ -6,6 +6,7 @@ class Api::SessionsController < ApplicationController
     )
     if @user
       login(@user)
+      render :create
     else
       render json: ['Incorrect username or password. Please try again.'],
         status: 422
