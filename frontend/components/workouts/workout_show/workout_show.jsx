@@ -7,6 +7,11 @@ const creatorName = creator => (
   `${creator.fname} ${creator.lname}`
 );
 
+const formatDate = date => {
+  const [year, month, day] = date.split('-');
+  return month + '/' + day + '/' + year;
+};
+
 const _stepsPerMile = 2300;
 
 class WorkoutShow extends React.Component {
@@ -88,7 +93,7 @@ class WorkoutShow extends React.Component {
             <p>Notes: {workout.description}</p>
             <span>by <Link to={`/user/${workout.user_id}/dashboard`}>
                        {creatorName(creator)}
-                     </Link>
+                     </Link> on {formatDate(workout.date)}
             </span>
             <div className='stats-summary'>
               <div className='stat-col'>
