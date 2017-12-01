@@ -13,10 +13,20 @@ export const fetchUser = userId => (
   })
 );
 
-export const updateUser = user => (
+export const fetchCurrentUser = () => (
   $.ajax({
-    url: `api/users/${user.id}`,
+    url: 'api/session',
+    method: 'GET'
+  })
+);
+
+export const updateUser = (formData, userId) => (
+  $.ajax({
+    url: `api/users/${userId}`,
     method: 'PATCH',
-    data: { user }
+    processData: false,
+    contentType: false,
+    dataType: 'json',
+    data: formData 
   })
 );

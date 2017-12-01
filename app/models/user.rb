@@ -1,9 +1,13 @@
 class User < ApplicationRecord
-  validates :email, :img_url, :fname, :lname, :birthday, :gender, 
-    :password_digest, :session_token, presence: true
+  validates :email, :fname, :lname, :birthday, :password_digest, :session_token, 
+    presence: true
   validates :email, :session_token, uniqueness: true
   validates :password, length: { minimum: 6 }, allow_nil: true
   after_initialize :ensure_session_token
+
+  has_attached_file :image, styles: { medium: "300x300>", thumb: "100x100>" }, 
+    default_url: "default_avatar.jpg"
+  validates_attachment_content_type :image, content_type: /\Aimage\/.*\z/
 
   has_many :routes, foreign_key: :creator_id
   has_many :workouts

@@ -11,11 +11,15 @@ class Api::UsersController < ApplicationController
   end
 
   def update
-    @user = User.find_by(id: params[:id])
-    if @user.update(user_params)
-      render :show
+    if params[:id].to_i == current_user.id
+      @user = current_user
+      if @user.update(user_params)
+        render 'api/sessions/create'
+      else
+        render json: @user.errors.full_messages, status: 422
+      end
     else
-      render json: @user.errors.full_messages, status: 422
+      render json: ['Cannot update that user'], status: 404
     end
   end
 
@@ -40,6 +44,6 @@ class Api::UsersController < ApplicationController
 
   def user_params
     params.require(:user)
-      .permit(:email, :img_url, :fname, :lname, :birthday, :gender, :password)
+      .permit(:email, :img_url, :image, :fname, :lname, :birthday, :gender, :password)
   end
 end

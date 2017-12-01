@@ -1,5 +1,6 @@
 import * as UserAPIUtils from '../utils/user_api_util';
 import * as FriendshipAPIUtils from '../utils/friendship_api_util';
+import { receiveCurrentUser, receiveSignupErrors } from './session_actions';
 import { startLoading } from './loading_actions';
 
 export const RECEIVE_USERS = 'RECEIVE_USERS';
@@ -19,6 +20,17 @@ const receiveUsers = payload => ({
 export const clearSearch = () => ({
   type: CLEAR_SEARCH
 });
+
+export const updateUser = (formData, userId) => dispatch => (
+  UserAPIUtils.updateUser(formData, userId)
+    .then(user => dispatch(receiveCurrentUser(user)), 
+      errors => dispatch(receiveSignupErrors(errors.responseJSON)))
+);
+
+export const requestCurrentUser = userId => dispatch => (
+  UserAPIUtils.fetchCurrentUser()
+    .then(user => dispatch(receiveCurrentUser(user)), console.log)
+);
 
 export const requestUser = userId => dispatch => (
   UserAPIUtils.fetchUser(userId)

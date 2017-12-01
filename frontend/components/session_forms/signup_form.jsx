@@ -27,9 +27,7 @@ class SignupForm extends React.Component {
       password: "",
       day: null,
       month: null,
-      year: null,
-      gender: "female",
-      img_url: "https://mmf.cachefly.net/d/website/avatars/avatar_ride_male_80.jpg"
+      year: null
     };
     this.handleSubmit = this.handleSubmit.bind(this);
   }

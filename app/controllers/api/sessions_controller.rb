@@ -12,6 +12,16 @@ class Api::SessionsController < ApplicationController
     end
   end
 
+  def show
+    # send back current user data for "My Profile" page
+    @user = current_user
+    if @user
+      render :create
+    else
+      render json: ['Not logged in'], status: 404
+    end
+  end
+
   def destroy
     if logged_in?
       logout
