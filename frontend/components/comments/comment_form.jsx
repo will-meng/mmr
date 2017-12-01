@@ -31,7 +31,9 @@ class CommentForm extends React.Component {
       <div className='comment-form-container'>
       <form onSubmit={this.handleSubmit.bind(this)}>
         <Link to={`/user/${this.props.currentUser.id}/dashboard`}>
-          <img src={this.props.currentUser.img_url} alt="Current user's photo"/>
+          <div className='thumbnail-container'>
+            <img src={this.props.currentUser.img_url} className='profile' alt="Current user's photo"/>
+          </div>
         </Link>
         <input type="text"
           onChange={this.updateBody.bind(this)}

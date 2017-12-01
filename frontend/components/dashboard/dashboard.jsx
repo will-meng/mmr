@@ -15,15 +15,17 @@ class Dashboard extends React.Component {
   }
 
   render() {
-    const { user, loading, workouts, routes } = this.props;
-    console.log(this.props);
+    const { user, currentUser, loading, workouts, routes } = this.props;
+    
     if (loading || !user || !user.recent_workout_ids)
       return <LoadingModal/>;
-    else
+    else {
+      const title = 
+        user.id === currentUser.id ? 'My' : `${user.fname} ${user.lname}'s`;
       return (
       <div className='dashboard-container'>
         <header>
-          <h2>Lifetime Stats</h2>
+          <h2>{title} Lifetime Stats</h2>
         </header>
         <div className='lifetime-stats-panel'>
           <div className='lifetime-stats-col'>
@@ -77,6 +79,7 @@ class Dashboard extends React.Component {
         </div>
       </div>
       );
+    }
   }
 }
 

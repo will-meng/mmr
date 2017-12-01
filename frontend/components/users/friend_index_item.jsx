@@ -21,7 +21,9 @@ const FriendIndexItem = props => {
   const { user, deleteName, handleAdd, handleConfirm, handleDelete, formType, addClass} = props;
   return (<li className={addClass}>
     <div className='friend-info'>
-      <img src={user.img_url} alt="User's photo"/>
+      <div className='thumbnail-container'>
+        <img src={user.img_url} className='profile' alt="User's photo"/>
+      </div>
       <Link to={`/user/${user.id}/dashboard`}>{user.fname} {user.lname}</Link>
     </div>
     

@@ -4,7 +4,9 @@ import { Link } from 'react-router-dom';
 const CommentIndexItem = ({ user, comment, deleteComment }) => (
   <li>
     <Link to={`/user/${user.id}/dashboard`}>
-      <img src={user.img_url} alt="Comment Author photo"/>
+      <div className='thumbnail-container'>
+        <img src={user.img_url} className='profile' alt="Comment Author photo"/>
+      </div>
     </Link>
 
     <div className='comment-body-group'>

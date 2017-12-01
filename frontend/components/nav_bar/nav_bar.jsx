@@ -5,9 +5,13 @@ const navRight = (currentUser, logout, path) => {
    if (path !== '/signup' && path !== '/login')
     return currentUser ? (
       <div className='nav-right'>
-        <img src={`${currentUser.img_url}`} alt="Profile Image"/>
+        <Link to='/'>
+          <div className='thumbnail-container'>
+            <img src={`${currentUser.img_url}`} className='profile' alt="Profile Image"/>
+          </div>
+        </Link>
         <ul className='nav-submenu nav-dropdown'>
-          <li><Link to='/friends'>Friends</Link></li>
+          <li><Link to='/'>Dashboard</Link></li>
           <li><Link to='/profile'>My Profile</Link></li>
           <li><button className='logout-btn' onClick={logout}>Logout</button></li>
         </ul>
@@ -54,7 +58,13 @@ const NavBar = ({ currentUser, logout, path }) => (
             }
           </ul>
         </li>
-        <li><a href="#">Challenges</a></li>
+        <li className='nav-friends'>
+          <Link to='/friends'>Community</Link>
+            <ul className='friends-submenu nav-dropdown'>
+              <li><Link to='/friends'>Friends</Link></li>
+              <li><Link to='/friends/search'>Find Friends</Link></li>
+            </ul>
+        </li>
         <li><a href="#">Blog</a></li>
       </ul>
     </div>

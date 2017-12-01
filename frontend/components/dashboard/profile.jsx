@@ -1,5 +1,9 @@
 import React from 'react';
 
+// https://target.scene7.com/is/image/Target/14778465?wid=520&hei=520&fmt=pjpeg
+// https://upload.wikimedia.org/wikipedia/en/b/b8/Professor_Charles_Xavier.png
+// http://nerdist.com/wp-content/uploads/2016/11/tumblr_n2y7ief66K1rom810o1_1280.jpg
+
 const errorFields = [
   ["Fnamee", "Fname can't be blank"], 
   ["Lnamee", "Lname can't be blank"]];
@@ -33,16 +37,23 @@ class Profile extends React.Component {
   }
 
   setHttpImage(e) {
-    document.getElementById('file-input').value = null;
-    $('#image-error').addClass("hidden");
-    if (this.state.httpImageUrl) {// only set image if response is 200 OK
-      $.ajax({url: this.state.httpImageUrl})
-        .then(() => this.setState({ 
-          imageUrl: this.state.httpImageUrl, 
-          imageFile: null, 
-          httpImageUrl: ''
-        }), () => $('#image-error').removeClass("hidden"));
-    }
+    // document.getElementById('file-input').value = null;
+    // $('#image-error').addClass("hidden");
+    // if (this.state.httpImageUrl) {// only set image if response is 200 OK
+    //   $.ajax({url: this.state.httpImageUrl})
+    //     .then(() => this.setState({ 
+    //       imageUrl: this.state.httpImageUrl, 
+    //       imageFile: null, 
+    //       httpImageUrl: ''
+    //     }), () => $('#image-error').removeClass("hidden"));
+    // }
+
+    if (this.state.httpImageUrl)
+      this.setState({ 
+        imageUrl: this.state.httpImageUrl, 
+        imageFile: null, 
+        httpImageUrl: ''
+      });
   }
 
   handleImage(e) {
@@ -116,7 +127,7 @@ class Profile extends React.Component {
         <h4>Profile Picture</h4>
         <div className='profile-picture'>
           <div className='thumbnail-container'>
-            <img src={this.state.imageUrl} alt="User image"/>
+            <img src={this.state.imageUrl} className='profile' alt="User image"/>
           </div>
           <div className='picture-inputs'>
             <input type="file" id='file-input'
