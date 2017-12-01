@@ -21,6 +21,8 @@ class Profile extends React.Component {
     this.reader = new FileReader();
     this.resetForm = this.resetForm.bind(this);
     this.handleErrors = this.handleErrors.bind(this);
+    this.handleHttpImageError = this.handleHttpImageError.bind(this);
+    this.submitSuccessCB = this.submitSuccessCB.bind(this);
   }
 
   componentDidMount() {
@@ -36,17 +38,14 @@ class Profile extends React.Component {
     return e => this.setState({ [field]: e.currentTarget.value });
   }
 
+  handleHttpImageError() {
+    $('#image-error').removeClass("hidden");
+    this.setState({imageUrl: this.props.currentUser.img_url});
+  }
+
   setHttpImage(e) {
-    // document.getElementById('file-input').value = null;
-    // $('#image-error').addClass("hidden");
-    // if (this.state.httpImageUrl) {// only set image if response is 200 OK
-    //   $.ajax({url: this.state.httpImageUrl})
-    //     .then(() => this.setState({ 
-    //       imageUrl: this.state.httpImageUrl, 
-    //       imageFile: null, 
-    //       httpImageUrl: ''
-    //     }), () => $('#image-error').removeClass("hidden"));
-    // }
+    document.getElementById('file-input').value = null;
+    $('#image-error').addClass("hidden");
 
     if (this.state.httpImageUrl)
       this.setState({ 
@@ -65,6 +64,7 @@ class Profile extends React.Component {
         httpImageUrl: ''});
     
     if (file) {
+      $('#image-error').addClass("hidden");
       this.reader.readAsDataURL(file);
     } else {
       this.resetForm();
@@ -85,10 +85,17 @@ class Profile extends React.Component {
     //   console.log(value);
     // }
     this.props.updateUser(formData, this.props.currentUser.id)
-      .then(this.resetForm, this.handleErrors);
+      .then(this.submitSuccessCB, this.handleErrors);
+  }
+
+  submitSuccessCB() {
+    $('#save-confirmation').removeClass('hidden');
+    setTimeout(() => $('#save-confirmation').addClass('hidden'), 2000);
+    this.resetForm();
   }
 
   clearErrors() {
+    $('#image-error').addClass("hidden");
     errorFields.forEach(([field, regex]) => {
       $(`#${field}`).addClass("hidden");
       $(`#${field.slice(0, -1)}`).removeClass("error-border");
@@ -119,15 +126,22 @@ class Profile extends React.Component {
       <div className='profile-container'>
         <header>
           <h2>My Personal Profile</h2>
-          <a className='button orange-btn' 
-            onClick={this.handleSubmit.bind(this)}
-          >Save</a>
+          <div>
+            <span id='save-confirmation' className='hidden'>
+              Your Profile has been saved!
+            </span>
+            <a className='button orange-btn' 
+              onClick={this.handleSubmit.bind(this)}
+            >Save</a>
+          </div>
         </header>
 
         <h4>Profile Picture</h4>
         <div className='profile-picture'>
           <div className='thumbnail-container'>
-            <img src={this.state.imageUrl} className='profile' alt="User image"/>
+            <img src={this.state.imageUrl} className='profile' alt="User image"
+              onError={this.handleHttpImageError}
+            />
           </div>
           <div className='picture-inputs'>
             <input type="file" id='file-input'
