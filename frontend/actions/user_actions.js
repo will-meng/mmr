@@ -21,11 +21,12 @@ export const clearSearch = () => ({
   type: CLEAR_SEARCH
 });
 
-export const updateUser = (formData, userId) => dispatch => (
-  UserAPIUtils.updateUser(formData, userId)
+export const updateUser = (formData, userId) => dispatch => {
+  dispatch(startLoading());
+  return UserAPIUtils.updateUser(formData, userId)
     .then(user => dispatch(receiveCurrentUser(user)), 
-      errors => dispatch(receiveSignupErrors(errors.responseJSON)))
-);
+      errors => dispatch(receiveSignupErrors(errors.responseJSON)));
+};
 
 export const requestCurrentUser = userId => dispatch => (
   UserAPIUtils.fetchCurrentUser()

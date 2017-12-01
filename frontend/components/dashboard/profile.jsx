@@ -20,9 +20,9 @@ class Profile extends React.Component {
     };
     this.reader = new FileReader();
     this.resetForm = this.resetForm.bind(this);
-    this.handleErrors = this.handleErrors.bind(this);
     this.handleHttpImageError = this.handleHttpImageError.bind(this);
     this.submitSuccessCB = this.submitSuccessCB.bind(this);
+    this.handleErrors = this.handleErrors.bind(this);
   }
 
   componentDidMount() {
@@ -81,9 +81,6 @@ class Profile extends React.Component {
     formData.append("user[fname]", this.state.fname);
     formData.append("user[lname]", this.state.lname);
 
-    // for (let value of formData.values()) {
-    //   console.log(value);
-    // }
     this.props.updateUser(formData, this.props.currentUser.id)
       .then(this.submitSuccessCB, this.handleErrors);
   }

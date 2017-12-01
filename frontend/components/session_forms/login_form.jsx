@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
 
-const demoEmail = 'jc@36berlin.com';
-const demoPassword = 'password';
-const int = 70; // ms interval between typed demo keys
+const demoEmail = 'captain.america@gmail.com';
+const demoPassword = 'hunter12';
+const int = 50; // ms interval between typed demo keys
 
 class LoginForm extends React.Component {
   constructor(props) {

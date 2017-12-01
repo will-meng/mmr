@@ -1,4 +1,5 @@
 import { START_LOADING } from '../actions/loading_actions';
+import { RECEIVE_CURRENT_USER } from '../actions/session_actions';
 import { 
   RECEIVE_ROUTES, 
   RECEIVE_ROUTE,
@@ -35,6 +36,7 @@ const loadingReducer = (state = false, action) => {
     case RECEIVE_COMMENT:
     case REMOVE_COMMENT:
     case RECEIVE_COMMENT_ERRORS:
+    case RECEIVE_CURRENT_USER:
       return false;
     default:
       return state;
