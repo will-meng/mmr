@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import RouteCreate from './route_create';
 
 const mapStateToProps = (state, ownProps) => {
-  console.log('this')
   const routeId = parseInt(ownProps.match.params.routeId);
   return {
     routeId,

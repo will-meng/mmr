@@ -18,9 +18,8 @@ const formatDate = date => {
 
 const DBWorkoutItem = ({ workout }) => (
   <li className='dashboard-workout-item'>
-    {/* TODO remove API key */}
     <Link to={`/workout/${workout.id}`} className='dbw-col'>
-      <img src={`https://maps.googleapis.com/maps/api/staticmap?size=90x90&path=weight:3%7Ccolor:0xff0000aa%7Cenc:${workout.polyline}&key=AIzaSyAHw5c9iH76L8mG_YOoFdNb12Nbt6_l0Yo`}/>
+      <img src={`https://maps.googleapis.com/maps/api/staticmap?size=90x90&path=weight:3%7Ccolor:0xff0000aa%7Cenc:${workout.polyline}&key=${gak}`}/>
     </Link>
     <div className='name-distance-group dbw-col'>
       <Link to={`/workout/${workout.id}`}>{workout.name}</Link>

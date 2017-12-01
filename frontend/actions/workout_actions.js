@@ -29,13 +29,13 @@ const receiveWorkoutErrors = errors => ({
 export const requestUserWorkouts = userId => dispatch => {
   dispatch(startLoading());
   return WorkoutAPIUtils.fetchUserWorkouts(userId)
-    .then(workouts => dispatch(receiveWorkouts(workouts)), console.log);
+    .then(workouts => dispatch(receiveWorkouts(workouts)));
 };
 
 export const requestWorkout = workoutId => dispatch => {
   dispatch(startLoading());
   return WorkoutAPIUtils.fetchWorkout(workoutId)
-    .then(workout => dispatch(receiveWorkout(workout)), console.log);
+    .then(workout => dispatch(receiveWorkout(workout)));
 };
 
 export const createWorkout = workoutForm => dispatch => {
@@ -55,5 +55,5 @@ export const updateWorkout = workoutForm => dispatch => {
 export const deleteWorkout = workoutId => dispatch => {
   dispatch(startLoading());
   return WorkoutAPIUtils.deleteWorkout(workoutId)
-    .then(workout => dispatch(removeWorkout(workout.id)), console.log);
+    .then(workout => dispatch(removeWorkout(workout.id)));
 };

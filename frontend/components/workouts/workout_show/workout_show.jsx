@@ -134,9 +134,8 @@ class WorkoutShow extends React.Component {
             }
           </article>
 
-          {/* TODO remove API key */}
           <Link to={`/route/${workout.route_id}`}>
-            <img src={`https://maps.googleapis.com/maps/api/staticmap?size=625x350&path=weight:5%7Ccolor:0xff000077%7Cenc:${workout.polyline}&key=AIzaSyAHw5c9iH76L8mG_YOoFdNb12Nbt6_l0Yo`}/>
+            <img src={`https://maps.googleapis.com/maps/api/staticmap?size=625x350&path=weight:5%7Ccolor:0xff000077%7Cenc:${workout.polyline}&key=${gsk}`}/>
           </Link>
 
           <CommentIndexContainer workoutId={workout.id}/>

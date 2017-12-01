@@ -19,7 +19,6 @@ const errorFields = [
 class SignupForm extends React.Component {
   constructor(props) {
     super(props);
-    // TODO remove hard coded fields
     this.state = {
       email: "",
       fname: "",

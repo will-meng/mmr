@@ -6,7 +6,6 @@ import { withRouter } from 'react-router-dom';
 import { decodeWaypoints, polylineOptions } from '../../../utils/route_api_util';
 import LoadingModal from '../../loading/loading_modal';
 
-// TODO get user's location
 const mapOptions = {
   center: {
     lat: 37.773972,

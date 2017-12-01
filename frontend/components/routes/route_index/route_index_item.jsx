@@ -5,8 +5,8 @@ import { formatDate } from '../../../utils/route_api_util';
 const RouteIndexItem = ({ route, handleDelete, currentUser }) => (
   <tr>
   <td className='thumbnailCell'>
-    {/* TODO remove API key */}
-    <Link to={`/route/${route.id}`}><img src={`https://maps.googleapis.com/maps/api/staticmap?size=75x75&path=weight:3%7Ccolor:0xff0000aa%7Cenc:${route.polyline}&key=AIzaSyAHw5c9iH76L8mG_YOoFdNb12Nbt6_l0Yo`}/>
+    <Link to={`/route/${route.id}`}>
+      <img src={`https://maps.googleapis.com/maps/api/staticmap?size=75x75&path=weight:3%7Ccolor:0xff0000aa%7Cenc:${route.polyline}&key=${gsk}`}/>
     </Link>
   </td>
   <td><Link to={`/route/${route.id}`}>

@@ -8,15 +8,15 @@ const receiveFriendship = currentUser => ({
 
 export const requestFriendship = requesteeId => dispatch => (
   FriendshipAPIUtil.requestFriendship(requesteeId)
-    .then(currentUser => dispatch(receiveFriendship(currentUser)), console.log)
+    .then(currentUser => dispatch(receiveFriendship(currentUser)))
 );
 
 export const confirmFriendship = requestorId => dispatch => (
   FriendshipAPIUtil.confirmFriendship(requestorId)
-    .then(currentUser => dispatch(receiveFriendship(currentUser)), console.log)
+    .then(currentUser => dispatch(receiveFriendship(currentUser)))
 );
 
 export const deleteFriendship = friendId => dispatch => (
   FriendshipAPIUtil.deleteFriendship(friendId)
-    .then(currentUser => dispatch(receiveFriendship(currentUser)), console.log)
+    .then(currentUser => dispatch(receiveFriendship(currentUser)))
 );

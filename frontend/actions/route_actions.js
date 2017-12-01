@@ -29,19 +29,19 @@ const receiveRouteErrors = errors => ({
 export const requestRoutes = () => dispatch => {
   dispatch(startLoading());
   return RouteAPIUtils.fetchRoutes()
-    .then(payload => dispatch(receiveRoutes(payload)), console.log);
+    .then(payload => dispatch(receiveRoutes(payload)));
 };
 
 export const requestUserRoutes = userId => dispatch => {
   dispatch(startLoading());
   return RouteAPIUtils.fetchUserRoutes(userId)
-    .then(routes => dispatch(receiveRoutes(routes)), console.log);
+    .then(routes => dispatch(receiveRoutes(routes)));
 };
 
 export const requestRoute = routeId => dispatch => {
   dispatch(startLoading());
   return RouteAPIUtils.fetchRoute(routeId)
-    .then(route => dispatch(receiveRoute(route)), console.log);
+    .then(route => dispatch(receiveRoute(route)));
 };
 
 export const createRoute = routeForm => dispatch => {
@@ -61,5 +61,5 @@ export const updateRoute = routeForm => dispatch => {
 export const deleteRoute = routeId => dispatch => {
   dispatch(startLoading());
   return RouteAPIUtils.deleteRoute(routeId)
-    .then(route => dispatch(removeRoute(route.id)), console.log);
+    .then(route => dispatch(removeRoute(route.id)));
 };

@@ -30,5 +30,5 @@ export const createComment = commentForm => dispatch => {
 export const deleteComment = commentId => dispatch => {
   // dispatch(startLoading());
   return CommentAPIUtils.deleteComment(commentId)
-    .then(payload => dispatch(removeComment(payload)), console.log);
+    .then(payload => dispatch(removeComment(payload)));
 };

@@ -30,22 +30,22 @@ export const updateUser = (formData, userId) => dispatch => {
 
 export const requestCurrentUser = userId => dispatch => (
   UserAPIUtils.fetchCurrentUser()
-    .then(user => dispatch(receiveCurrentUser(user)), console.log)
+    .then(user => dispatch(receiveCurrentUser(user)))
 );
 
 export const requestUser = userId => dispatch => (
   UserAPIUtils.fetchUser(userId)
-    .then(user => dispatch(receiveUser(user)), console.log)
+    .then(user => dispatch(receiveUser(user)))
 );
 
 export const searchUsers = query => dispatch => {
   // dispatch(startLoading());
   return UserAPIUtils.searchUsers(query)
-    .then(payload => dispatch(receiveUsers(payload)), console.log);
+    .then(payload => dispatch(receiveUsers(payload)));
 };
 
 export const requestFriends = () => dispatch => {
   dispatch(startLoading());
   return FriendshipAPIUtils.fetchFriends()
-    .then(payload => dispatch(receiveUsers(payload)), console.log);
+    .then(payload => dispatch(receiveUsers(payload)));
 };
