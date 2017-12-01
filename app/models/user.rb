@@ -9,15 +9,17 @@ class User < ApplicationRecord
     default_url: "default_avatar.jpg"
   validates_attachment_content_type :image, content_type: /\Aimage\/.*\z/
 
-  has_many :routes, foreign_key: :creator_id
-  has_many :workouts
-  has_many :comments, foreign_key: :commenter_id
+  has_many :routes, foreign_key: :creator_id, dependent: :destroy
+  has_many :workouts, dependent: :destroy
+  has_many :comments, foreign_key: :commenter_id, dependent: :destroy
   has_many :requested_friendships, 
     foreign_key: :requestor_id, 
-    class_name: :Friendship
+    class_name: :Friendship, 
+    dependent: :destroy
   has_many :pending_friendships, 
     foreign_key: :requestee_id, 
-    class_name: :Friendship
+    class_name: :Friendship, 
+    dependent: :destroy
   has_many :requested_friends,
     through: :requested_friendships
   has_many :pending_friends,
@@ -52,6 +54,7 @@ class User < ApplicationRecord
       mins += workout.mins
       secs += workout.secs
     end
+    @distance = @distance.round(2)
     total_hours = hours + mins / 60.0 + secs / 3600.0
     @hours = total_hours.floor
     @mins = ((total_hours - @hours) * 60).round

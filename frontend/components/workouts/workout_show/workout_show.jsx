@@ -106,11 +106,11 @@ class WorkoutShow extends React.Component {
               </div>
               <div className='stat-col'>
                 <p>Duration</p>
-                <span>{duration}</span>
+                <span>{duration}<span>h</span></span>
               </div>
               <div className='stat-col'>
                 <p>Avg Pace</p>
-                <span>{pace}</span>
+                <span>{pace}<span>min/mi</span></span>
               </div>
             </div>
 

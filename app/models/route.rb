@@ -3,4 +3,5 @@ class Route < ApplicationRecord
     :polyline, :distance, :bounds, presence: true
 
   belongs_to :creator, class_name: :User
+  has_many :workouts, dependent: :destroy
 end

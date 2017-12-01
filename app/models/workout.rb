@@ -3,8 +3,8 @@ class Workout < ApplicationRecord
   validate :duration_is_valid
 
   belongs_to :user
-  belongs_to :route, dependent: :destroy
-  has_many :comments
+  belongs_to :route
+  has_many :comments, dependent: :destroy
   has_many :commenters, through: :comments
 
   def comment_ids
