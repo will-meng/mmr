@@ -5,8 +5,14 @@ import DBWorkoutItem from './dashboard_workout_item';
 import DBRouteItem from './dashboard_route_item';
 
 class Dashboard extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { loading: true };
+  }
+
   componentDidMount() {
-    this.props.requestUser(this.props.userId);
+    this.props.requestUser(this.props.userId)
+      .then(() => this.setState({ loading: false }));
   }
 
   componentWillReceiveProps(nextProps) {
@@ -17,7 +23,7 @@ class Dashboard extends React.Component {
   render() {
     const { user, currentUser, loading, workouts, routes } = this.props;
     
-    if (loading || !user || !user.recent_workout_ids)
+    if (loading || this.state.loading)
       return <LoadingModal/>;
     else {
       const title = 

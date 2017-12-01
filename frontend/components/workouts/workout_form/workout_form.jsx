@@ -89,8 +89,10 @@ class WorkoutForm extends React.Component {
     if (!workoutParams.secs) workoutParams.secs = 0;
 
     this.props.submitAction(workoutParams)
-      .then(action => 
-        this.props.history.push(`/workout/${action.workout.id}`),
+      .then(action => {
+        const workoutId = Object.keys(action.payload.workouts);
+        this.props.history.push(`/workout/${workoutId}`);
+      },
         this.handleErrors.bind(this));
   }
 

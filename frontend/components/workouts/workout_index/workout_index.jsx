@@ -16,7 +16,7 @@ class WorkoutIndex extends React.Component {
 
   render() {
     const { workouts, currentUser, owner, loading } = this.props;
-    console.log(this.props);
+    
     if (loading || !owner)
       return <LoadingModal/>;
     else
