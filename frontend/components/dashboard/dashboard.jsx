@@ -26,8 +26,8 @@ class Dashboard extends React.Component {
     if (loading || this.state.loading)
       return <LoadingModal/>;
     else {
-      const title = 
-        user.id === currentUser.id ? 'My' : `${user.fname} ${user.lname}'s`;
+      const title = currentUser && user.id === currentUser.id ?
+        'My' : `${user.fname} ${user.lname}'s`;
       return (
       <div className='dashboard-container'>
         <header>

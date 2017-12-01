@@ -69,7 +69,7 @@ class RouteShow extends React.Component {
     if (loading || !route || !creator)
     return <LoadingModal/>;
     else {
-      const routeTitle = creator.id === currentUser.id ? 
+      const routeTitle = currentUser && creator.id === currentUser.id ? 
       'My' : `${creator.fname} ${creator.lname}'s`;
       return ( 
         <div className='show-container'>
