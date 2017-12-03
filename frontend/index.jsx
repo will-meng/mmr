@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import configureStore from './store/store'; 
 import Root from './components/root';
+import NewRelic from './newrelic';
 
 document.addEventListener('DOMContentLoaded', () => {
   const root = document.getElementById('root');
@@ -14,11 +15,6 @@ document.addEventListener('DOMContentLoaded', () => {
   } else {
     store = configureStore();
   }
-
-  // Testing
-  window.getState = store.getState;
-  window.dispatch = store.dispatch;
-  // End Testing
 
   ReactDOM.render(<Root store={store}/>, root);
 });
