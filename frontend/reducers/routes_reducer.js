@@ -16,7 +16,7 @@ const routesReducer = (state = {}, action) => {
       return merge({}, state, { [action.route.id]: action.route });
     case REMOVE_ROUTE:
       const newRoutes = merge({}, state);
-      delete newRoutes[action.routeId];
+      delete newRoutes[action.route.id];
       return newRoutes;
     default:
       return state;

@@ -16,9 +16,9 @@ const receiveRoute = route => ({
   route
 });
 
-const removeRoute = routeId => ({
+const removeRoute = route => ({
   type: REMOVE_ROUTE,
-  routeId
+  route
 });
 
 const receiveRouteErrors = errors => ({
@@ -61,5 +61,5 @@ export const updateRoute = routeForm => dispatch => {
 export const deleteRoute = routeId => dispatch => {
   dispatch(startLoading());
   return RouteAPIUtils.deleteRoute(routeId)
-    .then(route => dispatch(removeRoute(route.id)));
+    .then(route => dispatch(removeRoute(route)));
 };

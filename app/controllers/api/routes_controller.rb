@@ -54,6 +54,7 @@ class Api::RoutesController < ApplicationController
     @route = current_user.routes.find_by(id: params[:id])
     if @route
       @route.destroy
+      @user_routes = current_user.routes
       render :show
     else
       render json: ['You did not create that route'], status: 422

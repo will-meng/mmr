@@ -1,17 +1,17 @@
 import { RECEIVE_USER, RECEIVE_USERS } from '../actions/user_actions';
-import { RECEIVE_ROUTES } from '../actions/route_actions';
+import { RECEIVE_ROUTES, REMOVE_ROUTE } from '../actions/route_actions';
 import { RECEIVE_WORKOUTS, RECEIVE_WORKOUT } from '../actions/workout_actions';
 import merge from 'lodash/merge';
 
 const usersReducer = (state = {}, action) => {
   Object.freeze(state);
-  let userId;
+  let userId, newUsers;
 
   switch (action.type) {
     case RECEIVE_USER:
       userId = Object.keys(action.payload.users)[0];
       const user = action.payload.users[userId];
-      const newUsers = merge({}, state, action.payload.users);
+      newUsers = merge({}, state, action.payload.users);
       newUsers[userId].recent_route_ids = user.recent_route_ids;
       newUsers[userId].recent_workout_ids = user.recent_workout_ids;
       return newUsers;
@@ -24,6 +24,11 @@ const usersReducer = (state = {}, action) => {
         return merge({}, state, action.payload.users);
       }
       return state;
+    case REMOVE_ROUTE:
+      newUsers = merge({}, state);
+      newUsers[action.route.creator_id].routeIds = 
+        newUsers[action.route.creator_id].routeIds.filter(el => el !== action.route.id)
+      return newUsers;
     default:
       return state;
   }
