@@ -1,4 +1,4 @@
-# <center>MyMap.Run</center>
+<h1 align="center">MyMap.Run</h1>
 
 <p align="center">
   <a href='http://www.mymap.run'><img src='http://www.roadtoepic.com/wp-content/uploads/2012/05/RunKeeper-Logo1.jpg'/></a>
@@ -7,7 +7,6 @@
 <p align="center">Built with React and Redux by William Meng</p>
 
 ## Table of Contents
-------
 
 - [Introduction](#introduction)
 - [Features](#features)
@@ -15,7 +14,7 @@
 - [Future Work](#future-work)
 
 ## Introduction
-------
+
 A community where members create and share running routes, workouts, and good vibes. 
 
 MyMap.Run is the official unofficial clone of [MapMyRun](http://www.mapmyrun.com).
@@ -25,7 +24,7 @@ MyMap.Run is the official unofficial clone of [MapMyRun](http://www.mapmyrun.com
 </p>
 
 ## Features
-------
+
 - User accounts and profiles
 - Interactive route creation via integration with Google Maps
 - Workout logging with detailed stats
@@ -47,8 +46,8 @@ MyMap.Run is the official unofficial clone of [MapMyRun](http://www.mapmyrun.com
 <p align="center"><img src='https://s3-us-west-1.amazonaws.com/mymaprun-pro/readme/friends.png' width='300px'></p>
 
 ## Technologies
-------
-## Frontend
+
+### Frontend
 
 - Redux (Flux) to manage a single global state using actions and reducers
 - React components efficiently handle rendering and data pipeline
@@ -59,13 +58,13 @@ MyMap.Run is the official unofficial clone of [MapMyRun](http://www.mapmyrun.com
 - Webpack minifies frontend assets
 - SCSS organizes site styling
 
-## Backend
+### Backend
 
 - Ruby on Rails MVC framework that provides RESTful web service API
 - ActiveRecord for SQL queries
 - PostgresQL Database
 
-## Dependencies
+### Dependencies
 
 - Google Maps API including geometry and places libraries
 - Amazon Web Services SDK for file storage on Amazon Simple Storage Service (S3)
@@ -73,7 +72,7 @@ MyMap.Run is the official unofficial clone of [MapMyRun](http://www.mapmyrun.com
 - BCrypt for password-salting, hashing, and secure authentication system
 
 ## Future Work
-------
+
 - Location search so users can easily center the map anywhere in the world
 - Activity Feed to keep up to date with friends' recent activity
 - Limit to number of results shown on single page, for faster loading
