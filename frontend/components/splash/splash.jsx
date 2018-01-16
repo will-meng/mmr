@@ -13,11 +13,11 @@ export default () => (
         </p>
         <div className='signup-buttons'>
           <Link to='/login?demo' className='demo-btn button'>
-            Demo Login (cool!)
+            Demo Login
           </Link>
           or
           <Link to='/signup' className='signup-btn orange-btn button'>
-            Sign Up (lame!)
+            Sign Up
           </Link>
         </div>
         <div className='empty'></div>

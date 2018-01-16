@@ -92,6 +92,21 @@
         letter-spacing: .06em;
       }
     }
+
+    .demo-button {
+      width: 100%;
+      box-sizing: border-box;
+      color: white;
+      font-size: 14px;
+      text-transform: uppercase;
+      border-radius: 2px;
+      font-weight: 500;
+      margin: 15px 0;
+      padding: 12px 15px;
+      text-align: center;
+      line-height: 20px;
+      letter-spacing: .06em;
+    }
   }
 }
 

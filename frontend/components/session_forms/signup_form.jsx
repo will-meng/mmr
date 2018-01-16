@@ -162,6 +162,9 @@ class SignupForm extends React.Component {
 
           <input type="submit" className="green-btn" value="Sign Up"/>
           </form>
+          <Link to='/login?demo' className='orange-btn demo-button'>
+            Demo Login
+          </Link>
         </div>
       </div>
     );

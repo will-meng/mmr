@@ -23,6 +23,7 @@ class LoginForm extends React.Component {
   }
 
   demoLogin() {
+    this.resetState()();
     $('input').prop('disabled',true);
     let i = 0;
     $('#email').addClass('focus');
@@ -103,6 +104,10 @@ class LoginForm extends React.Component {
 
         <input type='submit' className='green-btn' value='Log In'/>
         </form>
+
+        <button className='orange-btn demo-button' onClick={() => this.demoLogin()}>
+          Demo Login
+        </button>
       </div>
       </div>
     );
