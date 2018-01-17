@@ -21,6 +21,15 @@
     color: #2f98d9;
   }
 
+  a.orange-btn {
+    background: linear-gradient(to bottom, #ff9628 5%, #ff8714 100%);
+    color: white;
+  }
+
+  a.orange-btn:hover {
+    background: linear-gradient(to bottom, #f08a15 5%, #e56e06 100%);
+  }
+
   .lifetime-stats-panel {
     display: flex;
     background-color: #f7f7f7;

@@ -32,6 +32,9 @@ class Dashboard extends React.Component {
       <div className='dashboard-container'>
         <header>
           <h2>{title} Lifetime Stats</h2>
+          <Link to='/route/create' className='orange-btn'>
+            Create a Route
+          </Link>
         </header>
         <div className='lifetime-stats-panel'>
           <div className='lifetime-stats-col'>
